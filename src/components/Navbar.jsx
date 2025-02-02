@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import AccountEmergente from "./AccountEmergente";
+import Overlay from "./overlay";
 import "./css/Navbar.css";
 
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState(""); // destructuracion para las propiedades del mapeo de hero-list
   const lineRef = useRef(null); //referenciar la linea
   const navRef = useRef(null); //referenciar el contendor de nav
+
   const [isAccountOpen, setIsAccountOpen] = useState(false);
 
   useEffect(() => {
@@ -25,12 +27,18 @@ const Navbar = () => {
     }
   }, [activeTab]);
 
+  // controla el click fuera del contenedor de nav y la ventana emergente
   useEffect(() => {
     const handleClickOutSide = (event) => {
+      // Verifica si el clic ocurrió dentro de alguna ventana emergente
+      const popups = document.querySelectorAll(".popup-container");
+      const isClickInsidePopup = Array.from(popups).some((popup) =>
+        popup.contains(event.target)
+      );
       if (
         navRef.current &&
         !navRef.current.contains(event.target) &&
-        isAccountOpen
+        !isClickInsidePopup
       ) {
         setIsAccountOpen(false);
         setActiveTab(null); //restablece el estado cuando se haga click fuera de su container
@@ -71,7 +79,7 @@ const Navbar = () => {
                   setActiveTab(activeTab === item.label ? null : item.label);
                   setIsAccountOpen(false);
                 }
-                setActiveTab(activeTab === item.label ? null : item.label);
+                // setActiveTab(activeTab === item.label ? null : item.label);
               }}
             >
               <a href="#" className="hero-link">
@@ -89,7 +97,16 @@ const Navbar = () => {
           ))}
         </ul>
       </nav>
-      {/* Mostrar popup si isAccountOpen está en true */}
+
+      {/* Overlay: si el popup está abierto, mostramos el overlay */}
+      <Overlay 
+        isActive={isAccountOpen}
+        onClick={() => {
+          setIsAccountOpen(false);
+          setActiveTab(null);
+        }}
+      />
+      {/* Mostrar la ventana emergente de mi cuenta si isAccountOpen está en true */}
       {isAccountOpen && (
         <AccountEmergente
           popupClose={() => {
