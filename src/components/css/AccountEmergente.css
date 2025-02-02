@@ -1,0 +1,27 @@
+.account-popup{
+  @apply fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full h-3/5 my-0 mx-auto bg-color-secundario rounded-t-3xl shadow-menu-shadow transition-transform duration-300 ease-in-out;
+}
+
+.popup-open{
+  @apply translate-y-0 opacity-100;
+}
+
+.popup-close{
+  @apply translate-y-full opacity-0
+}
+
+.account-popup__container{
+  @apply flex flex-col justify-center mt-5 
+}
+
+.popup-title{
+  @apply my-0 mx-auto text-xl font-bold text-gray-800;
+}
+
+.account-popup__content{
+  @apply w-[90%] my-0 mx-auto text-start mt-5
+}
+
+.popup-button__close{
+  @apply absolute top-2 right-2 bg-transparent border-none
+}
