@@ -10,6 +10,8 @@ const AccountEmergente = ({ popupClose, isVisible }) => {
   }, [isVisible]);
 
   const [showPopup, setShowPopup] = useState(false); //destructuracion para la animacion de la ventana emergente [variable, funcion del estado]
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
     if (isVisible) {
@@ -19,8 +21,13 @@ const AccountEmergente = ({ popupClose, isVisible }) => {
     }
   }, [isVisible]);
 
+  const validateEmail = () => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
   return (
-    <div
+    <div ref={popupRef}
       className={`account-popup popup-container ${
         showPopup ? "popup-open" : "popup-close"
       }`}
@@ -38,11 +45,30 @@ const AccountEmergente = ({ popupClose, isVisible }) => {
               className="popup-input"
               id="correo"
               placeholder=""
+              value={email}
               required
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError("");
+              }}
+
+              onBlur={() => {
+                if (!email.trim()){
+                  setEmailError("Correo no válido");
+
+                } else if (!validateEmail(email)) {
+                  setEmailError("Correro no válido");
+                  
+                } else {
+                  setEmailError("");
+                }
+              }}
             />
             <label htmlFor="correo" className="popup-label">
               Correo electrónico
             </label>
+
+            {emailError && <span className="error-message">{emailError}</span>}
           </div>
           <button className="popup-button">
           <box-icon name='lock' color="var(--color-secundary)"></box-icon>
@@ -53,7 +79,7 @@ const AccountEmergente = ({ popupClose, isVisible }) => {
         <button
           className="popup-button__close"
           onClick={(e) => {
-            e.stopPropagation();
+            e.stopPropagation(); //Detiene la propagación del evento
             popupClose();
           }}
         >
