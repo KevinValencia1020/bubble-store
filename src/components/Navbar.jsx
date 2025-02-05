@@ -62,10 +62,15 @@ const Navbar = () => {
   useEffect(() => {
     const handleClickOutSide = (event) => {
       // Verifica si el clic ocurrió dentro de alguna ventana emergente
+      const popups = document.querySelector(".popup-container");
 
+      const searchRef = document.querySelector(".search-section");
+      
+      popups.contains(event.target);
+      searchRef.contains(event.target);
       if (
         navRef.current &&
-        !navRef.current.contains(event.target)
+        !navRef.current.contains(event.target) && !popups && !searchRef
       ) {
         setIsAccountOpen(false);
         setActiveTab(null); //restablece el estado cuando se haga click fuera de su container
