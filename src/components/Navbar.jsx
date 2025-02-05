@@ -1,14 +1,45 @@
 import React, { useState, useRef, useEffect } from "react";
 import AccountEmergente from "./AccountEmergente";
+import SearchSection from "./SearchSection";
 import Overlay from "./overlay";
 import "./css/Navbar.css";
 
 const Navbar = () => {
-  const [activeTab, setActiveTab] = useState(""); // destructuracion para las propiedades del mapeo de hero-list
+    const [activeTab, setActiveTab] = useState(""); // destructuracion para las propiedades del mapeo de hero-list
   const lineRef = useRef(null); //referenciar la linea
   const navRef = useRef(null); //referenciar el contendor de nav
 
+  //Estado para controlar AccountEmergente
   const [isAccountOpen, setIsAccountOpen] = useState(false);
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // Maneja la apertura/cierre de los tabs del nav dinamicamente
+  const handleTabClick = (label) => {
+    if (label === "Mi cuenta") {
+      setIsAccountOpen(!isAccountOpen);
+      setIsSearchOpen(false); //Cierra la busqueda si esta abierta
+      setActiveTab(isAccountOpen ? null : label);
+
+    } else if (label === "Buscar") {
+      setIsSearchOpen(!isSearchOpen);
+      setIsAccountOpen(false); //Cierra "Mi cuenta" si esta abierta
+      setActiveTab(isSearchOpen ? null : label);
+
+    } else if (label === "Categorías") {
+      setIsAccountOpen(false);
+      setIsSearchOpen(false);
+
+    } else if (label === "Mi carrito") {
+      setIsAccountOpen(false);
+      setIsSearchOpen(false);
+    } else {
+      setIsAccountOpen(false);
+      setIsSearchOpen(false);
+
+      setActiveTab(activeTab === label ? null : label);
+    }
+  };
 
   useEffect(() => {
     if (activeTab && lineRef.current) {
@@ -31,17 +62,14 @@ const Navbar = () => {
   useEffect(() => {
     const handleClickOutSide = (event) => {
       // Verifica si el clic ocurrió dentro de alguna ventana emergente
-      const popups = document.querySelectorAll(".popup-container");
-      const isClickInsidePopup = Array.from(popups).some((popup) =>
-        popup.contains(event.target)
-      );
+
       if (
         navRef.current &&
-        !navRef.current.contains(event.target) &&
-        !isClickInsidePopup
+        !navRef.current.contains(event.target)
       ) {
         setIsAccountOpen(false);
         setActiveTab(null); //restablece el estado cuando se haga click fuera de su container
+        setIsSearchOpen(false);
       }
     };
 
@@ -50,7 +78,7 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("click", handleClickOutSide);
     };
-  }, [isAccountOpen]);
+  }, [isAccountOpen, isSearchOpen]);
 
   return (
     <>
@@ -70,16 +98,12 @@ const Navbar = () => {
               className={`hero-list ${
                 activeTab === item.label ? "active" : ""
               }`}
+              
               onClick={(e) => {
+                
                 e.stopPropagation(); //evita que el evento se cierre inmediatamente
-                if (item.label === "Mi cuenta") {
-                  setIsAccountOpen(!isAccountOpen);
-                  setActiveTab(isAccountOpen ? null : item.label);
-                } else {
-                  setActiveTab(activeTab === item.label ? null : item.label);
-                  setIsAccountOpen(false);
-                }
-                // setActiveTab(activeTab === item.label ? null : item.label);
+                handleTabClick(item.label);
+                
               }}
             >
               <a href="#" className="hero-link">
@@ -99,7 +123,7 @@ const Navbar = () => {
       </nav>
 
       {/* Overlay: si el popup está abierto, mostramos el overlay */}
-      <Overlay 
+      <Overlay
         isActive={isAccountOpen}
         onClick={() => {
           setIsAccountOpen(false);
@@ -107,7 +131,7 @@ const Navbar = () => {
         }}
       />
       {/* Mostrar la ventana emergente de mi cuenta si isAccountOpen está en true */}
-      {isAccountOpen && (
+      {activeTab === "Mi cuenta" && (
         <AccountEmergente
           popupClose={() => {
             setIsAccountOpen(false);
@@ -115,6 +139,13 @@ const Navbar = () => {
           }}
           isVisible={isAccountOpen}
         />
+      )}
+
+      {activeTab === "Buscar" && (
+        <SearchSection closeSearch={() => {
+          setIsSearchOpen(false);
+          setActiveTab(null);
+        }}/>
       )}
     </>
   );

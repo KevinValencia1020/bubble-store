@@ -1,6 +1,6 @@
 /* Estilos para la barra inferior donde se encuentran la navegacion de la web */
 .hero-nav{
-  @apply fixed bottom-0 w-full bg-color-secundario h-1/6 shadow-menu-shadow z-50 flex
+  @apply fixed bottom-0 w-full bg-color-secundario h-1/6 shadow-menu-shadow z-[100] flex
 }
 
 .hero-ul{
