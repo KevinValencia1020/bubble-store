@@ -1,15 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import AccountEmergente from "./AccountEmergente";
 import Overlay from "./overlay";
 import "./css/Navbar.css";
 
-const Navbar = ({ activeTab, onTabclick }) => {
+const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
   //const [activeTab, setActiveTab] = useState(""); // destructuracion para las propiedades del mapeo de hero-list
   const lineRef = useRef(null); //referenciar la linea
   const navRef = useRef(null); //referenciar el contendor de nav
-
-  //Estado para controlar AccountEmergente
-  const [isAccountOpen, setIsAccountOpen] = useState(false);
 
   useEffect(() => {
     if (activeTab && lineRef.current) {
@@ -36,11 +33,9 @@ const Navbar = ({ activeTab, onTabclick }) => {
 
       const searchRef = document.querySelector(".search-section");
 
-      popups.contains(event.target);
-      searchRef.contains(event.target);
       if (
-        navRef.current &&
-        !navRef.current.contains(event.target) &&
+        navbarRef.current &&
+        !navbarRef.current.contains(event.target) &&
         (!popups || !popups.contains(event.target)) &&
         (!searchRef || !searchRef.contains(event.target))
       ) {
@@ -53,7 +48,7 @@ const Navbar = ({ activeTab, onTabclick }) => {
     return () => {
       document.removeEventListener("click", handleClickOutSide);
     };
-  }, [onTabclick]);
+  }, [navbarRef,onTabclick]);
   // isAccountOpen, isSearchOpen
 
   return (

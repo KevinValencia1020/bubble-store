@@ -56,7 +56,7 @@ const HeaderMain = ({activeTab, closeSearch, openSearch}) => {
               BubbleStore
             </a>
             )}
-            <form method="get" className={`hero-form`}>
+            <form method="get" className={`hero-form ${activeTab === "Buscar" ? "active" : ""}`}>
               <input
                 type="search"
                 id="buscar"
@@ -71,7 +71,7 @@ const HeaderMain = ({activeTab, closeSearch, openSearch}) => {
                 className="hero-input"
               />
 
-              <button className="hero-button hero-button__search"
+              <button className={`hero-button hero-button__search ${activeTab === "Buscar" ? "active" : ""}`}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
