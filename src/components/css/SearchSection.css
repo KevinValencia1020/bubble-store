@@ -1,0 +1,40 @@
+.search-section{
+  @apply w-full h-screen bg-color-secundario transition-transform duration-300 ease-in-out;
+}
+
+.search-container {
+  @apply w-[90%] my-0 mx-auto py-4;
+}
+
+.search-header{
+  @apply flex justify-between items-center;
+}
+
+.close-search{
+  @apply absolute top-3
+  left-0 flex items-center justify-center p-2 bg-transparent border-none text-xl z-20;
+}
+
+.search-results{
+  @apply mt-4;
+}
+
+.latest-title, .popular-searches{
+  @apply text-sm font-semibold mb-2;
+}
+
+.latest-ul{
+  @apply list-none p-0;
+}
+
+.latest-li{
+  @apply text-sm mb-1;
+}
+
+.popular-tags{
+  @apply flex flex-wrap gap-2;
+}
+
+.popular-tag{
+  @apply bg-gray-200 px-3 rounded text-sm;
+}
