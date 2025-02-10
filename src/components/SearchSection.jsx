@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./css/SearchSection.css";
 
-const SearchSection = ({ isActive, closeSearch }) => {
+const SearchSection = ({ isActive, closeSearch, isExpanded }) => {
   const [showSection, setShowSection] = useState(false);
 
   const searchSectionRef = useRef(null);
@@ -25,7 +25,7 @@ const SearchSection = ({ isActive, closeSearch }) => {
           <div className="search-header">
             {/* Boton para cerrar la busqueda */}
             <button
-              className="close-search"
+              className={`close-search ${isExpanded ? "close-search__active" : "close-search__close"}`}
               onClick={(e) => {
                 e.stopPropagation();
                 closeSearch();

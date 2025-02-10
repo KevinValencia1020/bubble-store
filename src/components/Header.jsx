@@ -51,14 +51,14 @@ const HeaderMain = ({activeTab, closeSearch, openSearch}) => {
         <section className="hero-primary">
           <div className={`hero-content`}>
             {/* Logo se oculta cuando la busqueda esta activa */}
-            {activeTab !== "Buscar" && (
-            <a href="#" className={'hero-logo'}>
+            {/*{activeTab !== "Buscar" && (*/}
+            <a href="#" className={`hero-logo ${activeTab === "Buscar" ? "hero-logo__active" : "hero-logo__close"}`}>
               BubbleStore
             </a>
-            )}
+            {/*})}*/}
             <form method="get" className={`hero-form ${activeTab === "Buscar" ? "active" : ""}`}>
               <input
-                type="search"
+                type="text"
                 id="buscar"
                 placeholder="¿Que estas buscando?"
                 autoComplete="off"
@@ -68,7 +68,7 @@ const HeaderMain = ({activeTab, closeSearch, openSearch}) => {
                   openSearch();
                 }}
                 ref={inputRef}
-                className="hero-input"
+                className={`hero-input`}
               />
 
               <button className={`hero-button hero-button__search ${activeTab === "Buscar" ? "active" : ""}`}
@@ -92,11 +92,6 @@ const HeaderMain = ({activeTab, closeSearch, openSearch}) => {
             </form>
           </div>
         </section>
-
-        
-
-        {/* <Navbar searchOpen={isSearchActive}     setSearchOpen={setIsSearchActive} 
-        />*/}
       </header>
 
 
@@ -105,6 +100,7 @@ const HeaderMain = ({activeTab, closeSearch, openSearch}) => {
         <SearchSection
         isActive={isSearchActive}
         closeSearch={handleCloseSearch}
+        isExpanded={activeTab}
         />
       )} 
     </>
