@@ -35,7 +35,7 @@ const SearchSection = ({ isActive, closeSearch, isExpanded }) => {
             </button>
           </div>
 
-          <div className="search-results">
+          <div className={`search-results ${showSection ? "search-results__open" : "search-results__close"}`}>
             <div className="popular-searches">
               <p className="popular-title">Lo más buscado</p>
 

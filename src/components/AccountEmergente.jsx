@@ -14,26 +14,8 @@ const AccountEmergente = ({ popupClose, isVisible }) => {
   const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
-    const handleClickOutSide = (event) => {
-      if (popupRef.current && !popupRef.current(event.target)) {
-        popupClose();
-      }
-    };
-
     if (isVisible) {
-      document.addEventListener("click", handleClickOutSide);
-    }
-
-    return () => {
-      document.removeEventListener("click", handleClickOutSide);
-    };
-  }, [popupClose, isVisible]);
-
-  if (!isVisible) return null;
-
-  useEffect(() => {
-    if (isVisible) {
-      setTimeout(() => setShowPopup(true), 50); //retraso para activar la animacion
+      setTimeout(() => setShowPopup(true)); //retraso para activar la animacion
     } else {
       setTimeout(() => setShowPopup(false), 300);
     }

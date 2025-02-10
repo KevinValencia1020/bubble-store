@@ -12,7 +12,7 @@
 
 .close-search{
   @apply absolute top-3
-  left-0 flex items-center justify-center p-2 bg-transparent border-none text-xl z-20 transition-all duration-300 ease-out;
+  left-0 flex items-center justify-center p-2 bg-transparent border-none text-xl z-50 transition-all duration-300 ease-out;
 }
 
 .close-search__active{
@@ -24,7 +24,7 @@
 }
 
 .search-results{
-  @apply mt-4;
+  @apply mt-4 transition-transform duration-300 ease-out;
 }
 
 .latest-title, .popular-searches{
@@ -45,4 +45,12 @@
 
 .popular-tag{
   @apply bg-gray-200 px-3 rounded text-sm;
+}
+
+.search-results__open{
+  @apply translate-y-0 opacity-100;
+}
+
+.search-results__close{
+  @apply translate-y-full opacity-0;
 }

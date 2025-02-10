@@ -21,6 +21,15 @@ export default {
       display: {
         none: 'display-none',
       },
+      animation: {
+        'header-input-animation': 'header-input-animation 0.3 ease-in-out',
+      },
+      keyframes: {
+        'header-input-animation': {
+          '0%': {width: '90%'},
+          '100%': {width: '100%'},
+        },
+      },
     },
   },
   plugins: [],

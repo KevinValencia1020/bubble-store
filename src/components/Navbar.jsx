@@ -36,8 +36,8 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
       if (
         navbarRef.current &&
         !navbarRef.current.contains(event.target) &&
-        (!popups || !popups.contains(event.target)) &&
-        (!searchRef || !searchRef.contains(event.target))
+        (!popups || !popups.current.contains(event.target)) &&
+        (!searchRef || !searchRef.current.contains(event.target))
       ) {
         onTabclick("");
       }
