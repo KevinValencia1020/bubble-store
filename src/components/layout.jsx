@@ -2,6 +2,7 @@ import React, {useState, useRef} from "react";
 import HeaderMain from "./Header";
 import Navbar from "./Navbar";
 import AccountEmergente from "./AccountEmergente";
+import PopupCategories from "./PopupCategories";
 
 
 const Layout = () => {
@@ -10,6 +11,8 @@ const Layout = () => {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const [isCategoriesOpen, setCategoriesOpen] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -21,6 +24,7 @@ const Layout = () => {
       setActiveTab(isSameTab ? "" : label);
       setIsAccountOpen(label === "Mi cuenta" && !isSameTab);
       setIsSearchOpen(label === "Buscar" && !isSameTab);
+      setCategoriesOpen(label === "Categorías" && !isSameTab);
 
     };
 
@@ -35,6 +39,7 @@ const Layout = () => {
       setActiveTab("");
       setIsAccountOpen(false);
       setIsSearchOpen(false);
+      setCategoriesOpen(false);
     }
 
   return (
@@ -52,6 +57,13 @@ const Layout = () => {
         <AccountEmergente 
           popupClose={closeSearch}
           isVisible={isAccountOpen}
+        />
+      )}
+
+      {activeTab === "Categorías" && (
+        <PopupCategories
+          isCategoriesActive={isCategoriesOpen}
+          closeCategories={closeSearch}
         />
       )}
 
