@@ -49,9 +49,9 @@
 }
 
 .popup-open{
-  @apply translate-y-0 opacity-100;
+  @apply opacity-100 translate-y-0;
 }
 
 .popup-close{
-  @apply translate-y-full opacity-0;
+  @apply opacity-0 translate-y-full pointer-events-none;
 }

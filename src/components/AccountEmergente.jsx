@@ -10,12 +10,13 @@ const AccountEmergente = ({ popupClose, isVisible }) => {
   }, [isVisible]);
 
   const [showPopup, setShowPopup] = useState(false); //destructuracion para la animacion de la ventana emergente [variable, funcion del estado]
+  const [popupRender, setPopupRender] = useState(false); // Evita desmontar la ventana inmediatamente
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
     if (isVisible) {
-      setTimeout(() => setShowPopup(true)); //retraso para activar la animacion
+      setTimeout(() => setShowPopup(true), 100); //retraso para activar la animacion
     } else {
       setTimeout(() => setShowPopup(false), 300);
     }
