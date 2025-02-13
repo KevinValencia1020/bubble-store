@@ -11,6 +11,7 @@ export default {
         'color-primario': 'var(--color-primary)',
         'color-secundario': 'var(--color-secundary)',
         'color-texto': 'var(--color-texto)',
+        'color-primario-categories': 'var(--color-primary-categories)',
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],

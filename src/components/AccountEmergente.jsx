@@ -10,7 +10,6 @@ const AccountEmergente = ({ popupClose, isVisible }) => {
   }, [isVisible]);
 
   const [showPopup, setShowPopup] = useState(false); //destructuracion para la animacion de la ventana emergente [variable, funcion del estado]
-  const [popupRender, setPopupRender] = useState(false); // Evita desmontar la ventana inmediatamente
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 

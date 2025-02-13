@@ -31,7 +31,7 @@ const Layout = () => {
     const openSearch = () => {
       setActiveTab("Buscar");
     }
-
+    // Esta funcion sirve para cerrar tanto el input del header y demas componentes cada que se de cliek en cerrar(x) o se desmarque un elemento del nav
     const closeSearch = () => {
       if (inputRef.current) {
         inputRef.current.blur();
