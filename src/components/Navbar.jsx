@@ -9,16 +9,19 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
   const navRef = useRef(null); //referenciar el contendor de nav
 
   useEffect(() => {
+    console.log("activeTab:", activeTab);
     if (activeTab && lineRef.current) {
-      const activeLineElement = document.querySelector(".hero-list.active");
+      setTimeout(() => {
+        const activeLineElement = document.querySelector(".hero-list.active");
 
-      if (activeLineElement) {
-        const { offsetWidth, offsetLeft } = activeLineElement;
+        if (activeLineElement) {
+          const { offsetWidth, offsetLeft } = activeLineElement;
 
-        lineRef.current.style.width = `${offsetWidth}px`;
-        lineRef.current.style.transform = `translateX(${offsetLeft}px)`;
-        lineRef.current.style.opacity = "1";
-      }
+          lineRef.current.style.width = `${offsetWidth}px`;
+          lineRef.current.style.transform = `translateX(${offsetLeft}px)`;
+          lineRef.current.style.opacity = "1";
+        }
+      }, 50);
     } else {
       lineRef.current.style.opacity = "0";
       lineRef.current.style.width = "0";
@@ -35,7 +38,7 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
 
       if (
         navbarRef.current &&
-        !navbarRef.contains(event.target) &&
+        !navbarRef.current.contains(event.target) &&
         (!popups || !popups.contains(event.target)) &&
         (!searchRef || !searchRef.contains(event.target))
       ) {
@@ -48,7 +51,7 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
     return () => {
       document.removeEventListener("click", handleClickOutSide);
     };
-  }, [navbarRef,onTabclick]);
+  }, [navbarRef, onTabclick]);
   // isAccountOpen, isSearchOpen
 
   return (
@@ -90,8 +93,6 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
         </ul>
       </nav>
 
-      
-
       {/* Mostrar la ventana emergente de mi cuenta si isAccountOpen está en true */}
       {activeTab === "Mi cuenta" && (
         <>
@@ -99,12 +100,12 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
           <Overlay
             isActive={activeTab === "Mi cuenta"}
             onClick={() => {
-            onTabclick("");
-            }} 
+              onTabclick("");
+            }}
           />
           <AccountEmergente
             popupClose={() => onTabclick("")}
-            isVisible={activeTab === "Mi cuenta"} 
+            isVisible={activeTab === "Mi cuenta"}
           />
         </>
       )}
