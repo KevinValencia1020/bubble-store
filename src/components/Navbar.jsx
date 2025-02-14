@@ -9,7 +9,6 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
   const navRef = useRef(null); //referenciar el contendor de nav
 
   useEffect(() => {
-    console.log("activeTab:", activeTab);
     if (activeTab && lineRef.current) {
       setTimeout(() => {
         const activeLineElement = document.querySelector(".hero-list.active");
@@ -94,7 +93,6 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
       </nav>
 
       {/* Mostrar la ventana emergente de mi cuenta si isAccountOpen está en true */}
-      {activeTab === "Mi cuenta" && (
         <>
           {/* Overlay: si el popup está abierto, mostramos el overlay */}
           <Overlay
@@ -108,7 +106,6 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
             isVisible={activeTab === "Mi cuenta"}
           />
         </>
-      )}
     </>
   );
 };

@@ -17,7 +17,7 @@ const AccountEmergente = ({ popupClose, isVisible }) => {
     if (isVisible) {
       setTimeout(() => setShowPopup(true), 100); //retraso para activar la animacion
     } else {
-      setTimeout(() => setShowPopup(false), 300);
+      setTimeout(() => setShowPopup(false), 100);
     }
   }, [isVisible]);
 

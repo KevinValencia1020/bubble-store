@@ -53,19 +53,15 @@ const Layout = () => {
         inputRef={inputRef}
       />
 
-      {activeTab === "Mi cuenta" && (
         <AccountEmergente 
           popupClose={closeSearch}
           isVisible={isAccountOpen}
         />
-      )}
 
-      {activeTab === "Categorías" && (
         <PopupCategories
           isCategoriesActive={isCategoriesOpen}
           closeCategories={closeSearch}
         />
-      )}
 
     </>
   );
