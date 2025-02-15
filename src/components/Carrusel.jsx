@@ -11,6 +11,20 @@ import "swiper/css/pagination";
 
 const Carrusel = () => {
 
+  return(
+    <>
+      <Swiper>
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+      </Swiper>
+    </>
+  );
+
 }
 
 export default Carrusel;
