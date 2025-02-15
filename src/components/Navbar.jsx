@@ -35,11 +35,17 @@ const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
 
       const searchRef = document.querySelector(".search-section");
 
+      const heroInputRef = document.querySelector(".hero-input");
+
+      const popupCategoriesRef = document.querySelector(".popup-categories");
+
       if (
         navbarRef.current &&
         !navbarRef.current.contains(event.target) &&
         (!popups || !popups.contains(event.target)) &&
-        (!searchRef || !searchRef.contains(event.target))
+        (!searchRef || !searchRef.contains(event.target)) && 
+        (!heroInputRef || !heroInputRef.contains(event.target)) && 
+        (!popupCategoriesRef || !popupCategoriesRef.contains(event.target))
       ) {
         onTabclick("");
       }

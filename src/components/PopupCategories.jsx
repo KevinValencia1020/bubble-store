@@ -1,3 +1,4 @@
+import React from "react";
 import menuData from "./constants/menuData";
 import "./css/PopupCategories.css";
 
@@ -30,10 +31,10 @@ const PopupCategories = ({isCategoriesActive, closeCategories}) => {
                     {item.icon}
                   </span>
                   </div>
+                  <p className="popup-categories__name">
+                    {item.label}
+                  </p>
                 </a>
-                <p className="popup-categories__name">
-                  {item.label}
-                </p>
               </li>
             ))}
           </ul>
