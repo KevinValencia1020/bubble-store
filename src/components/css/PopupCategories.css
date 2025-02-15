@@ -19,7 +19,7 @@
 }
 
 .popup-categories__ul{
-  @apply my-5 border-t-4 border-color-primario pt-3 grid grid-cols-2 grid-rows-2 text-center gap-1;
+  @apply w-[90%] my-5 mx-auto border-t-4 border-color-primario pt-3 grid grid-cols-2 grid-rows-2 text-center gap-1;
 }
 
 .popup-categories__bg{
