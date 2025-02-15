@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import AccountEmergente from "./AccountEmergente";
 import Overlay from "./overlay";
-import "./css/Navbar.css";
+import "./css/navbar.css";
 
 const Navbar = ({ activeTab, onTabclick, navbarRef }) => {
   //const [activeTab, setActiveTab] = useState(""); // destructuracion para las propiedades del mapeo de hero-list

@@ -1,6 +1,6 @@
 import React from "react";
 import menuData from "./constants/menuData";
-import "./css/PopupCategories.css";
+import "./css/popupCategories.css";
 
 const PopupCategories = ({isCategoriesActive, closeCategories}) => {
   return (

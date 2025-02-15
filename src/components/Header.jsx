@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./css/Header.css";
+import "./css/header.css";
 import SearchSection from "./SearchSection";
 
 const HeaderMain = ({ activeTab, closeSearch, openSearch }) => {

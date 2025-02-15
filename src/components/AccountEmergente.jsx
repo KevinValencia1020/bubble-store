@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./css/AccountEmergente.css";
+import "./css/accountEmergente.css";
 
 const AccountEmergente = ({ popupClose, isVisible }) => {
   const popupRef = useRef(null); //Referenciamos la ventana emergente
