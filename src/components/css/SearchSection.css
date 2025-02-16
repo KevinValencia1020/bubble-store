@@ -7,7 +7,7 @@
 }
 
 .search-close{
-  @apply translate-y-full opacity-0;
+  @apply translate-y-full opacity-0 hidden;
 }
 
 .search-container {
