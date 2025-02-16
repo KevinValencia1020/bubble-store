@@ -1,4 +1,5 @@
 import carruselImages from "./constants/carruselImages";
+import "./css/carrusel.css";
 // Importa los componentes de swiper react
 import { Swiper, SwiperSlide } from "swiper/react";
 
