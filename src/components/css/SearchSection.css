@@ -1,5 +1,5 @@
 .search-section{
-  @apply w-full h-screen bg-color-secundario transition-all duration-300 ease-out;
+  @apply absolute top-16 left-0 w-full h-screen bg-color-secundario transition-all duration-300 ease-out z-50;
 }
 
 .search-open{
@@ -7,16 +7,12 @@
 }
 
 .search-close{
-  @apply translate-y-full opacity-0
+  @apply translate-y-full opacity-0;
 }
 
 .search-container {
   @apply w-[90%] my-0 mx-auto py-4;
 }
-
-/* .close-search{
-  @apply absolute top-0 left-0 flex items-center justify-center p-2 bg-transparent border-none text-xl z-50 transition-all duration-300 ease-out;
-} */
 
 .close-search__active{
   @apply translate-x-0 opacity-100;
