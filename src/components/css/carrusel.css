@@ -1,0 +1,11 @@
+.carrusel-container{
+  @apply my-0 mx-auto;
+}
+
+.carrusel-swiper{
+  @apply w-full
+}
+
+.carrusel-img{
+  @apply block object-contain
+}

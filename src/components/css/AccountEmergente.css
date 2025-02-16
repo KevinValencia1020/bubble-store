@@ -3,7 +3,7 @@
 }
 
 .account-popup__container{
-  @apply flex flex-col justify-center mt-5 
+  @apply flex flex-col justify-center mt-5; 
 }
 
 .popup-title{
@@ -11,11 +11,11 @@
 }
 
 .account-popup__content{
-  @apply w-[90%] my-0 mx-auto text-start mt-5
+  @apply w-[90%] my-0 mx-auto text-start mt-5;
 }
 
 .popup-button__close{
-  @apply absolute top-2 right-2 bg-transparent border-none
+  @apply absolute top-2 right-2 bg-transparent border-none;
 }
 
 .input-container{
@@ -41,7 +41,7 @@
 }
 
 .popup-button{
-  @apply w-full p-4 flex items-center justify-center gap-2 my-0 mx-auto bg-color-primario rounded text-color-secundario font-semibold mt-9
+  @apply w-full p-4 flex items-center justify-center gap-2 my-0 mx-auto bg-color-primario rounded text-color-secundario font-semibold mt-9;
 }
 
 .error-message{

@@ -1,5 +1,5 @@
 .hero-main{
-  @apply transition-all duration-300 w-full z-20;
+  @apply transition-all duration-300 w-full z-50;
 }
 
 .hero-primary{
