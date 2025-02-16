@@ -5,6 +5,15 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}",
     "./src/components/*.{js,jsx,ts,tsx}",
   ],
+  safelist: [
+    "swiper", 
+    "swiper-wrapper",
+    "swiper-slide",
+    "swiper-pagination",
+    "swiper-pagination-bullet",
+    "swiper-button-prev",
+    "swiper-button-next"
+  ],
   theme: {
     extend: {
       colors: {
