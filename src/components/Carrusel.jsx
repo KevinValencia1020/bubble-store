@@ -1,3 +1,4 @@
+import carruselImages from "./constants/carruselImages";
 // Importa los componentes de swiper react
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -10,21 +11,33 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const Carrusel = () => {
-
-  return(
+  return (
     <>
-      <Swiper>
-        modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-      </Swiper>
+      <div className="carrusel-container">
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          spaceBetween={30}
+          centeredSlides={true}
+          loop={true}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          className="carrusel-swiper"
+        >
+          {carruselImages.map((item, index) => (
+            <SwiperSlide key={index}>
+              <img src={item.img} alt="" className="carrusel-img" />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </>
   );
-
-}
+};
 
 export default Carrusel;
