@@ -3,15 +3,25 @@ import "./css/searchSection.css";
 
 const SearchSection = ({ isActive }) => {
   const [showSection, setShowSection] = useState(false);
+  const [isVisible, setIsVisible] = useState(isActive);
 
   const searchSectionRef = useRef(null);
 
   useEffect(() => {
-    // Retraso breve para activar la transicion
-    setTimeout(() => setShowSection(true), 50);
+
+    if (isActive) {
+      setIsVisible(true); //Muestra el componente en el DOM
+      // Retraso breve para activar la transicion
+      setTimeout(() => setShowSection(true), 50);
+    } else {
+      setShowSection(false); //Animacion de salida
+      setTimeout(() => setIsVisible(false), 300); // Desmonta el componente despues de 300ms
+    }
     /* Nota: Al cerrar (cuando closeSearch es llamado desde Header), 
     la clase se cambia en Header y la animación se maneja en CSS.*/
-  }, []);
+  }, [isActive]);
+
+  if (!isVisible) return null;
 
   return (
     <>
