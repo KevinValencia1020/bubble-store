@@ -12,7 +12,8 @@ export default {
     "swiper-pagination",
     "swiper-pagination-bullet",
     "swiper-button-prev",
-    "swiper-button-next"
+    "swiper-button-next",
+    "swiper-pagination-bullet-active",
   ],
   theme: {
     extend: {
