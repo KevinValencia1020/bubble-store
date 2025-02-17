@@ -1,11 +1,27 @@
 .carrusel-container{
-  @apply my-0 mx-auto;
+  @apply w-full h-52;
 }
 
 .carrusel-swiper{
-  @apply w-full
+  @apply w-full h-full;
 }
 
 .carrusel-img{
-  @apply block object-contain
+  @apply block w-full h-full object-cover;
+}
+
+.swiper-button-prev, .swiper-button-next{
+  @apply text-color-secundario;
+}
+
+.swiper-button-prev::after, .swiper-button-next::after{
+  @apply text-xl;
+}
+
+.swiper-pagination-bullet{
+  @apply opacity-75 transition-all duration-300 ease-out;
+}
+
+.swiper-pagination-bullet-active {
+  @apply bg-color-secundario;
 }
