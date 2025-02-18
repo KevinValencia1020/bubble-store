@@ -1,0 +1,3 @@
+.home-banner__container{
+  @apply w-[90%] my-3 mx-auto rounded-xl overflow-hidden;
+}
