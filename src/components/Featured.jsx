@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import products from "./constants/carruselProduct";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Mousewheel } from "swiper/modules";
 
 // Importa los estilos del swiper
 import "swiper/css";
@@ -17,29 +17,31 @@ const FeaturedTechnology = () => {
       <div className="featured-container">
         <h3 className="featured-title">Lo mas vendido en tecnología</h3>
         <Swiper
-          modules={[Navigation, Pagination]}
-          spaceBetween={15} // Separacion entre slides
-          slidesPerView={1} // Cantidad de visializacion
+          modules={[Navigation, Pagination, Mousewheel]}
+          spaceBetween={1} // Separacion entre slides
+          slidesPerView={1.5} // Cantidad de visializacion
+          centeredSlides={false}
           direction="horizontal" // Direccion de desplazamiento
           touchEventsTarget="container"
           touchRatio={1} // Sensibilidad del gesto tatil
           touchAngle={45} // Angulo maximo para reconocer el gesto
           simulateTouch={true}
           touchStartPreventDefault={false}
+          mousewheel={{forceToAxis: true, // Evita que el scroll vertical afecte el carrusel
+            sensitivity: 0.5, //Reduce la sensibilidad del scroll
+            thresholdDelta: 20, //Controla cuanto movimiento es necesario para cambiar el slide
+          }}
           breakpoints={{
             768: { slidesPerView: 3 },
             1024: { slidesPerView: 4 },
-          }}
-          pagination={{
-            clickable: true,
           }}
           navigation={true}
           className="featured-swiper"
         >
           {products.map((product) => (
             <SwiperSlide key={product.id} className="featured-slide">
-              <Link to={product.url}>
-                <div className="featured-content">
+              <div className="featured-content">
+                <Link to={product.url}>
                   <picture className="featured-picture">
                     <img
                       src={product.image}
@@ -54,14 +56,21 @@ const FeaturedTechnology = () => {
                     <p className="featured-name">{product.name}</p>
 
                     <p className="featured-price">{product.price}</p>
-
-                    <button className="featured-btn">
-                      Agregar al carrito
-                      <box-icon name="cart-add" class="fill-current text-color-secundario"></box-icon>
-                    </button>
                   </div>
-                </div>
-              </Link>
+                </Link>
+                <button
+                  className="featured-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  Agregar al carrito
+                  <box-icon
+                    name="cart-add"
+                    class="fill-current text-color-secundario"
+                  ></box-icon>
+                </button>
+              </div>
             </SwiperSlide>
           ))}
           <div className="swiper-pagination"></div>
