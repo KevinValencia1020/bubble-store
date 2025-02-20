@@ -1,0 +1,63 @@
+.featured-container{
+  @apply w-full h-auto my-0 mx-auto;
+}
+
+.featured-title{
+  @apply w-[90%] my-0 mx-auto;
+}
+
+.swiper-slide{
+  @apply pt-2;
+}
+
+.featured-swiper{
+  @apply w-full h-auto my-0 mx-auto;
+}
+
+.featured-slide{
+  @apply w-[90%] my-0 mx-auto py-3;
+}
+
+.featured-content{
+  @apply w-[90%] my-0 mx-auto rounded-xl shadow-lg py-1 overflow-hidden;
+}
+
+.featured-picture{
+  @apply block w-[75%] h-44 bg-center my-0 mx-auto overflow-hidden;
+}
+
+.featured-img{
+  @apply block w-full h-full;
+}
+
+.featured-name{
+  @apply whitespace-nowrap overflow-hidden text-ellipsis font-semibold;
+}
+
+.featured-price{
+  @apply relative before:content-['$'] flex flex-row gap-2;
+}
+
+.featured-text{
+  @apply w-[90%] my-0 mx-auto py-3 flex flex-col justify-between gap-2; 
+}
+
+.featured-btn{
+  @apply flex items-center  justify-center py-1 mt-4 gap-2 rounded-2xl bg-color-primario text-color-secundario;
+}
+
+.featured-swiper .swiper-pagination{
+  @apply relative;
+}
+
+.featured-swiper .swiper-pagination-bullet-active{
+  @apply bg-color-primario;
+}
+
+.featured-swiper .swiper-button-prev, .swiper-button-next{
+  @apply text-color-primario;
+}
+
+.featured-swiper .swiper-button-prev::after, .swiper-button-next::after{
+  @apply text-xl;
+}
