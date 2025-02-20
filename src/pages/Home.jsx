@@ -1,5 +1,6 @@
 import React from "react";
 import Carrusel from "../components/Carrusel";
+import FeaturedTechnology from "../components/Featured";
 import "../assets/styles/pages/homePage.css";
 
 
@@ -14,9 +15,9 @@ const HomePage = () => {
           <img src="/images/banner/Banner Envio Gratis.png" alt="" className="home-banner__img" />
         </div>
 
-        <p className="paragraph">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio vero accusamus sunt adipisci, dolor quam aliquam! Nam ipsam corporis et dignissimos error corrupti a illo itaque sed. Nesciunt, deserunt debitis?
-        </p>
+        <FeaturedTechnology/>
+
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo maiores ex, deleniti odit ratione qui rerum in doloremque quidem dignissimos mollitia rem distinctio sit quibusdam placeat nobis possimus exercitationem soluta?
 
       </div>
 
