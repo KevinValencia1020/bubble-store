@@ -10,18 +10,18 @@
   @apply block w-full h-full object-cover;
 }
 
-.swiper-button-prev, .swiper-button-next{
+.carrusel-swiper .swiper-button-prev, .swiper-button-next{
   @apply text-color-secundario;
 }
 
-.swiper-button-prev::after, .swiper-button-next::after{
+.carrusel-swiper .swiper-button-prev::after, .swiper-button-next::after{
   @apply text-xl;
 }
 
-.swiper-pagination-bullet{
+.carrusel-swiper .swiper-pagination-bullet{
   @apply opacity-75 transition-all duration-300 ease-out;
 }
 
-.swiper-pagination-bullet-active {
+ .carrusel-swiper .swiper-pagination-bullet-active {
   @apply bg-color-secundario;
 }
