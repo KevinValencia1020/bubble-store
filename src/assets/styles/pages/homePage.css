@@ -1,7 +1,10 @@
+.home-main{
+  @apply h-screen pb-2;
+}
 .home-banner__container{
-  @apply w-[90%] my-3 mx-auto rounded-xl overflow-hidden;
+  @apply w-[90%] max-h-56 my-3 mx-auto rounded-xl overflow-hidden;
 }
 
 .home-banner__img{
-  @apply block;
+  @apply block w-full h-full;
 }
