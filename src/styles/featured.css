@@ -1,0 +1,51 @@
+.featured-container{
+  @apply w-full h-auto my-0 mx-auto;
+}
+
+.featured-title{
+  @apply w-[90%] my-0 mx-auto;
+}
+
+.featured-swiper{
+  @apply w-full h-auto my-0 mx-auto;
+}
+
+.featured-slide{
+  @apply relative w-[90%] my-0 mx-auto py-3;
+}
+
+.featured-content{
+  @apply w-[90%] my-0 mx-auto rounded-xl shadow-lg py-4 overflow-hidden;
+}
+
+.featured-picture{
+  @apply block w-[90%] h-44 bg-center my-0 mx-auto overflow-hidden;
+}
+
+.featured-img{
+  @apply block w-full h-full;
+}
+
+.featured-name{
+  @apply whitespace-nowrap overflow-hidden text-ellipsis font-semibold;
+}
+
+.featured-text{
+  @apply w-[90%] my-0 mx-auto py-3 flex flex-col justify-between gap-2; 
+}
+
+.featured-btn{
+  @apply w-[90%] my-0 mx-auto flex items-center  justify-center py-2 px-1 mt-4 gap-2 rounded-xl bg-color-primario text-color-secundario text-sm;
+}
+
+.featured-swiper .swiper-pagination-bullet-active{
+  @apply bg-color-primario;
+}
+
+.featured-swiper .swiper-button-prev, .featured-swiper .swiper-button-next{
+  @apply text-color-primario;
+}
+
+.featured-swiper .swiper-button-prev::after,.featured-swiper .swiper-button-next::after{
+  @apply text-xl;
+}

@@ -1,0 +1,11 @@
+.overlay{
+  @apply fixed top-0 left-0 w-full h-full bg-black opacity-50 z-30 transition-opacity duration-300 ease-in-out;
+}
+
+.overlay-open{
+  @apply opacity-50;
+}
+
+.overlay-close{
+  @apply opacity-0 pointer-events-none;
+}

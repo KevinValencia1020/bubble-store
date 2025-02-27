@@ -1,0 +1,57 @@
+.account-popup{
+  @apply fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full h-3/5 my-0 mx-auto bg-color-secundario rounded-t-3xl shadow-menu-shadow z-50 transition-all duration-300 ease-in-out;
+}
+
+.account-popup__container{
+  @apply flex flex-col justify-center mt-5; 
+}
+
+.popup-title{
+  @apply my-0 mx-auto text-xl font-bold text-gray-800;
+}
+
+.account-popup__content{
+  @apply w-[90%] my-0 mx-auto text-start mt-5;
+}
+
+.popup-button__close{
+  @apply absolute top-2 right-2 bg-transparent border-none;
+}
+
+.input-container{
+  @apply relative my-6;
+}
+
+.popup-input{
+  @apply w-full p-2 outline-none border border-gray-300 rounded transition-all duration-300;
+}
+
+.popup-label{
+  @apply absolute top-2 left-2 text-gray-400 pointer-events-none transition-all duration-300;
+}
+
+.popup-input:focus{
+  @apply border-color-primario;
+}
+
+.popup-input:focus + .popup-label,
+.popup-input:not(:placeholder-shown) + .popup-label {
+  @apply text-xs text-blue-500;
+  transform: translateY(-150%);
+}
+
+.popup-button{
+  @apply w-full p-4 flex items-center justify-center gap-2 my-0 mx-auto bg-color-primario rounded text-color-secundario font-semibold mt-9;
+}
+
+.error-message{
+  @apply absolute top-10 left-2 block text-red-500 text-xs mt-1 transition duration-300 ease-out;
+}
+
+.popup-open{
+  @apply opacity-100 translate-y-0;
+}
+
+.popup-close{
+  @apply opacity-0 translate-y-full pointer-events-none;
+}

@@ -1,0 +1,58 @@
+.home-main{
+  @apply h-screen pb-2;
+}
+.home-banner__container{
+  @apply w-[90%] max-h-56 my-3 mx-auto rounded-xl overflow-hidden;
+}
+
+.home-banner__img{
+  @apply block w-full h-full;
+}
+
+.home-washing__container{
+  @apply w-[90%] max-h-64 my-3 mx-auto rounded-xl overflow-hidden;
+}
+
+.home-img__washing{
+  @apply block w-full h-full object-fill;
+}
+
+.home-categ{
+  @apply w-[90%] my-0 mx-auto overflow-hidden;
+}
+
+.mix-categ{
+  @apply grid grid-cols-2 gap-3 my-4;
+}
+
+.mix-categ__container{
+  @apply flex items-center justify-between gap-3 rounded-md;
+}
+
+.mix-categ__img{
+  @apply block max-w-7 max-h-7 object-fill;
+}
+
+.mix-categ__name{
+  @apply text-xs
+}
+
+.mix-categ__icon{
+  @apply block w-6 h-6;
+}
+
+.banner-earphones{
+  @apply w-[90%] h-40 my-3 mx-auto rounded-lg overflow-hidden;
+}
+
+.banner-earphones__img{
+  @apply block w-full h-full object-fill;
+}
+
+.banners-promo{
+  @apply grid grid-cols-2 gap-4 w-[90%] my-3 mx-auto;
+}
+
+.banners-promo__img{
+  @apply block w-full h-40 rounded-lg object-fill;
+}

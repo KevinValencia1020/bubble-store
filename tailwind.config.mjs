@@ -8,8 +8,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        'color-primario': 'var(--color-primary)',
+        'color-secundario': 'var(--color-secundary)',
+        'color-texto': 'var(--color-texto)',
+        'color-primario-categories': 'var(--color-primary-categories)',
+      },
+      boxShadow: {
+        'menu-shadow': '1px 0 5px #000',
       },
     },
   },

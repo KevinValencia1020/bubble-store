@@ -1,0 +1,31 @@
+.popup-categories{
+  @apply bg-color-secundario w-full h-screen my-0 mx-auto fixed bottom-0 left-0 z-50 transform transition-all duration-300 ease-out;
+}
+
+.categories-open{
+  @apply translate-y-0 opacity-100;
+}
+
+.categories-close{
+  @apply translate-y-full opacity-0;
+}
+
+.popup-categories__btn{
+  @apply text-xl absolute top-5 left-3;
+}
+
+.popup-categories__title{
+  @apply mt-4 text-center font-bold text-xl;
+}
+
+.popup-categories__ul{
+  @apply w-[90%] my-5 mx-auto border-t-4 border-color-primario pt-3 grid grid-cols-2 grid-rows-2 text-center gap-1;
+}
+
+.popup-categories__bg{
+  @apply flex items-center justify-center rounded-full bg-color-primario-categories w-12 h-12 my-0 mx-auto;
+}
+
+.popup-categories__icon{
+  @apply text-color-primario text-4xl;
+}
