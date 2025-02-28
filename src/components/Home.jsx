@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 import CarruselHome from "./CarruselHome";
-import FeaturedTechnology from "../components/Featured";
+import Featured from "../components/Featured";
 import mixCategories from "../constants/mixCateg";
+import featuredTech from "@/constants/carruselProduct";
 import "../styles/homePage.css";
 
 
@@ -17,7 +18,7 @@ const Home = () => {
           <img src="/images/banner/Banner Envio Gratis.png" alt="" className="home-banner__img" />
         </div>
 
-        <FeaturedTechnology/>
+        <Featured title={"Lo más vendido en tecnología"} products={featuredTech}/>
 
         <div className="home-washing__container">
           <img src="https://i.pinimg.com/736x/cf/7e/ef/cf7eef746b385dac749ad8f7815b7c4c.jpg" alt="" className="home-img__washing" />
@@ -48,6 +49,8 @@ const Home = () => {
           <img src="https://i.imgur.com/fZffTzp.png" alt="" className="banners-promo__img images3" />
           <img src="https://i.imgur.com/stMRpiC.png" alt="" className="banners-promo__img images4" />
         </div>
+
+        <Featured title={"Lo más vendido en tecnología"} products={featuredTech}/>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit reiciendis debitis molestiae vitae ratione accusantium excepturi est a vero fugit enim quae ut facilis obcaecati incidunt, nostrum quos minima eos.
       Nulla, corrupti hic aspernatur necessitatibus rerum perferendis, corporis sint temporibus dicta reiciendis cum, excepturi sed. Aspernatur quia quos sed magni impedit ullam cumque, minima optio nostrum nobis consequatur repudiandae molestias?
       Neque laboriosam id facere nemo iusto quia laborum accusamus architecto obcaecati ducimus, similique ipsam consequuntur vero quas deleniti libero officiis debitis dolor? Aliquam deleniti neque repellat rem quisquam dignissimos dolor!
