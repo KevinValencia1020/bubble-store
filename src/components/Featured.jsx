@@ -1,5 +1,4 @@
 import React from "react";
-import products from "../constants/carruselProduct";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Mousewheel } from "swiper/modules";
 
@@ -10,11 +9,11 @@ import "swiper/css/pagination";
 
 import "../styles/featured.css";
 
-const FeaturedTechnology = () => {
+const Featured = ({ title, products}) => {
   return (
     <>
       <div className="featured-container">
-        <h3 className="featured-title">Lo mas vendido en tecnología</h3>
+        <h3 className="featured-title">{title}</h3>
         <Swiper
           modules={[Navigation, Pagination, Mousewheel]}
           spaceBetween={1} // Separacion entre slides
@@ -101,4 +100,4 @@ const FeaturedTechnology = () => {
   );
 };
 
-export default FeaturedTechnology;
+export default Featured;
