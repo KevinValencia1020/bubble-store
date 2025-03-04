@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
 import CarruselHome from "./CarruselHome";
-import Featured from "../components/Featured";
-import mixCategories from "../constants/mixCateg";
+import Featured from "@/components/Featured";
+import mixCategories from "@/constants/mixCateg";
 import featuredTech from "@/constants/carruselProduct";
+import BannerGrid from "./BannerGrid";
 import "../styles/homePage.css";
 
 
@@ -51,6 +52,8 @@ const Home = () => {
         </div>
 
         <Featured title={"Lo más vendido en tecnología"} products={featuredTech}/>
+
+        <BannerGrid/>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit reiciendis debitis molestiae vitae ratione accusantium excepturi est a vero fugit enim quae ut facilis obcaecati incidunt, nostrum quos minima eos.
       Nulla, corrupti hic aspernatur necessitatibus rerum perferendis, corporis sint temporibus dicta reiciendis cum, excepturi sed. Aspernatur quia quos sed magni impedit ullam cumque, minima optio nostrum nobis consequatur repudiandae molestias?
       Neque laboriosam id facere nemo iusto quia laborum accusamus architecto obcaecati ducimus, similique ipsam consequuntur vero quas deleniti libero officiis debitis dolor? Aliquam deleniti neque repellat rem quisquam dignissimos dolor!
