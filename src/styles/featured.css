@@ -11,7 +11,7 @@
 }
 
 .featured-slide{
-  @apply relative w-[90%] my-0 mx-auto py-3;
+  @apply relative w-[100%] my-0 mx-auto py-3;
 }
 
 .featured-content{
