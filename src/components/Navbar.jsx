@@ -82,7 +82,7 @@ const Navbar = ({ activeTab, onTabclick }) => {
                 onTabclick(item.label);
               }}
             >
-              <a href="#" className="hero-link">
+              <span href="#" className="hero-link">
                 <box-icon
                   name={item.icon}
                   className={"hero-icon"}
@@ -92,7 +92,7 @@ const Navbar = ({ activeTab, onTabclick }) => {
                 ></box-icon>
 
                 <span className="hero-span">{item.label}</span>
-              </a>
+              </span>
             </li>
           ))}
         </ul>
