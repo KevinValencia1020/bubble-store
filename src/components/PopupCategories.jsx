@@ -25,7 +25,7 @@ const PopupCategories = ({isCategoriesActive, closeCategories}) => {
 
             {menuData.map((item, index) => (
               <li key={index} className="popup-categories__li">
-                <a href={item.url} className="popup-categories__link">
+                <span href={item.url} className="popup-categories__link">
                   <div className="popup-categories__bg">
                   <span className="popup-categories__icon material-symbols-outlined">
                     {item.icon}
@@ -34,7 +34,7 @@ const PopupCategories = ({isCategoriesActive, closeCategories}) => {
                   <p className="popup-categories__name">
                     {item.label}
                   </p>
-                </a>
+                </span>
               </li>
             ))}
           </ul>
