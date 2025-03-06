@@ -27,38 +27,6 @@ const Navbar = ({ activeTab, onTabclick }) => {
     }
   }, [activeTab]);
 
-  // controla el click fuera del contenedor de nav y la ventana emergente
-  // useEffect(() => {
-  //   const handleClickOutSide = (event) => {
-  //     // Verifica si el clic ocurrió dentro de alguna ventana emergente
-  //     const popups = document.querySelector(".popup-container");
-
-  //     const searchRef = document.querySelector(".search-section");
-
-  //     const heroInputRef = document.querySelector(".hero-input");
-
-  //     const popupCategoriesRef = document.querySelector(".popup-categories");
-
-  //     if (
-  //       navbarRef.current &&
-  //       !navbarRef.current.contains(event.target) &&
-  //       (!popups || !popups.contains(event.target)) &&
-  //       (!searchRef || !searchRef.contains(event.target)) && 
-  //       (!heroInputRef || !heroInputRef.contains(event.target)) && 
-  //       (!popupCategoriesRef || !popupCategoriesRef.contains(event.target))
-  //     ) {
-  //       onTabclick("");
-  //     }
-  //   };
-
-  //   document.addEventListener("click", handleClickOutSide);
-
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutSide);
-  //   };
-  // }, [navbarRef, onTabclick]);
-  // isAccountOpen, isSearchOpen
-
   return (
     <>
       <nav ref={navRef} className="hero-nav">
