@@ -47,6 +47,26 @@ const Home = () => {
 
         <MixCategories/>
 
+        <section className="payment-method">
+          <div className="payment-method__container">
+            <h3 className="payment-method__tittle">
+              Métodos de pago
+            </h3>
+
+            <ul className="payment-method__ul">
+              <li className="payment-method__li">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="" className="payment-method__img"/>
+              </li>
+              <li className="payment-method__li">
+                <img src="https://static.vecteezy.com/system/resources/previews/020/336/392/non_2x/visa-logo-visa-icon-free-free-vector.jpg" alt="" className="payment-method__img"/>
+              </li>
+              <li className="payment-method__li">
+                <img src="https://cdn-icons-png.flaticon.com/256/825/825539.png" alt="" className="payment-method__img"/>
+              </li>
+            </ul>
+          </div>
+        </section>
+
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit reiciendis debitis molestiae vitae ratione accusantium excepturi est a vero fugit enim quae ut facilis obcaecati incidunt, nostrum quos minima eos.
       Nulla, corrupti hic aspernatur necessitatibus rerum perferendis, corporis sint temporibus dicta reiciendis cum, excepturi sed. Aspernatur quia quos sed magni impedit ullam cumque, minima optio nostrum nobis consequatur repudiandae molestias?
       Neque laboriosam id facere nemo iusto quia laborum accusamus architecto obcaecati ducimus, similique ipsam consequuntur vero quas deleniti libero officiis debitis dolor? Aliquam deleniti neque repellat rem quisquam dignissimos dolor!
