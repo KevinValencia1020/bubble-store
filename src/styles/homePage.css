@@ -36,3 +36,26 @@
 .banners-promo__img{
   @apply block w-full h-40 rounded-lg object-fill;
 }
+
+.payment-method__container{
+  @apply w-[90%] my-3 mx-auto;
+}
+
+.payment-method__ul{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 50px));
+  justify-content: space-evenly;
+  align-items: center;
+  justify-items: center;
+  gap: 1rem;
+  overflow: hidden;
+  margin: 12px 0;
+}
+
+.payment-method__tittle{
+  @apply text-center text-lg font-bold text-color-texto italic;
+}
+
+.payment-method__img{
+  @apply block w-full h-full object-cover;
+}
