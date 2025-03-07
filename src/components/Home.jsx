@@ -2,7 +2,7 @@
 import React from "react";
 import CarruselHome from "./CarruselHome";
 import Featured from "@/components/Featured";
-import mixCategories from "@/constants/mixCateg";
+import MixCategories from "./MixCategories";
 import featuredTech from "@/constants/carruselProduct";
 import BannerGrid from "./BannerGrid";
 import SectionBrands from "./SectionBrands";
@@ -25,21 +25,8 @@ const Home = () => {
         <div className="home-washing__container">
           <img src="https://i.pinimg.com/736x/cf/7e/ef/cf7eef746b385dac749ad8f7815b7c4c.jpg" alt="" className="home-img__washing" />
         </div>
-
-        <div className="home-categ">
-          <ul className="mix-categ">
-            
-            {mixCategories.map((item, index) => (
-              <div key={index} className="mix-categ__container">
-                <img src={item.img} alt="" className="mix-categ__img" />
-                <p className="mix-categ__name">
-                  {item.name}
-                </p>
-                <box-icon name = "chevron-right" className="mix-categ__icon"></box-icon>
-              </div>
-            ))}
-          </ul>
-        </div>
+        
+        <MixCategories/>
 
         <div className="banner-earphones">
           <img src="https://i.imgur.com/BDGrblR.jpg" alt="" className="banner-earphones__img" />
@@ -57,6 +44,8 @@ const Home = () => {
         <BannerGrid/>
 
         <SectionBrands/>
+
+        <MixCategories/>
 
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit reiciendis debitis molestiae vitae ratione accusantium excepturi est a vero fugit enim quae ut facilis obcaecati incidunt, nostrum quos minima eos.
       Nulla, corrupti hic aspernatur necessitatibus rerum perferendis, corporis sint temporibus dicta reiciendis cum, excepturi sed. Aspernatur quia quos sed magni impedit ullam cumque, minima optio nostrum nobis consequatur repudiandae molestias?
