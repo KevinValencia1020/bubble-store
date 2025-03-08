@@ -7,7 +7,7 @@
 }
 
 .mix-categ__container{
-  @apply flex items-center justify-between gap-3 rounded-md;
+  @apply flex items-center justify-between gap-3 border rounded-md;
 }
 
 .mix-categ__img{
