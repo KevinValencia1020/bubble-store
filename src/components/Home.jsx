@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import CarruselHome from "./CarruselHome";
 import Featured from "@/components/Featured";
 import MixCategories from "./MixCategories";
@@ -13,7 +12,7 @@ const Home = () => {
 
   return(
     <>
-      <div className="home-main">
+      <main className="home-main">
         <CarruselHome/>
 
         <div className="home-banner__container">
@@ -33,10 +32,10 @@ const Home = () => {
         </div>
 
         <div className="banners-promo">
-          <img src="https://i.imgur.com/S3vi8c7.png" alt="" className="banners-promo__img images1" />
-          <img src="https://i.imgur.com/jt9YzBY.png" alt="" className="banners-promo__img images2" />
-          <img src="https://i.imgur.com/fZffTzp.png" alt="" className="banners-promo__img images3" />
-          <img src="https://i.imgur.com/stMRpiC.png" alt="" className="banners-promo__img images4" />
+          <img src="https://i.imgur.com/S3vi8c7.png" alt="" className="banners-promo__img" />
+          <img src="https://i.imgur.com/jt9YzBY.png" alt="" className="banners-promo__img" />
+          <img src="https://i.imgur.com/fZffTzp.png" alt="" className="banners-promo__img" />
+          <img src="https://i.imgur.com/stMRpiC.png" alt="" className="banners-promo__img" />
         </div>
 
         <Featured title={"Lo más vendido en tecnología"} products={featuredTech}/>
@@ -72,7 +71,7 @@ const Home = () => {
       Neque laboriosam id facere nemo iusto quia laborum accusamus architecto obcaecati ducimus, similique ipsam consequuntur vero quas deleniti libero officiis debitis dolor? Aliquam deleniti neque repellat rem quisquam dignissimos dolor!
       Odio assumenda quisquam at eligendi repellendus beatae, mollitia soluta recusandae voluptas sunt nisi quas culpa illo hic possimus, quam facere distinctio nam tenetur voluptatem fugiat sint saepe dolorem. Amet, ad.
       Sapiente atque corporis blanditiis nihil fugit, officia voluptatum, ab voluptatibus modi consequatur dolorem fugiat odio ad temporibus ipsum mollitia quia cumque placeat voluptatem. Itaque eligendi similique libero dolores sapiente voluptates?
-      </div>
+      </main>
 
 
     </>

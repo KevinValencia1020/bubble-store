@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import AccountEmergente from "./AccountEmergente";
+import AccountEmergente from "./PopupAccount";
 import Overlay from "./Overlay";
 import "../styles/navbar.css";
 

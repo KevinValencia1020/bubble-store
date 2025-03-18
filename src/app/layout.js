@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
 
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
       </head>
-      <body className={roboto.variable}>
+      <body className={`${roboto.variable}`}>
         {children}
       </body>
     </html>
