@@ -1,0 +1,5 @@
+.popupInput:focus + .popupLabel, .popupInput:not(:placeholder-shown) + .popupLabel {
+  font-size: 12px;
+  color: var(--color-primary);
+  transform: translateY(-150%);
+}
