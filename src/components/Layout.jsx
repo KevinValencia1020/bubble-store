@@ -1,7 +1,7 @@
 import React, {useState, useRef} from "react";
 import HeaderMain from "./Header";
 import Navbar from "./Navbar";
-import AccountEmergente from "./AccountEmergente";
+import PopupAccount from "@/components/PopupAccount";
 import PopupCategories from "./PopupCategories";
 
 
@@ -53,7 +53,7 @@ const Layout = () => {
         inputRef={inputRef}
       />
 
-        <AccountEmergente 
+        <PopupAccount 
           popupClose={closeSearch}
           isVisible={isAccountOpen}
         />
