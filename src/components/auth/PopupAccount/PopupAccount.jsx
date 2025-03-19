@@ -37,6 +37,7 @@ const PopupAccount = ({ popupClose, isVisible }) => {
       >
         <div className="account-popup__container flex flex-col items-center mt-5">
           <h2 className="popup-title my-0 mx-auto text-xl font-bold text-gray-800">Iniciar sesión</h2>
+          
           <div className={`account-popup__content ${styleGlobal.containerContent} text-start mt-5`}>
             <label className="popup-text" htmlFor="correo">
               Ingresa tu correo
