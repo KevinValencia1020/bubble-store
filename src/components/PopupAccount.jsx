@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/accountEmergente.css";
 
-const AccountEmergente = ({ popupClose, isVisible }) => {
+const PopupAccount = ({ popupClose, isVisible }) => {
   const popupRef = useRef(null); //Referenciamos la ventana emergente
 
   // Esta sirve para evitar la interactividad que no sea con la ventana
@@ -92,4 +92,4 @@ const AccountEmergente = ({ popupClose, isVisible }) => {
   );
 };
 
-export default AccountEmergente;
+export default PopupAccount;
