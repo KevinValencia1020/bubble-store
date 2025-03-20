@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import AccountEmergente from "../../auth/PopupAccount/PopupAccount";
 import Overlay from "../Overlay/Overlay";
-// import "../styles/navbar.css";
 
 const Navbar = ({ activeTab, onTabclick }) => {
   //const [activeTab, setActiveTab] = useState(""); // destructuracion para las propiedades del mapeo de hero-list
@@ -29,9 +28,11 @@ const Navbar = ({ activeTab, onTabclick }) => {
 
   return (
     <>
-      <nav ref={navRef} className="hero-nav">
-        <ul className="hero-ul">
-          <div ref={lineRef} className="hero-line__identificator"></div>
+      <nav ref={navRef} className="hero-nav container fixed bottom-0 left-0 w-full bg-color-secundario h-1/6 shadow-menu-shadow z-50 flex overflow-hidden">
+
+        <ul className={`hero-ul w-[99%] my-0 mx-auto relative flex flex-row items-center justify-evenly gap-x-1 text-center`}>
+
+          <div ref={lineRef} className="hero-line__identificator absolute top-0 left-0 h-1 bg-color-primario transition-all duration-300 ease-in-out w-0 opacity-0"></div>
 
           {/* mapeo de los items de la barra de navegacion */}
           {[
@@ -42,15 +43,17 @@ const Navbar = ({ activeTab, onTabclick }) => {
           ].map((item) => (
             <li
               key={item.label}
-              className={`hero-list ${
-                activeTab === item.label ? "active" : ""
-              }`}
+              className={clsx(`hero-list relative flex items-center justify-center flex-col w-1/4 transition-colors duration-300 ${
+                activeTab === item.label ? `active text-color-primario` : ""
+              }`)}
+
               onClick={(e) => {
                 e.stopPropagation(); //evita que el evento se cierre inmediatamente
                 onTabclick(item.label);
               }}
             >
-              <span href="#" className="hero-link">
+              <span className="hero-link flex flex-col justify-center items-center gap-1">
+                
                 <box-icon
                   name={item.icon}
                   className={"hero-icon"}
@@ -59,7 +62,7 @@ const Navbar = ({ activeTab, onTabclick }) => {
                   }`}
                 ></box-icon>
 
-                <span className="hero-span">{item.label}</span>
+                <span className="hero-span text-center text-xs">{item.label}</span>
               </span>
             </li>
           ))}
