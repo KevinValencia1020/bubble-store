@@ -31,7 +31,7 @@ const PopupAccount = ({ popupClose, isVisible }) => {
     <>
       <div
         ref={popupRef}
-        className={`account-popup container fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full h-3/5 my-0 mx-auto bg-color-secundario rounded-t-3xl shadow-menu-shadow z-50 transition-all duration-300 ease-in-out popup-container ${
+        className={`account-popup container fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full h-3/5 my-0 mx-auto bg-color-secundario rounded-t-3xl shadow-menu-shadow z-40 transition-all duration-300 ease-in-out popup-container ${
           showPopup ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full pointer-events-none"
         }`}
       >
