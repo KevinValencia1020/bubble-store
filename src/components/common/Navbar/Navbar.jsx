@@ -43,9 +43,9 @@ const Navbar = ({ activeTab, onTabclick }) => {
           ].map((item) => (
             <li
               key={item.label}
-              className={clsx(`hero-list relative flex items-center justify-center flex-col w-1/4 transition-colors duration-300 ${
+              className={`hero-list relative flex items-center justify-center flex-col w-1/4 transition-colors duration-300 ${
                 activeTab === item.label ? `active text-color-primario` : ""
-              }`)}
+              }`}
 
               onClick={(e) => {
                 e.stopPropagation(); //evita que el evento se cierre inmediatamente
@@ -53,7 +53,7 @@ const Navbar = ({ activeTab, onTabclick }) => {
               }}
             >
               <span className="hero-link flex flex-col justify-center items-center gap-1">
-                
+
                 <box-icon
                   name={item.icon}
                   className={"hero-icon"}
