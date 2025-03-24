@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "@/styles/searchSection.css";
+import styleGlobal from "../../../styles/global.module.css";
 
 const SearchSection = ({ isActive }) => {
   const [showSection, setShowSection] = useState(false);
