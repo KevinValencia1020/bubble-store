@@ -16,7 +16,7 @@ const Carrusel = () => {
 
   return (
     <>
-      <div className="carrusel-container">
+      <div className="carrusel-container w-full h-52">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
@@ -29,7 +29,7 @@ const Carrusel = () => {
             clickable: true,
           }}
           navigation={true}
-          className="carrusel-swiper"
+          className="carrusel-swiper w-full h-full"
         >
           {carruselImages.map((item, index) => (
             <SwiperSlide key={index} className="carrusel-swiperSlide">
