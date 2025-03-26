@@ -1,19 +1,20 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Mousewheel } from "swiper/modules";
+import styleGlobal from "../../../styles/global.module.css";
+import styleFeatured from "./featured.module.css";
 
 // Importa los estilos del swiper
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-// import "../styles/featured.css";
-
 const Featured = ({ title, products}) => {
   return (
     <>
-      <div className="featured-container">
-        <h3 className="featured-title">{title}</h3>
+      <div className="featured-container w-full h-auto my-5 mx-auto">
+        <h3 className={`featured-title ${styleGlobal.containerContent} font-medium`}>{title}</h3>
+
         <Swiper
           modules={[Navigation, Pagination, Mousewheel]}
           spaceBetween={1} // Separacion entre slides
@@ -52,31 +53,35 @@ const Featured = ({ title, products}) => {
               navigation: { enabled: true },
             },
           }}
-          className="featured-swiper"
-        >
+          className={`${styleFeatured.featuredSwiper} w-full h-auto my-0 mx-auto`}>
+
           {products.map((product) => (
-            <SwiperSlide key={product.id} className="featured-slide">
-              <div className="featured-content">
-                <picture className="featured-picture">
+
+            <SwiperSlide key={product.id} className="featured-slide w-full my-0 mx-auto py-3">
+
+              <div className={`featured-content ${styleGlobal.containerContent} rounded-xl shadow-lg py-4`}>
+
+                <picture className={`featured-picture ${styleGlobal.containerContent} bg-center`}>
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="featured-img"
+                    className="featured-img block w-full h-full"
                   />
                 </picture>
 
-                <div className="featured-text">
-                  <p className="featured-brand">{product.marca}</p>
+                <div className={`featured-text ${styleGlobal.containerContent} py-3 flex flex-col justify-between gap-2`}>
+                  <p className="featured-brand text-gray-500">{product.marca}</p>
 
-                  <p className="featured-name">{product.name}</p>
+                  <p className="featured-name whitespace-nowrap overflow-hidden text-ellipsis font-semibold">{product.name}</p>
 
                   <p className="featured-price">
                     {" "}
                     $ {product.price.toLocaleString()}
                   </p>
                 </div>
+
                 <button
-                  className="featured-btn"
+                  className={`featured-btn ${styleGlobal.containerContent} flex justify-center items-center py-2 px-1 mt-4 gap-2 rounded-xl bg-color-primario text-color-secundario text-sm`}
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
@@ -89,6 +94,7 @@ const Featured = ({ title, products}) => {
                   ></box-icon>
                 </button>
               </div>
+
             </SwiperSlide>
           ))}
           <div className="swiper-pagination"></div>
