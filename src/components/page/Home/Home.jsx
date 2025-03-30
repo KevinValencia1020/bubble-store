@@ -13,11 +13,24 @@ const Home = () => {
   
   useEffect(() => {
 
+    const bannersPromoPicture = document.querySelectorAll(".banners-promo__picture");
+
+    const addClassBannerPromoPicture = ["rounded-xl", "overflow-hidden", "object-cover"];
+
+    bannersPromoPicture.forEach(element => {
+      const currentClass = element.className.split(" ");
+
+      if(!currentClass.includes(...addClassBannerPromoPicture)) {
+
+        element.className += " " + addClassBannerPromoPicture.join(" ");
+      }
+    })
+
     // Recupero todos los banners promocionales
     const bannersPromoImg = document.querySelectorAll(".banners-promo__img");
 
     // Defino las clases de tailwind para los banners promocionales
-    const addClassBannerPromo = ["block", "w-full", "h-full", "rounded-xl", "overflow-hidden", "object-cover"];
+    const addClassBannerPromoImg = ["block", "w-full", "h-full"];
 
     // Recorro cada banner promocional y le agrego las clases de tailwind
     bannersPromoImg.forEach(element => {
@@ -26,9 +39,9 @@ const Home = () => {
       const currentClass = element.className.split(" ");
 
       // si no incluyen las clases de tailwind, las agrego
-      if(!currentClass.includes(...addClassBannerPromo)){
+      if(!currentClass.includes(...addClassBannerPromoImg)){
 
-      element.className += " " + addClassBannerPromo.join(" ");
+      element.className += " " + addClassBannerPromoImg.join(" ");
       }
     });
 
@@ -73,11 +86,29 @@ const Home = () => {
         </div>
 
         <div className="banners-promo grid grid-cols-2 gap-4 w-[90%] max-h-max y-3 mx-auto">
-          <img src="https://i.imgur.com/BDGrblR.jpg" alt="Banner" className="banners-promo__img col-span-2 row-span-1 rounded-xl overflow-hidden" />
-          <img src="https://i.imgur.com/S3vi8c7.png" alt="Banner" className="banners-promo__img" />
-          <img src="https://i.imgur.com/jt9YzBY.png" alt="Banner" className="banners-promo__img" />
-          <img src="https://i.imgur.com/fZffTzp.png" alt="Banner" className="banners-promo__img" />
-          <img src="https://i.imgur.com/stMRpiC.png" alt="Banner" className="banners-promo__img" />
+          <picture className="banners-promo__picture col-span-2 row-span-1 rounded-xl overflow-hidden">
+
+            <img src="https://i.imgur.com/BDGrblR.jpg" alt="Banner" className="banners-promo__img" />
+          </picture>
+
+          <picture className="banners-promo__picture">
+
+            <img src="https://i.imgur.com/S3vi8c7.png" alt="Banner" className="banners-promo__img" />
+          </picture>
+
+          <picture className="banners-promo__picture">
+
+            <img src="https://i.imgur.com/jt9YzBY.png" alt="Banner" className="banners-promo__img" />
+          </picture>
+
+          <picture className="banners-promo__picture">
+            <img src="https://i.imgur.com/fZffTzp.png" alt="Banner" className="banners-promo__img" />
+          </picture>
+
+          <picture className="banners-promo__picture">
+            <img src="https://i.imgur.com/stMRpiC.png" alt="Banner" className="banners-promo__img" />
+          </picture>
+
         </div>
 
         <Featured title={"Lo más vendido en tecnología"} products={featuredTech}/>
