@@ -1,0 +1,4 @@
+.footerDescription::after {
+  content: ' 123-456-7890';
+  color: #9ca3af;
+}
