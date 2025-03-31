@@ -8,6 +8,7 @@ import MixCategories from "../../home/MixCategories/MixCategories";
 import featuredTech from "@/constants/carruselProduct";
 import BannerGrid from "../../home/BannerGrid/BannerGrid";
 import SectionBrands from "../../common/SearchBrands/SectionBrands";
+import Footer from "@/components/common/Footer/Footer";
 
 const Home = () => {
   
@@ -140,13 +141,10 @@ const Home = () => {
           </div>
         </section>
 
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit reiciendis debitis molestiae vitae ratione accusantium excepturi est a vero fugit enim quae ut facilis obcaecati incidunt, nostrum quos minima eos.
-      Nulla, corrupti hic aspernatur necessitatibus rerum perferendis, corporis sint temporibus dicta reiciendis cum, excepturi sed. Aspernatur quia quos sed magni impedit ullam cumque, minima optio nostrum nobis consequatur repudiandae molestias?
-      Neque laboriosam id facere nemo iusto quia laborum accusamus architecto obcaecati ducimus, similique ipsam consequuntur vero quas deleniti libero officiis debitis dolor? Aliquam deleniti neque repellat rem quisquam dignissimos dolor!
-      Odio assumenda quisquam at eligendi repellendus beatae, mollitia soluta recusandae voluptas sunt nisi quas culpa illo hic possimus, quam facere distinctio nam tenetur voluptatem fugiat sint saepe dolorem. Amet, ad.
-      Sapiente atque corporis blanditiis nihil fugit, officia voluptatum, ab voluptatibus modi consequatur dolorem fugiat odio ad temporibus ipsum mollitia quia cumque placeat voluptatem. Itaque eligendi similique libero dolores sapiente voluptates?
+        <footer>
+          <Footer/>
+        </footer>
       </main>
-
 
     </>
   );
