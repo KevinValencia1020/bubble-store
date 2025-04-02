@@ -4,11 +4,20 @@ import "swiper/css";
 
 import styleGlobal from "../../../styles/global.module.css";
 import styleFooter from "./footer.module.css";
+import AccordionCustomized from "../Accordeon/Accordeon";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+
+});
 const Footer = () => {
+
   return (
     <>
-      <div className="footer bg-black text-white py-4 w-full h-60 my-5">
+      <div className="footer bg-slate-800 text-white py-4 w-full h-auto my-5">
         <Swiper
           modules={[Autoplay]}
           slidesPerView={"auto"}
@@ -72,8 +81,18 @@ const Footer = () => {
             </div>
           </SwiperSlide>
         </Swiper>
-
         
+        <div className="w-full border border-white mt-1"></div>
+
+        <div className="footer-accordion h-screen my-5">
+
+          <ThemeProvider theme={darkTheme}>
+
+            <AccordionCustomized />
+
+          </ThemeProvider>
+
+        </div>
       </div>
     </>
   );
