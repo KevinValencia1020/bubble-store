@@ -59,13 +59,21 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   
 }));
 
-export default function AccordionCustomized() {
+export default function AccordionCustomized({ onExpandedChange }) {
 
-  const [expanded, setExpanded] = React.useState("panel1");
+  const [expanded, setExpanded] = React.useState(false);
   
   const handleChange = (panel) => (event, newExpanded) => {
 
-    setExpanded(newExpanded ? panel : false);
+    // const wasExpanded = expanded === panel;
+    const isNowExpanded = newExpanded;
+
+    setExpanded(isNowExpanded ? panel : false);
+
+    //Notificamos al componente padre sobre el cambio
+    if (onExpandedChange) {
+      onExpandedChange(isNowExpanded);
+    }
 
   };
 
