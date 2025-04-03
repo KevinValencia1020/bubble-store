@@ -65,7 +65,6 @@ export default function AccordionCustomized({ onExpandedChange }) {
   
   const handleChange = (panel) => (event, newExpanded) => {
 
-    // const wasExpanded = expanded === panel;
     const isNowExpanded = newExpanded;
 
     setExpanded(isNowExpanded ? panel : false);
