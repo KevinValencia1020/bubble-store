@@ -8,6 +8,9 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 
+// Impotacion de los data del accordion
+import { accordionData } from "@/constants/accordionData";
+
 const Accordion = styled((props) => (
 
   <MuiAccordion disableGutters elevation={0} square {...props} />
