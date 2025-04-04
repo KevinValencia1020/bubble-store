@@ -84,7 +84,7 @@ export default function AccordionCustomized({ onExpandedChange }) {
       >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
 
-          <Typography component="span">Collapsible Group Item #1</Typography>
+          <Typography component="span">Nuestra Compañía</Typography>
 
         </AccordionSummary>
 
@@ -108,7 +108,7 @@ export default function AccordionCustomized({ onExpandedChange }) {
 
         <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
           
-          <Typography component="span">Collapsible Group Item #2</Typography>
+          <Typography component="span">Compras en línea</Typography>
 
         </AccordionSummary>
 
@@ -132,7 +132,7 @@ export default function AccordionCustomized({ onExpandedChange }) {
 
         <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
 
-          <Typography component="span">Collapsible Group Item #3</Typography>
+          <Typography component="span">Políticas</Typography>
 
         </AccordionSummary>
 
