@@ -9,7 +9,7 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 
 // Impotacion de los data del accordion
-import { accordionData } from "@/constants/accordionData";
+import accordionData from "@/constants/accordionData";
 
 const Accordion = styled((props) => (
 
@@ -81,76 +81,38 @@ export default function AccordionCustomized({ onExpandedChange }) {
 
   return (
     <>
-      <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-      >
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
 
-          <Typography component="span">Nuestra Compañía</Typography>
+      {accordionData.map((section, index) => (
 
-        </AccordionSummary>
+        <Accordion key={index} expanded={expanded === section.id} onChange={handleChange(section.id)}>
 
-        <AccordionDetails>
+          <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
 
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+            <Typography component="span">{section.title}</Typography>
 
-        </AccordionDetails>
+          </AccordionSummary>
 
-      </Accordion>
+          <AccordionDetails>
 
-      <Accordion
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
+            {section.details.map((detail, index) => (
 
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          
-          <Typography component="span">Compras en línea</Typography>
+              <div key={index} className="mb-1 leading-normal">
 
-        </AccordionSummary>
+                <Typography variant="subtitle1">
+                  {detail.subtitle}
+                </Typography>
 
-        <AccordionDetails>
+                <Typography variant="body2" color="#9ca3af" >
+                  {detail.content}
+                </Typography>
 
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+              </div>
+            ))}
 
-        </AccordionDetails>
+          </AccordionDetails>
 
-      </Accordion>
-
-      <Accordion
-        expanded={expanded === "panel3"}
-        onChange={handleChange("panel3")}
-      >
-
-        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-
-          <Typography component="span">Políticas</Typography>
-
-        </AccordionSummary>
-
-        <AccordionDetails>
-
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-
-        </AccordionDetails>
-
-      </Accordion>
+        </Accordion>
+      ))}
     </>
   );
 }
