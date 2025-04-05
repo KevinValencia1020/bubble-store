@@ -64,5 +64,3 @@ const accordionData = [
 ];
 
 export default accordionData;
-
-console.log(accordionData);
