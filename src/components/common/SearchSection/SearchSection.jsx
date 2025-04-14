@@ -1,8 +1,13 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import styleGlobal from "../../../styles/global.module.css";
 
-const SearchSection = ({ isActive }) => {
+const SearchSection = ({ isActive, filteredResults = [] }) => {
+
+  // Estado para controlar la visibilidad de la sección de búsqueda
   const [showSection, setShowSection] = useState(false);
+
+  // Estado para controlar la animación de entrada/salida
   const [isVisible, setIsVisible] = useState(isActive);
 
   const searchSectionRef = useRef(null);
@@ -12,11 +17,17 @@ const SearchSection = ({ isActive }) => {
     if (isActive) {
       setIsVisible(true); //Muestra el componente en el DOM
       // Retraso breve para activar la transicion
+
       setTimeout(() => setShowSection(true), 50);
+
     } else {
+
       setShowSection(false);
+
       setTimeout(() => {
+
         setIsVisible(false);
+
       }, 300); // Desmonta el componente despues de 300ms
     }
     /* Nota: Al cerrar (cuando closeSearch es llamado desde Header), 
@@ -36,6 +47,7 @@ const SearchSection = ({ isActive }) => {
         }`}
       >
         <div className={styleGlobal.containerContent}>
+
           <div className={`search-results mt-4 transition-all duration-300 ease-in-out ${showSection ? "translate-x-0 opacity-100" : "translate-x-full pointer-events-none opacity-0"}`}>
 
             <div className="popular-searches text-sm font-semibold mb-2">
@@ -51,9 +63,35 @@ const SearchSection = ({ isActive }) => {
 
               </div>
             </div>
+
+            <div className="search-input mt-4">
+
+              {filteredResults.length > 0 && (
+
+                <ul className="results__ul mt-4 bg-white rounded shadow-md p-2">
+
+                  {filteredResults.map((product) => (
+
+                    <li key={product.id} className="results__li p-1 border-b last:border-b-0">
+
+                      {product.name}
+
+                    </li>
+
+                  ))}
+
+                </ul>
+
+              )}
+
+            </div>
+
           </div>
+
         </div>
+
       </div>
+      
     </>
   );
 };
