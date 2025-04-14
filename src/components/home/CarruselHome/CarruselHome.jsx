@@ -1,3 +1,4 @@
+"use client";
 import carruselImages from "@/constants/carruselHome";
 import styleCarrusel from "./carruselHome.module.css";
 
