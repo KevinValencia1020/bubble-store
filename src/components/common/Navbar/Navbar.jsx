@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef, useEffect } from "react";
 import AccountEmergente from "../../auth/PopupAccount/PopupAccount";
 import Overlay from "../Overlay/Overlay";
