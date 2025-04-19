@@ -32,6 +32,7 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
     if (isActiveInput !== "Buscar" && inputRef.current) {
 
       inputRef.current.blur();
+      setSearchTerm(""); // Limpia el texto del input al cerrar la busqueda
     }
   }, [isActiveInput]);
 
