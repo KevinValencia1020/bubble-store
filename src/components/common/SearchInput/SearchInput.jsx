@@ -5,7 +5,7 @@ import { Paper, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from '@mui/icons-material/Close';
 import style from "./style.module.css";
-import styleHeader from "../Header/header.module.css";
+// import styleHeader from "../Header/header.module.css";
 
 export default function SearchInput({isActiveInput, inputRef, openInput, onSearch
 }) {
@@ -75,7 +75,7 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
           autoComplete="off"
           sx={{ ml: 1 }}
           inputProps={{ "aria-label": "buscar"}}
-          className={styleHeader.heroInput}
+          className={style.heroInput}
         />
 
         <IconButton
