@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import styleGlobal from "../../../styles/global.module.css";
-
+import CallMadeIcon from '@mui/icons-material/CallMade';
+import SearchIcon from '@mui/icons-material/Search';
 const SearchSection = ({ isActive, filteredResults = [] }) => {
 
   // Estado para controlar la visibilidad de la sección de búsqueda
@@ -77,9 +78,16 @@ const SearchSection = ({ isActive, filteredResults = [] }) => {
 
                   {filteredResults.map((product) => (
 
-                    <li key={product.id} className="results__li p-1 border-b last:border-b-0">
+                    <li key={product.id} className="results__li relative flex items-center justify-between p-1 border-b last:border-b-0">
 
-                      {product.name}
+                      <div className="flex items-center gap-2">
+                        <SearchIcon fontSize="medium"
+                          className="text-color-primario"
+                        />
+                        <span className="text-color-texto text-sm">{product.name}</span>
+                      </div>
+
+                      <CallMadeIcon fontSize="medium" className="text-color-primario"/>
 
                     </li>
 
