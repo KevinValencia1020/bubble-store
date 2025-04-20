@@ -1,5 +1,5 @@
 "use client";
-import Home from "@/components/page/Home/Home/Home";
+import Home from "@/components/page/Home/home/Home";
 import Layout from "@/components/layout/Layout/Layout";
 
 export default function Page() {
