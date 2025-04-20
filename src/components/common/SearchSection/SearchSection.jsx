@@ -20,6 +20,8 @@ const SearchSection = ({ isActive, filteredResults = [] }) => {
 
       setTimeout(() => setShowSection(true), 50);
 
+      document.body.style.overflow = "hidden"; // Desactiva el scroll del body 
+
     } else {
 
       setShowSection(false);
@@ -29,7 +31,10 @@ const SearchSection = ({ isActive, filteredResults = [] }) => {
         setIsVisible(false);
 
       }, 300); // Desmonta el componente despues de 300ms
+
+      document.body.style.overflow = ""; // Activa el scroll del body
     }
+    
     /* Nota: Al cerrar (cuando closeSearch es llamado desde Header), 
     la clase se cambia en Header y la animación se maneja en CSS.*/
   }, [isActive]);
