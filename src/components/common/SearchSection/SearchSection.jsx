@@ -81,10 +81,13 @@ const SearchSection = ({ isActive, filteredResults = [] }) => {
                     <li key={product.id} className="results__li relative flex items-center justify-between p-1 border-b last:border-b-0">
 
                       <div className="flex items-center gap-2">
+
                         <SearchIcon fontSize="medium"
                           className="text-color-primario"
+
                         />
                         <span className="text-color-texto text-sm">{product.name}</span>
+                        
                       </div>
 
                       <CallMadeIcon fontSize="medium" className="text-color-primario"/>
