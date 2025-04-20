@@ -30,7 +30,7 @@ const PopupCategories = ({isCategoriesActive, closeCategories}) => {
 
                 <button className="popup-categories__cta">
 
-                  <span className="popup-categories__icon     material-symbols-outlined text-color-primario text-4xl">
+                  <span className="popup-categories__icon material-symbols-outlined text-color-primario text-4xl">
                       {item.icon}
                   </span>
 
