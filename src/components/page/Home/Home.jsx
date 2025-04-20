@@ -2,12 +2,12 @@
 import { useEffect } from "react";
 import styleHome from "../Home/home.module.css";
 
-import CarruselHome from "../../home/CarruselHome/CarruselHome";
+import CarruselHome from "../../../components/home/CarruselHome/CarruselHome";
 import Featured from "@/components/home/Featured/Featured";
-import MixCategories from "../../home/MixCategories/MixCategories";
+import MixCategories from "../../../components/home/MixCategories/MixCategories";
 import featuredTech from "@/constants/carruselProduct";
-import BannerGrid from "../../home/BannerGrid/BannerGrid";
-import SectionBrands from "../../common/SearchBrands/SectionBrands";
+import BannerGrid from "../../../components/home/BannerGrid/BannerGrid";
+import SectionBrands from "../../../components/common/SearchBrands/SectionBrands";
 import Footer from "@/components/common/Footer/Footer";
 
 const Home = () => {
