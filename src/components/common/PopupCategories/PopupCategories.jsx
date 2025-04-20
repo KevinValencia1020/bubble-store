@@ -1,9 +1,22 @@
-import React from "react";
+import React, {useEffect} from "react";
 import menuData from "../../../constants/menuData";
 import styleGlobal from "../../../styles/global.module.css";
 // import "../styles/popupCategories.css";
 
 const PopupCategories = ({isCategoriesActive, closeCategories}) => {
+
+
+  // Efecto para manejar el scroll del body al abrir/cerrar el popup
+  useEffect(() => {
+
+    if (isCategoriesActive) {
+      document.body.style.overflow = "hidden"; // Desactiva el scroll del body
+    } else {
+
+      document.body.style.overflow = ""; // Activa el scroll del body
+    }
+  }, [isCategoriesActive]);
+  
   return (
     <>
       <div
