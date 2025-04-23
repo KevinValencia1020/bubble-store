@@ -1,11 +1,11 @@
 "use client";
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import HeaderMain from "../../common/Header/Header";
 import Navbar from "../../common/Navbar/Navbar";
 import PopupAccount from "@/components/auth/PopupAccount/PopupAccount";
 import PopupCategories from "../../common/PopupCategories/PopupCategories";
 import SearchSection from "@/components/common/SearchSection/SearchSection";
-import productsSearch from "@/constants/productsSearch";
+import { searchProducts } from "@/utils/api";
 
 
 const Layout = () => {
@@ -52,18 +52,39 @@ const Layout = () => {
       setFilteredResults([]);
     }
 
+    useEffect(() => {
+
+      if (!isSearchOpen) {
+
+        setFilteredResults([]); // Limpia los resultados al cerrar la busqueda
+      }
+      
+    }, [isSearchOpen]);
+
     // Manejo de la busqueda de los productos
-    const handleSearch = (searchTerm) => {
-      if (searchTerm.trim() === "") {
-        setFilteredResults([]);
-        return;
+    
+    const handleSearch = async (searchTerm) => {
+
+      try {
+
+        const term = String(searchTerm || ""); // Convierte el término a minúsculas y elimina espacios en blanco
+
+        if (term.trim() === "") {
+          setFilteredResults([]);
+         return;
+        }
+
+        // Llama a la función de búsqueda con el término ingresado
+        const results = await searchProducts(term); 
+        console.log("resultado de la busqueda", results);
+        setFilteredResults(results); 
+        setIsSearchOpen(true); // Abre la sección de búsqueda al obtener resultados
+
+      } catch (error) {
+        console.error("Error al buscar productos:", error);
+        setFilteredResults([]); // En caso de error limpia los resultados
       }
 
-      const productResults = productsSearch.filter((product) => 
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-
-      setFilteredResults(productResults); // Actualiza los resultados filtrados
     };
 
   return (
