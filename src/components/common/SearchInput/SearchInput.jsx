@@ -5,7 +5,6 @@ import { Paper, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from '@mui/icons-material/Close';
 import style from "./style.module.css";
-// import styleHeader from "../Header/header.module.css";
 
 export default function SearchInput({isActiveInput, inputRef, openInput, onSearch
 }) {
@@ -46,10 +45,10 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
     inputRef.current.focus();
   }
 
-  const handleInputChange = (event) => {
+  const handleInputChange = async (event) => {
     const value = event.target.value;
     setSearchTerm(value);
-    onSearch(value); // Llama a la función de búsqueda con el valor actual
+    onSearch(value) // Actualiza el valor del input al escribir
   }
 
   return (
