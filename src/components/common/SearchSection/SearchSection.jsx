@@ -56,25 +56,26 @@ const SearchSection = ({ isActive, filteredResults = [] }) => {
 
           <div className={`search-results mt-4 transition-all duration-300 ease-in-out ${showSection ? "translate-x-0 opacity-100" : "translate-x-full pointer-events-none opacity-0"}`}>
 
-            <div className="popular-searches text-sm font-semibold mb-2">
+            {filteredResults.length === 0 ? (
 
-              <p className="popular-title font-semibold text-lg">Lo más buscado</p>
+              <div className="popular-searches text-sm font-semibold mb-2">
 
-              <div className="popular-tags flex flex-wrap gap-2 mt-3">
+                <p className="popular-title font-semibold text-lg">Lo más buscado</p>
 
-                {popularTags.map((tag, index) => 
+                <div className="popular-tags flex flex-wrap gap-2 mt-3">
 
-                <span key={index} className="popular-tag bg-gray-200 px-3 rounded text-sm">{tag}</span>
-                )}
+                  {popularTags.map((tag, index) => (
 
+                    <span key={index} className="popular-tag bg-gray-200 px-3 rounded text-sm">{tag}
+                    </span>
+
+                  ))}
+
+                </div>
               </div>
-            </div>
+            ) : (
 
-            <div className="search-input mt-4">
-
-              {filteredResults.length > 0 && (
-
-                <ul className="results__ul mt-4 bg-white rounded shadow-md p-2">
+              <ul className="results__ul mt-4 bg-white rounded shadow-md p-2">
 
                   {filteredResults.map((product) => (
 
@@ -97,10 +98,7 @@ const SearchSection = ({ isActive, filteredResults = [] }) => {
                   ))}
 
                 </ul>
-
-              )}
-
-            </div>
+            )}
 
           </div>
 
