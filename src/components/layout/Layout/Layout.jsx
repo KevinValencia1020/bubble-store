@@ -76,7 +76,6 @@ const Layout = () => {
 
         // Llama a la función de búsqueda con el término ingresado
         const results = await searchProducts(term); 
-        console.log("resultado de la busqueda", results);
         setFilteredResults(results); 
         setIsSearchOpen(true); // Abre la sección de búsqueda al obtener resultados
 
