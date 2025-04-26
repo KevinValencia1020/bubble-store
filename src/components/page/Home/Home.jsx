@@ -8,7 +8,6 @@ import MixCategories from "../../../components/home/MixCategories/MixCategories"
 import featuredTech from "@/constants/carruselProduct";
 import BannerGrid from "../../../components/home/BannerGrid/BannerGrid";
 import SectionBrands from "../../../components/common/SearchBrands/SectionBrands";
-import Footer from "@/components/common/Footer/Footer";
 
 const Home = () => {
   
@@ -63,7 +62,7 @@ const Home = () => {
 
   return(
     <>
-      <main className="home-main h-screen pb-2 container">
+      <main className="home-main pb-2 container">
         <CarruselHome/>
 
         <div className="home-banner__container w-[90%] max-h-56 my-3 mx-auto rounded-xl overflow-hidden">
@@ -141,9 +140,6 @@ const Home = () => {
           </div>
         </section>
 
-        <footer>
-          <Footer/>
-        </footer>
       </main>
 
     </>
