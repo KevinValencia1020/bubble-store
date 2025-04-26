@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import { Paper, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -51,11 +52,22 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
     onSearch(value) // Actualiza el valor del input al escribir
   }
 
+  const rouster = useRouter();
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Evita el comportamiento por defecto del formulario
+    
+    if (searchTerm.trim()) {
+      
+      rouster.push(`/search/${encodeURIComponent(searchTerm)}`); // Redirige a la pagina de resultados de busqueda
+    }
+  }
+
   return (
     <>
       <Paper
         component="form"
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handleSubmit}
         sx={{
           borderRadius: "16px",
         }}
@@ -86,7 +98,7 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            setIsSearchActive(true);
+            // setIsSearchActive(true);
           }}
         >
           <SearchIcon />
