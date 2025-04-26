@@ -1,5 +1,6 @@
 import { Poppins, Roboto } from "next/font/google";
 import "./globals.css";
+import Layout from "@/components/layout/Layout/Layout";
 
 const poppins = Poppins({
   variable: "--font-popins",
@@ -31,7 +32,11 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
       </head>
       <body className={`${roboto.variable}`}>
-        {children}
+        <Layout>
+
+          {children}
+
+        </Layout>
       </body>
     </html>
   );
