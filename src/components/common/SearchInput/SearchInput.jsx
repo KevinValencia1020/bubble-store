@@ -98,7 +98,6 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            // setIsSearchActive(true);
           }}
         >
           <SearchIcon />
