@@ -7,7 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from '@mui/icons-material/Close';
 import style from "./style.module.css";
 
-export default function SearchInput({isActiveInput, inputRef, openInput, onSearch
+export default function SearchInput({isActiveInput, inputRef, openInput, onSearch, closeSearch
 }) {
   // Constrolo el texto del input
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,6 +60,7 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
     if (searchTerm.trim()) {
       
       rouster.push(`/search/${encodeURIComponent(searchTerm)}`); // Redirige a la pagina de resultados de busqueda
+      closeSearch();
     }
   }
 
@@ -95,10 +96,6 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
           aria-label="search"
           size="small"
           sx={{ color: "black" }}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
         >
           <SearchIcon />
         </IconButton>
