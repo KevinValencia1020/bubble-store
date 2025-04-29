@@ -5,10 +5,11 @@ import Navbar from "../../common/Navbar/Navbar";
 import PopupAccount from "@/components/auth/PopupAccount/PopupAccount";
 import PopupCategories from "../../common/PopupCategories/PopupCategories";
 import SearchSection from "@/components/common/SearchSection/SearchSection";
+import Footer from "@/components/common/Footer/Footer";
 import { searchProducts } from "@/utils/api";
 
 
-const Layout = () => {
+const Layout = ({ children }) => {
   const [activeTab, setActiveTab] = useState("");
 
   const [isAccountOpen, setIsAccountOpen] = useState(false);
@@ -111,7 +112,12 @@ const Layout = () => {
       <SearchSection
         isActive={isSearchOpen}
         filteredResults={filteredResults}
+        closeSearch={closeSearch}
       />
+
+      {children}
+
+      <Footer />
 
     </>
   );
