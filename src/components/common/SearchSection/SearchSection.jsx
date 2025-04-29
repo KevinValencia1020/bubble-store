@@ -3,7 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import styleGlobal from "../../../styles/global.module.css";
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import SearchIcon from '@mui/icons-material/Search';
-const SearchSection = ({ isActive, filteredResults = [] }) => {
+import Link from "next/link";
+const SearchSection = ({ isActive, filteredResults = [], closeSearch }) => {
 
   // Estado para controlar la visibilidad de la sección de búsqueda
   const [showSection, setShowSection] = useState(false);
@@ -87,7 +88,11 @@ const SearchSection = ({ isActive, filteredResults = [] }) => {
                           className="text-color-primario"
 
                         />
-                        <span className="text-color-texto text-sm">{product.name}</span>
+
+                        <Link 
+                          href={`/search/${encodeURIComponent(product.category)}`}
+                          onClick={closeSearch}
+                        > {product.name} </Link>
                         
                       </div>
 
