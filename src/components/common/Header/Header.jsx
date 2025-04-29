@@ -41,6 +41,7 @@ export default function HeaderMain({ activeTab, closeSearch, openSearch, onSearc
               openInput={openSearch}
               inputRef={inputRef}
               onSearch={onSearch}
+              closeSearch={closeSearch}
             />
             
           </div>
