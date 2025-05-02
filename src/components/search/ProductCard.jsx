@@ -26,7 +26,7 @@ export default function ProductCard ({ id, name, price, image, brand, onAddToCar
         className="product-card__button bg-color-primario"
         onClick={() => onAddToCart(id)}
       >
-        <AddShoppingCartIcon fontSize="large" className="text-color-secundario" />
+        <AddShoppingCartIcon fontSize="large" sx={{ color: "var(--color-primary)"}}/>
         
       </IconButton>
 
