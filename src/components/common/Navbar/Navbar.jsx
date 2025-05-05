@@ -29,7 +29,7 @@ const Navbar = ({ activeTab, onTabclick }) => {
 
   return (
     <>
-      <nav ref={navRef} className="hero-nav container fixed bottom-0 left-0 w-full bg-color-secundario h-1/6 shadow-menu-shadow z-50 flex overflow-hidden">
+      <nav ref={navRef} className="hero-nav fixed bottom-0 left-0 w-full bg-color-secundario h-1/6 shadow-menu-shadow z-50 flex overflow-hidden">
 
         <ul className={`hero-ul w-[99%] my-0 mx-auto relative flex flex-row items-center justify-evenly gap-x-1 text-center`}>
 
