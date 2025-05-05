@@ -62,7 +62,7 @@ const Home = () => {
 
   return(
     <>
-      <main className="home-main pb-2 container">
+      <main className="home-main pb-2">
         <CarruselHome/>
 
         <div className="home-banner__container w-[90%] max-h-56 my-3 mx-auto rounded-xl overflow-hidden">
