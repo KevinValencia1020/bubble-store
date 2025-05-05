@@ -7,11 +7,11 @@ export default function ProductGrid({ products }) {
   return (
 
     <>
-      <div className="product-grid">
+      <div className="product-grid w-[90%] mx-auto my-5">
 
         {/* Itera sobre los productos y renderiza una tarjeta para cada uno */}
         
-        <ul>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {products.map((product) => (
 
             <li key={product.id}>
