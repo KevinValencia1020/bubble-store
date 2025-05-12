@@ -7,6 +7,7 @@ import PopupCategories from "../../common/PopupCategories/PopupCategories";
 import SearchSection from "@/components/common/SearchSection/SearchSection";
 import Footer from "@/components/common/Footer/Footer";
 import { searchProducts } from "@/utils/api";
+import { productsData } from "@/constants/productsData";
 
 
 const Layout = ({ children }) => {
@@ -20,6 +21,8 @@ const Layout = ({ children }) => {
 
   // Estado para los resultados de busqueda
   const [filteredResults, setFilteredResults] = useState([]);
+
+  const [filteredCategories, setFilteredCategories] = useState([]);
 
   const inputRef = useRef(null);
 
@@ -68,12 +71,20 @@ const Layout = ({ children }) => {
 
       try {
 
-        const term = String(searchTerm || ""); // Convierte el término a minúsculas y elimina espacios en blanco
+        const term = String(searchTerm || "").toLowerCase().trim(); // Convierte el término a minúsculas y elimina espacios en blanco
 
-        if (term.trim() === "") {
+        if (term === "") {
           setFilteredResults([]);
+          setFilteredCategories([]); // Limpia los resultados si el término está vacío
          return;
         }
+
+        const uniqueCategories = [
+          ...new Set(
+            productsData.map((product) => product.category).filter((category) => category.toLowerCase().includes(term))
+          ),
+        ];
+        setFilteredCategories(uniqueCategories); // Filtra las categorias unicas que coinciden con el termino de búsqueda
 
         // Llama a la función de búsqueda con el término ingresado
         const results = await searchProducts(term); 
@@ -112,6 +123,7 @@ const Layout = ({ children }) => {
       <SearchSection
         isActive={isSearchOpen}
         filteredResults={filteredResults}
+        filteredCategories={filteredCategories}
         closeSearch={closeSearch}
       />
 
