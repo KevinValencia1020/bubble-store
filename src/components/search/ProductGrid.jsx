@@ -1,4 +1,5 @@
 import ProductCard from "./ProductCard";
+import Link from "next/link";
 
 // Componente que renderiza una cuadrícula de productos
 // Recibe una lista de productos como prop y los muestra en una cuadrícula
@@ -16,6 +17,8 @@ export default function ProductGrid({ products }) {
 
             <li key={product.id}>
 
+              <Link href={`/product/${encodeURIComponent(product.id)}`}>
+
               <ProductCard 
                 id={product.id}
                 name={product.name}
@@ -24,6 +27,8 @@ export default function ProductGrid({ products }) {
                 brand={product.brand}
                 onAddToCart={product.onAddToCart} // funcion para añadir al carrito
               />
+              </Link>
+
             </li>
           ))}
         </ul>
