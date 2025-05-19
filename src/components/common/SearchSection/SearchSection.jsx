@@ -1,10 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import styleGlobal from "../../../styles/global.module.css";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "next/link";
-import clsx from "clsx";
+
 const SearchSection = ({
   isActive,
   filteredResults = [],
@@ -140,8 +139,8 @@ const SearchSection = ({
                           />
 
                           <Link
-                            href={`/search/${encodeURIComponent(
-                              product.category
+                            href={`/product/${encodeURIComponent(
+                              product.id
                             )}`}
                             onClick={closeSearch}
                           >
