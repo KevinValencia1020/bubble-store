@@ -1,0 +1,8 @@
+.featuredSwiper :global(.swiper-button-prev),
+.featuredSwiper :global(.swiper-button-next) {
+  color: var(--color-primary);
+}
+
+.featuredSwiper :global(.swiper-button-prev::after), .featuredSwiper :global(.swiper-button-next::after) {
+  font-size: 40px;
+}

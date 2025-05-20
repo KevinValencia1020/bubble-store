@@ -1,0 +1,16 @@
+.carruselHome :global(.swiper-button-prev), .carruselHome :global(.swiper-button-next) {
+  color: var(--color-secundary);
+  font-size: 20px;
+}
+
+.carruselHome :global(.swiper-button-prev::after), .carruselHome :global(.swiper-button-next::after) {
+  font-size: 20px !important;
+}
+
+.carruselHome :global(.swiper-pagination-bullet) {
+  opacity: 0.75;
+}
+
+.carruselHome :global(.swiper-pagination-bullet-active) {
+  background-color: var(--color-secundary);
+}
