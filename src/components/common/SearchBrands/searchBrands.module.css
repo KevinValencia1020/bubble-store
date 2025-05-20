@@ -1,7 +1,0 @@
-.sectionBrandsUl{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  align-items: center;
-  justify-items: center;
-  gap: 4px;
-}
