@@ -51,6 +51,23 @@ export default function ProductFilters({
     }
   };
 
+  const resetFilters = () => {
+    const reset = {
+      category: '',
+      brand: '',
+      minPrice: '',
+      maxPrice: '',
+      sort: 'default',
+    };
+    setTempFilters(reset);
+    setFilters(reset);
+    onFilterChange && onFilterChange(reset);
+
+    if (onClose) {
+      onClose();
+    }
+  }
+
   return (
     <div className='product-filters flex flex-wrap gap-4 p-4 bg-white rounded-xl shadow overflow-hidden'>
       <div className='product-filters__group flex flex-col'>
@@ -166,18 +183,7 @@ export default function ProductFilters({
 
             <IconButton
               type='button'
-              onClick={() => {
-                const resetFilters = {
-                  category: '',
-                  brand: '',
-                  minPrice: '',
-                  maxPrice: '',
-                  sort: 'default',
-                };
-                setTempFilters(resetFilters);
-                setFilters(resetFilters);
-                onFilterChange && onFilterChange(resetFilters);
-              }}
+              onClick={resetFilters}
               sx={{ fontSize: '12px' }}
               className='text-xs flex items-center justify-center gap-1'
             >
