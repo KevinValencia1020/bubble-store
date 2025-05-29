@@ -32,7 +32,7 @@ export default function ProductFiltersDrawer({
       document.body.style.overflow = ""; // Activa el scroll del body
     }
   }, [open])
-  if (!open) return null;
+  if (!isActive) return null;
 
   // Overlay interno controlado por showFilters
   const handleOverlayClick = (e) => {
