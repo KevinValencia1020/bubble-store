@@ -1,3 +1,4 @@
+require('dotenv').config(); // Carga las variables de entorno desde el archivo .env
 import app from './app';
 
 // Escucha el puerto desde la variable de entorno o usa el puerto 4000 por defecto
