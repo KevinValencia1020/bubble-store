@@ -21,6 +21,15 @@ async function syncCloudinaryImages() {
           'SELECT product_id FROM products WHERE product_name = $1 LIMIT 1',
           [productName]
         );
+
+        if (prodRes.rows.length === 0) {
+          console.log(`Producto no encontrado en la base de datos: ${productName}`);
+          continue; // Si no se encuentra el producto, salta al siguiente
+        }
+
+        const productId = prodRes.rows[0].product_id;
+
+        // Lista todas las imágenes dentro de la carpeta del producto
       }
     }
   } catch (error) {
