@@ -30,6 +30,11 @@ async function syncCloudinaryImages() {
         const productId = prodRes.rows[0].product_id;
 
         // Lista todas las imágenes dentro de la carpeta del producto
+        const resources = await cloudinary.api.resources({
+          type: 'upload',
+          prefix: product.path + '/',
+          max_results: 100, // Limita a 100 resultados por solicitud
+        });
       }
     }
   } catch (error) {
