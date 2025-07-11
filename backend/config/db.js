@@ -10,4 +10,14 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
+(async() => {
+  try {
+    const client = await pool.connect();
+    console.log('Conexión a la base de datos exitosa');
+    client.release();
+  } catch (error) {
+    console.log('Error al conectar a la base de datos:', error);
+  }
+})();
+
 export default pool;
