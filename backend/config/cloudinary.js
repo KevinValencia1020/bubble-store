@@ -1,4 +1,7 @@
-const cloudinary = require('cloudinary').v2; 
+import { config } from 'dotenv';
+import { v2 as cloudinary } from 'cloudinary'; 
+
+config(); // Carga las variables de entorno desde el archivo .env
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -7,4 +10,4 @@ cloudinary.config({
   secure: true
 });
 
-module.exports = cloudinary;
+export default cloudinary;
