@@ -11,3 +11,5 @@ app.use(express.json()); // Analiza el cuerpo de las solicitudes JSON
 app.use(morgan('dev')); // Registra las solicitudes HTTP en la consola
 
 app.use('/api/products', productsRoutes); // Rutas de productos
+
+export default app; // Exporta la aplicación para que pueda ser utilizada en otros archivos
