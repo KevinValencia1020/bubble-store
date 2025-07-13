@@ -9,3 +9,4 @@
 !.yarn/versions
 
 .env
+/pnpm-lock.yaml
