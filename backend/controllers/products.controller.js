@@ -54,6 +54,12 @@ export const searchProducts = async (req, res, next) => {
       paramIndex++;
     }
 
+    // Filtro por precio minimo
+    if (minPrice) {
+      query += ` AND p.price >= $${paramIndex++}`;
+      values.push(parseFloat(minPrice));
+    }
+
     const { rows } = await pool.query(query, values);
     res.json(rows);
 
