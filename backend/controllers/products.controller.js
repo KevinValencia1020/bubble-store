@@ -84,6 +84,7 @@ export const searchProducts = async (req, res, next) => {
     res.json(rows);
 
   } catch (error) {
+    console.log('Error al buscar productos');
     next(error);
   }
 };
