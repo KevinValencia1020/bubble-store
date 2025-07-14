@@ -24,6 +24,10 @@ export const searchProducts = async (req, res, next) => {
       values.push(category.toLowerCase());
     }
 
+    if (keyword) { // Filtra por palabra clave si se proporciona
+      query += `AND (LOWER(P.product_name) LIKE $${values.length +1} OR LOWER(p.brand) LIKE $${values.length + 1})`;
+      values.push(`%${keyword.toLowerCase()}%`);
+    }
     const { rows } = await pool.query(query, values);
     res.json(rows);
 
