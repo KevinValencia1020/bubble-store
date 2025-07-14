@@ -12,7 +12,7 @@ export const searchProducts = async (req, res, next) => {
       sortBy,
       sortOrder,
       page = 1,
-      limit = 10,
+      limit = 12,
      } = req.query;
 
     let query = `
@@ -24,16 +24,16 @@ export const searchProducts = async (req, res, next) => {
         p.stock_quantity,
         pi.image_url AS thumbnail
       FROM products p
-      INNER JOIN product_images pi ON pi.product_id = p.product_idAND pi.is_thumbnail = true
-      INNER JOIN categories c ON p.category_id = c.category_id
+      INNER JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_thumbnail = true
+      INNER JOIN categories c ON c.category_id = c.category_id
       WHERE 1 = 1
     `;
 
     const values = [];
-    const paramIndex = 1;
+    let paramIndex = 1;
 
     if (category && category !== 'all') { // Filtra por categoría si se proporciona
-      query += `AND LOWER(c.category_name) = $${paramIndex++} `;
+      query += ` AND LOWER(c.name_category) = $${paramIndex++} `;
       values.push(category.toLowerCase());
     }
 
@@ -41,8 +41,8 @@ export const searchProducts = async (req, res, next) => {
     if (brand) {
       const brands = brand.split(',').map(b => b.trim().toLowerCase());
 
-      if (brands > 0) {
-        query += ` AND LOWER(p.brand) = ANY(${paramIndex++}) `;
+      if (brands.length > 0) {
+        query += ` AND LOWER(p.brand) = ANY($${paramIndex++}) `;
         values.push(brands);
       }
     }
@@ -77,14 +77,14 @@ export const searchProducts = async (req, res, next) => {
 
     // Paginación
     const offset = (page - 1) * limit;
-    query += ` LIMIT $${paramIndex} OFFSET $${paramIndex++}`;
+    query += ` LIMIT $${paramIndex++} OFFSET $${paramIndex++}`;
     values.push(parseInt(limit), parseInt(offset));
 
     const { rows } = await pool.query(query, values);
     res.json(rows);
 
   } catch (error) {
-    console.log('Error al buscar productos');
+    console.error('Error al buscar productos', error);
     next(error);
   }
 };
