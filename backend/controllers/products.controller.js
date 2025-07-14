@@ -74,7 +74,12 @@ export const searchProducts = async (req, res, next) => {
     const order = validSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
 
     query += ` ORDER BY ${orderBy} ${order}`;
-    
+
+    // Paginación
+    const offset = (page - 1) * limit;
+    query += ` LIMIT $${paramIndex} OFFSET $${paramIndex++}`;
+    values.push(parseInt(limit), parseInt(offset));
+
     const { rows } = await pool.query(query, values);
     res.json(rows);
 
