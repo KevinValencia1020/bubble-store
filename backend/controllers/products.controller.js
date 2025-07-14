@@ -18,6 +18,7 @@ export const searchProducts = async (req, res, next) => {
     `;
 
     const values = [];
+    const paramIndex = 1;
 
     if (category && category !== 'all') { // Filtra por categoría si se proporciona
       query += `AND LOWER(c.category_name) = $${values.length + 1} `;
