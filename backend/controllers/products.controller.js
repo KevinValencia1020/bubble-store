@@ -3,7 +3,17 @@ import pool from '../config/db.js';
 export const searchProducts = async (req, res, next) => {
 
   try {
-    const { category, keyword, minPrice, maxPrice, brand } = req.query;
+    const { 
+      category, 
+      keyword, 
+      minPrice, 
+      maxPrice, 
+      brand,
+      sortBy,
+      sortOrder,
+      page = 1,
+      limit = 10,
+     } = req.query;
 
     let query = `
     SELECT p.product_name, 
