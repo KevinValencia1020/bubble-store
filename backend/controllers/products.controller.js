@@ -16,17 +16,17 @@ export const searchProducts = async (req, res, next) => {
      } = req.query;
 
     let query = `
-    SELECT 
-     p.product_id,
-     p.product_name, 
-     p.price, 
-     p.brand, 
-     p.stock_quantity,
-     pi.image_url AS thumbnail
-    FROM products p
-    INNER JOIN product_images pi ON pi.product_id = p.product_idAND pi.is_thumbnail = true
-    INNER JOIN categories c ON p.category_id = c.category_id
-    WHERE 1 = 1
+      SELECT 
+        p.product_id,
+        p.product_name, 
+        p.price, 
+        p.brand, 
+        p.stock_quantity,
+        pi.image_url AS thumbnail
+      FROM products p
+      INNER JOIN product_images pi ON pi.product_id = p.product_idAND pi.is_thumbnail = true
+      INNER JOIN categories c ON p.category_id = c.category_id
+      WHERE 1 = 1
     `;
 
     const values = [];
