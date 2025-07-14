@@ -52,6 +52,14 @@ export const searchProducts = async (req, res, next) => {
       query += ` AND (LOWER(p.product_name) LIKE $${paramIndex} OR LOWER(p.feature::text) LIKE $${paramIndex}) `;
       values.push(`%${keyword.toLowerCase()}%`);
       paramIndex++;
+      // Separa el termino de busqueda en palabras individuales
+      const searchTerms = keyword.toLowerCase().split(' ').filter(term => term);
+
+      searchProducts.forEach(term => {
+        query += ` AND (LOWER(p.product_name) LIKE $${paramIndex} OR LOWER(p.feature::text) LIKE $${paramIndex}}) `;
+        values.push(`%${term}%`);
+        paramIndex++;
+      });
     }
 
     // Filtro por precio minimo
