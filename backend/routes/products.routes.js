@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getProductsByCategory } from "../controllers/products.controller.js";
+import { searchProducts } from "../controllers/products.controller";
 
 const router = Router();
 
-router.get('/category/:category', getProductsByCategory); // Ruta para obtener productos por categoría (por nombre de categoría)
+// Ruta para buscar productos por categoría, marca, precio, etc.
+router.get('/search', searchProducts);
 
 export default router; // Exporta el router para que pueda ser utilizado en otros archivos
