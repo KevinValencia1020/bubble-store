@@ -66,6 +66,15 @@ export const searchProducts = async (req, res, next) => {
       values.push(parseFloat(maxPrice));
     }
 
+    // Ordenamiento
+    const validSortBy = ['price', 'product_name', 'brand']; // Campos validos para ordenar
+    const validSortOrder = ['ASC', 'DESC']; // Orden validos
+
+    const orderBy = validSortBy.includes(sortBy) ? `p.${sortBy}` : 'p.product_name';
+    const order = validSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
+
+    query += ` ORDER BY ${orderBy} ${order}`;
+    
     const { rows } = await pool.query(query, values);
     res.json(rows);
 
