@@ -55,7 +55,7 @@ export const searchProducts = async (req, res, next) => {
       // Separa el termino de busqueda en palabras individuales
       const searchTerms = keyword.toLowerCase().split(' ').filter(term => term);
 
-      searchProducts.forEach(term => {
+      searchTerms.forEach(term => {
         query += ` AND (LOWER(p.product_name) LIKE $${paramIndex} OR LOWER(p.feature::text) LIKE $${paramIndex}}) `;
         values.push(`%${term}%`);
         paramIndex++;
