@@ -19,6 +19,10 @@ export const searchProducts = async (req, res, next) => {
 
     const values = [];
 
+    if (category && category !== 'all') { // Filtra por categoría si se proporciona
+      query += `AND LOWER(c.category_name) = $${values.length + 1} `;
+      values.push(category.toLowerCase());
+    }
 
     const { rows } = await pool.query(query, values);
     res.json(rows);
