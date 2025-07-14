@@ -33,7 +33,7 @@ export const searchProducts = async (req, res, next) => {
     const paramIndex = 1;
 
     if (category && category !== 'all') { // Filtra por categoría si se proporciona
-      query += `AND LOWER(c.category_name) = $${values.length + 1} `;
+      query += `AND LOWER(c.category_name) = $${paramIndex++} `;
       values.push(category.toLowerCase());
     }
 
