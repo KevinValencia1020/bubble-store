@@ -5,9 +5,7 @@ export const searchProducts = async (req, res, next) => {
   try {
     const { category, keyword, minPrice, maxPrice, brand } = req.query;
 
-    let query, values; // Define la consulta SQL y los valores a utilizar
-
-    query = `
+    let query = `
         SELECT p.product_name, 
         p.price, 
         p.brand, 
