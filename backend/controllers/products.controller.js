@@ -1,9 +1,9 @@
 import pool from "../config/db.js";
 
-export const getProductsByCategory = async (req, res, next) => {
+export const searchProducts = async (req, res, next) => {
   
   try {
-    const { category } = req.params;
+    const { category, keyword, minPrice, maxPrice, brand } = req.query;
 
     let query, values; // Define la consulta SQL y los valores a utilizar
 
