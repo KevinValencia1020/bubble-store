@@ -60,6 +60,12 @@ export const searchProducts = async (req, res, next) => {
       values.push(parseFloat(minPrice));
     }
 
+    // Filtro por precio máximo
+    if (maxPrice) {
+      query += ` AND p.price <= $${paramIndex++}`;
+      values.push(parseFloat(maxPrice));
+    }
+
     const { rows } = await pool.query(query, values);
     res.json(rows);
 
