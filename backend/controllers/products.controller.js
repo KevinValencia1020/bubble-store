@@ -47,7 +47,13 @@ export const searchProducts = async (req, res, next) => {
       }
     }
 
-    
+    if (keyword) {
+      // Convierto el JSONB a string para poder usar LIKE
+      query += ` AND (LOWER(p.product_name) LIKE $${paramIndex} OR LOWER(p.feature::text) LIKE $${paramIndex}) `;
+      values.push(`%${keyword.toLowerCase()}%`);
+      paramIndex++;
+    }
+
     const { rows } = await pool.query(query, values);
     res.json(rows);
 
