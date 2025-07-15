@@ -98,5 +98,16 @@ export const searchProducts = async (req, res, next) => {
 };
 
 export const getSuggestions = async (req, res, next) => {
-  
+
+  try {
+
+    const { term } = req.query;
+
+    if (!term || term.trim() === '') { // Si no hay término de búsqueda, devuelve un array vacío
+      return res.json([]);
+    }
+    
+  } catch (error) {
+    
+  }
 }
