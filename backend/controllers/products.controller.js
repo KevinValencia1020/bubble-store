@@ -53,7 +53,7 @@ export const searchProducts = async (req, res, next) => {
       values.push(`%${keyword.toLowerCase()}%`);
       paramIndex++;
       // Separa el termino de busqueda en palabras individuales
-      const searchTerms = keyword.toLowerCase().split(' ').filter(term => term);
+      const searchTerms = keyword.toLowerCase().split(' ').filter(term => term.length > 0);
 
       searchTerms.forEach(term => {
         query += ` AND (LOWER(p.product_name) LIKE $${paramIndex} OR LOWER(p.feature::text) LIKE $${paramIndex}}) `;
