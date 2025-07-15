@@ -96,3 +96,7 @@ export const searchProducts = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getSuggestions = async (req, res, next) => {
+  
+}
