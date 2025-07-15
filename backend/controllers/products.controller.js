@@ -1,3 +1,4 @@
+import { getNodeText } from '@testing-library/react';
 import pool from '../config/db.js';
 
 export const searchProducts = async (req, res, next) => {
@@ -113,8 +114,16 @@ export const getSuggestions = async (req, res, next) => {
       (SELECT brand AS suggestion, 'Marca' AS type FROM products WHERE brand ILIKE $1 || '%' LIMIT 3) 
       LIMIT 10;
     `;
+
+    const values = [term.trim()];
+
+    // Ejecuto la consulta y devuelvo los resultados
+    const { rows } = await pool.query(query, values);
+    res.json(rows);
     
   } catch (error) {
-    
+
+    console.error('Error al obtener sugerencias', error);
+    next(error);
   }
 }
