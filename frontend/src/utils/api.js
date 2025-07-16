@@ -17,12 +17,9 @@ async function handleApiResponse(response) {
 export async function searchProducts(params) {
   // Construye la cadena de query con los parámetros proporcionados
   const queryParams = new URLSearchParams(params || {}).toString();
-  const response = await fetch(`${API_BASE_URL}/products/search?${queryParams}`);
+
+  const url = `${API_BASE_URL}/products/search?${queryParams}`;
   
-  if (!response.ok) {
-    throw new Error('Error al buscar productos');
-  }
-  return response.json();
 
 }
 
