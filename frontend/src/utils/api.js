@@ -14,6 +14,9 @@ export async function searchProducts(params) {
 }
 
 // Funcion para obtener productos por categoria
-export async function getProductsByCategory(category) {
+export async function getProductsByCategory(term) {
 
+  if (!term?.trim()) {
+    return []; // Si no hay término, no hacemos la petición
+  }
 }
