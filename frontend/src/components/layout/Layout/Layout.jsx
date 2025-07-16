@@ -38,12 +38,14 @@ const Layout = ({ children }) => {
 
     }, [activeTab]);
 
-    const openSearch = () => {
+    const openSearch = useCallback(() => {
       // Si el tab activo es "Buscar", abre el input del header
       setActiveTab("Buscar");
       // Abre el input del header al hacer foco
       setIsSearchOpen(true);
-    }
+      setIsAccountOpen(false);
+      setCategoriesOpen(false);
+    }, []);
     // Esta funcion sirve para cerrar tanto el input del header y demas componentes cada que se de cliek en cerrar(x) o se desmarque un elemento del nav
     const closeSearch = () => {
       if (inputRef.current) {
