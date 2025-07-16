@@ -1,5 +1,18 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+// Funcion para manejar la respuesta de la API
+async function handleApiResponse(response) {
+
+  if (!response.ok) {
+
+    const errorData = await response.json().catch(() => ({ message: 'Error desconocido' }));
+    throw new Error(errorData.message || `Error: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
+  
+}
+
 // Funcion para buscar productos con todos los filtros
 export async function searchProducts(params) {
   // Construye la cadena de query con los parámetros proporcionados
