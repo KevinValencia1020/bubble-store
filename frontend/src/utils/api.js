@@ -13,10 +13,20 @@ export async function searchProducts(params) {
 
 }
 
-// Funcion para obtener productos por categoria
+// Funcion para obtener sugerencias para un término específico
 export async function getProductsByCategory(term) {
 
   if (!term?.trim()) {
     return []; // Si no hay término, no hacemos la petición
   }
+
+  const response = await fetch(`${API_BASE_URL}/products/search/suggestions?term=${encodeURIComponent(term)}`);
+
+  if (!response.ok) {
+    console.error('Error al obtener sugerencias');
+    return [];
+  }
+
+  return response.json();
+
 }
