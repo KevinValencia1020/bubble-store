@@ -1,5 +1,5 @@
 "use client";
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect, useCallback} from "react";
 import HeaderMain from "../../common/Header/Header";
 import Navbar from "../../common/Navbar/Navbar";
 import PopupAccount from "@/components/auth/PopupAccount/PopupAccount";
@@ -27,7 +27,7 @@ const Layout = ({ children }) => {
   const inputRef = useRef(null);
 
     // Maneja la apertura/cierre de los tabs del nav dinamicamente
-    const handleTabClick = (label) => {
+    const handleTabClick = useCallback((label) => {
       const isSameTab = activeTab === label;
 
       // Mapeo los estados y cerramos/abrimos segun corresponda
@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
       setIsSearchOpen(label === "Buscar" && !isSameTab);
       setCategoriesOpen(label === "Categorías" && !isSameTab);
 
-    };
+    }, [activeTab]);
 
     const openSearch = () => {
       // Si el tab activo es "Buscar", abre el input del header
