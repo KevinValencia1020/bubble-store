@@ -20,7 +20,15 @@ export async function searchProducts(params) {
 
   const url = `${API_BASE_URL}/products/search?${queryParams}`;
   
+  try {
+    const response = await fetch(url);
+    return await handleApiResponse(response);
 
+  } catch (error) {
+    
+    console.error('Error en searchProducts:', error);
+    throw error;
+  }
 }
 
 // Funcion para obtener sugerencias para un término específico
