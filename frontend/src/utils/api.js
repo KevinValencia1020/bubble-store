@@ -16,7 +16,7 @@ async function handleApiResponse(response) {
 // Funcion para buscar productos con todos los filtros
 export async function searchProducts(params) {
   // Construye la cadena de query con los parámetros proporcionados
-  const queryParams = new URLSearchParams(params).toString();
+  const queryParams = new URLSearchParams(params || {}).toString();
   const response = await fetch(`${API_BASE_URL}/products/search?${queryParams}`);
   
   if (!response.ok) {
