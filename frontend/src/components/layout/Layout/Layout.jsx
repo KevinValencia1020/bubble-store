@@ -6,7 +6,7 @@ import PopupAccount from "@/components/auth/PopupAccount/PopupAccount";
 import PopupCategories from "../../common/PopupCategories/PopupCategories";
 import SearchSection from "@/components/common/SearchSection/SearchSection";
 import Footer from "@/components/common/Footer/Footer";
-import { searchProducts } from "@/utils/api";
+import { searchProducts, getProductSuggetions } from "@/utils/api";
 import { productsData } from "@/constants/productsData";
 
 
