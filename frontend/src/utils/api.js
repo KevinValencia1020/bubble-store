@@ -13,6 +13,12 @@ async function handleApiResponse(response) {
   
 }
 
+/**
+ * Busca productos con diversos filtros.
+ * @param {Object} params - Objeto con parametros de busqueda (ej: { q: 'Samsung s25', category: 'celular' }).
+ * @returns {Promise<Array>} - Promesa que resuelve a una lista de productos.
+ */
+
 // Funcion para buscar productos con todos los filtros
 export async function searchProducts(params) {
   // Construye la cadena de query con los parámetros proporcionados
@@ -30,6 +36,12 @@ export async function searchProducts(params) {
     throw error;
   }
 }
+
+/**
+ * Obtiene sugerencias de busqueda para un termino especifico.
+ * @param {string} term - Termino de busqueda para las sugerencias.
+ * @returns {Promise<Array>} - Promesa que resuelve a una lista de sugerencias.
+ */
 
 // Funcion para obtener sugerencias para un término específico
 export async function getProductSuggetions(term) {
