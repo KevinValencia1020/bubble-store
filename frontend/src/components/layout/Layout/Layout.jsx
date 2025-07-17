@@ -68,13 +68,19 @@ const Layout = ({ children }) => {
   // Manejo de la busqueda de los productos
 
   const handleSearch = useCallback(async (searchTerm) => {
-    const term = String(searchTerm || '')
-      .toLowerCase()
-      .trim();
+    const term = String(searchTerm || '').toLowerCase().trim();
 
     if (!term) {
-      set;
+      setFilteredResults([]);
+      setFilteredCategories([]);
+      setSearchError(null);
+      return;
     }
+
+    setIsLoadingSearch(true);
+    setSearchError(null);
+
+    
   });
 
   return (
