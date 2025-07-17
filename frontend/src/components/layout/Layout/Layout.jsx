@@ -107,6 +107,16 @@ const Layout = ({ children }) => {
     }
   }, []);
 
+  // Efecto para limpiar resultados al cerrar la busqueda
+  useEffect(() => {
+    if (!isSearchOpen) {
+      setFilteredResults([]);
+      setFilteredCategories([]);
+      setSearchError(null);
+      setIsLoadingSearch(false);
+    }
+  }, [isSearchOpen]);
+
   return (
     <>
       <Navbar activeTab={activeTab} onTabclick={handleTabClick} />
