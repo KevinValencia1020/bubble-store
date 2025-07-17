@@ -61,6 +61,8 @@ const Layout = ({ children }) => {
     setCategoriesOpen(false);
     setFilteredResults([]);
     setFilteredCategories([]);
+    setIsLoadingSearch(false); // Limpia el estado de carga
+    setSearchError(false); // Limpia el estado de error
   }, []);
 
   // Manejo de la busqueda de los productos
