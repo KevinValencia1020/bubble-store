@@ -80,8 +80,32 @@ const Layout = ({ children }) => {
     setIsLoadingSearch(true);
     setSearchError(null);
 
-    
-  });
+    try {
+
+      const results = await searchProducts({ q: term });
+
+      setFilteredResults(results.products || results); // Filtra los productos por término de búsqueda
+      setFilteredCategories(results.categories || []); // Filtra las categorías por término de búsqueda
+
+      if ((results.products && results.products.length > 0) || (results.categories && results.categories.length > 0) || (Array.isArray(results) && results.length > 0)) {
+
+        setIsSearchOpen(true);
+
+      } else {
+        setIsSearchOpen(false);
+      }
+      
+    } catch (error) {
+
+      console.error('Error al bucar productos:', error);
+      setFilteredResults([]);
+      setFilteredCategories([]);
+      setSearchError('Hubo un problema al buscar productos. Inténtelo de nuevo.');
+      
+    } finally {
+      setIsLoadingSearch(false); // Finaliza el estado de carga
+    }
+  }, []);
 
   return (
     <>
