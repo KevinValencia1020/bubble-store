@@ -1,20 +1,19 @@
-"use client";
-import React, {useState, useRef, useEffect, useCallback} from "react";
-import HeaderMain from "../../common/Header/Header";
-import Navbar from "../../common/Navbar/Navbar";
-import PopupAccount from "@/components/auth/PopupAccount/PopupAccount";
-import PopupCategories from "../../common/PopupCategories/PopupCategories";
-import SearchSection from "@/components/common/SearchSection/SearchSection";
-import Footer from "@/components/common/Footer/Footer";
-import { searchProducts, getProductSuggetions } from "@/utils/api";
-import { productsData } from "@/constants/productsData";
-
+'use client';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import HeaderMain from '../../common/Header/Header';
+import Navbar from '../../common/Navbar/Navbar';
+import PopupAccount from '@/components/auth/PopupAccount/PopupAccount';
+import PopupCategories from '../../common/PopupCategories/PopupCategories';
+import SearchSection from '@/components/common/SearchSection/SearchSection';
+import Footer from '@/components/common/Footer/Footer';
+import { searchProducts, getProductSuggetions } from '@/utils/api';
+import { productsData } from '@/constants/productsData';
 
 const Layout = ({ children }) => {
-  const [activeTab, setActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState('');
 
   const [isAccountOpen, setIsAccountOpen] = useState(false);
-  
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const [isCategoriesOpen, setCategoriesOpen] = useState(false);
@@ -24,86 +23,61 @@ const Layout = ({ children }) => {
 
   const [filteredCategories, setFilteredCategories] = useState([]);
 
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+  const [searchError, setSearchError] = useState(false);
+
   const inputRef = useRef(null);
 
-    // Maneja la apertura/cierre de los tabs del nav dinamicamente
-    const handleTabClick = useCallback((label) => {
+  // Maneja la apertura/cierre de los tabs del nav dinamicamente
+  const handleTabClick = useCallback(
+    (label) => {
       const isSameTab = activeTab === label;
 
       // Mapeo los estados y cerramos/abrimos segun corresponda
-      setActiveTab(isSameTab ? "" : label);
-      setIsAccountOpen(label === "Mi cuenta" && !isSameTab);
-      setIsSearchOpen(label === "Buscar" && !isSameTab);
-      setCategoriesOpen(label === "Categorías" && !isSameTab);
+      setActiveTab(isSameTab ? '' : label);
+      setIsAccountOpen(label === 'Mi cuenta' && !isSameTab);
+      setIsSearchOpen(label === 'Buscar' && !isSameTab);
+      setCategoriesOpen(label === 'Categorías' && !isSameTab);
+    },
+    [activeTab]
+  );
 
-    }, [activeTab]);
+  const openSearch = useCallback(() => {
+    // Si el tab activo es "Buscar", abre el input del header
+    setActiveTab('Buscar');
+    // Abre el input del header al hacer foco
+    setIsSearchOpen(true);
+    setIsAccountOpen(false);
+    setCategoriesOpen(false);
+  }, []);
+  // Esta funcion sirve para cerrar tanto el input del header y demas componentes cada que se de cliek en cerrar(x) o se desmarque un elemento del nav
+  const closeSearch = useCallback(() => {
+    if (inputRef.current) {
+      inputRef.current.blur();
+    }
+    setActiveTab('');
+    setIsAccountOpen(false);
+    setIsSearchOpen(false);
+    setCategoriesOpen(false);
+    setFilteredResults([]);
+    setFilteredCategories([]);
+  }, []);
 
-    const openSearch = useCallback(() => {
-      // Si el tab activo es "Buscar", abre el input del header
-      setActiveTab("Buscar");
-      // Abre el input del header al hacer foco
-      setIsSearchOpen(true);
-      setIsAccountOpen(false);
-      setCategoriesOpen(false);
-    }, []);
-    // Esta funcion sirve para cerrar tanto el input del header y demas componentes cada que se de cliek en cerrar(x) o se desmarque un elemento del nav
-    const closeSearch = useCallback(() => {
-      if (inputRef.current) {
-        inputRef.current.blur();
-      }
-      setActiveTab("");
-      setIsAccountOpen(false);
-      setIsSearchOpen(false);
-      setCategoriesOpen(false);
-      setFilteredResults([]);
-      setFilteredCategories([]);
-    }, []);
+  // Manejo de la busqueda de los productos
 
-    useEffect(() => {
+  const handleSearch = useCallback(async (searchTerm) => {
+    const term = String(searchTerm || '')
+      .toLowerCase()
+      .trim();
 
-      if (!isSearchOpen) {
-
-        setFilteredResults([]); // Limpia los resultados al cerrar la busqueda
-      }
-      
-    }, [isSearchOpen]);
-
-    // Manejo de la busqueda de los productos
-    
-    const handleSearch = async (searchTerm) => {
-
-      try {
-
-        const term = String(searchTerm || "").toLowerCase().trim(); // Convierte el término a minúsculas y elimina espacios en blanco
-
-        if (term === "") {
-          setFilteredResults([]);
-          setFilteredCategories([]); // Limpia los resultados si el término está vacío
-         return;
-        }
-
-        const uniqueCategories = [
-          ...new Set(
-            productsData.map((product) => product.category).filter((category) => category.toLowerCase().includes(term))
-          ),
-        ];
-        setFilteredCategories(uniqueCategories); // Filtra las categorias unicas que coinciden con el termino de búsqueda
-
-        // Llama a la función de búsqueda con el término ingresado
-        const results = await searchProducts(term); 
-        setFilteredResults(results); 
-        setIsSearchOpen(true); // Abre la sección de búsqueda al obtener resultados
-
-      } catch (error) {
-        console.error("Error al buscar productos:", error);
-        setFilteredResults([]); // En caso de error limpia los resultados
-      }
-
-    };
+    if (!term) {
+      set;
+    }
+  });
 
   return (
     <>
-      <Navbar activeTab={activeTab} onTabclick={handleTabClick}/>
+      <Navbar activeTab={activeTab} onTabclick={handleTabClick} />
 
       <HeaderMain
         activeTab={activeTab}
@@ -113,10 +87,7 @@ const Layout = ({ children }) => {
         onSearch={handleSearch}
       />
 
-      <PopupAccount 
-        popupClose={closeSearch}
-        isVisible={isAccountOpen}
-      />
+      <PopupAccount popupClose={closeSearch} isVisible={isAccountOpen} />
 
       <PopupCategories
         isCategoriesActive={isCategoriesOpen}
@@ -133,9 +104,8 @@ const Layout = ({ children }) => {
       {children}
 
       <Footer />
-
     </>
   );
-}
+};
 
 export default Layout;
