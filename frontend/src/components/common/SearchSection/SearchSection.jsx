@@ -9,6 +9,10 @@ const SearchSection = ({
   filteredResults = [],
   filteredCategories = [],
   closeSearch,
+  isLoading,
+  error,
+  suggetions = [],
+  isLoadingSuggetions,
 }) => {
   // Estado para controlar la visibilidad de la sección de búsqueda
   const [showSection, setShowSection] = useState(false);
