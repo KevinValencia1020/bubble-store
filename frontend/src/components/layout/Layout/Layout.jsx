@@ -117,6 +117,21 @@ const Layout = ({ children }) => {
     }
   }, [isSearchOpen]);
 
+  // Implementacion de sugerencias con Debounce
+  const [searchTermForSuggetions, setSearchTermForSuggetions] = useState('');
+  const [suggetions, setSuggetions] = useState([]);
+  const [isLoadingSuggetions, setIsLoadingSuggetions] = useState(false);
+
+  // useEffect maneja el debounce para las sugerencias
+  useEffect(() => {
+
+    if (!searchTermForSuggetions || searchTermForSuggetions.length < 3) {
+      setSuggetions([]);
+      return;
+    }
+
+  },[])
+
   return (
     <>
       <Navbar activeTab={activeTab} onTabclick={handleTabClick} />
