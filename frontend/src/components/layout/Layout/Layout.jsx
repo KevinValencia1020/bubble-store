@@ -130,7 +130,28 @@ const Layout = ({ children }) => {
       return;
     }
 
-  },[])
+    const handler = setTimeout(async () => {
+      setIsLoadingSuggetions(true);
+      // Realiza la solicitud de sugerencias con el término de búsqueda
+      try {
+
+        const fetchedSuggetions = await getProductSuggetions(searchTermForSuggetions);
+        setSuggetions(fetchedSuggetions);
+        
+      } catch (error) {
+        console.error('Error al obtener sugerencias: ', error);
+        setSuggetions([]);
+        
+      } finally {
+        setIsLoadingSuggetions(false); // Finaliza el estado de carga
+      }
+    }, 300);
+
+    return () => {
+      clearTimeout(handler); // Limpia el timer si el termino cambia antes de que se ejecute
+    };
+
+  },[searchTermForSuggetions]);
 
   return (
     <>
