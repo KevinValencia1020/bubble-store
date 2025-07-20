@@ -48,6 +48,10 @@ const SearchSection = ({
 
   if (!isVisible) return null;
 
+  // Comprobaciones para determinar si hay resultados o sugerencias
+  const isSearchEmpty = filteredResults.length === 0 && filteredCategories.length === 0;
+  const hasActiveSearchTerm = suggetions.length > 0 || isLoadingSuggetions || isLoading || error || filteredResults.length > 0 || filteredCategories.length > 0;
+
   return (
     <>
       <div
