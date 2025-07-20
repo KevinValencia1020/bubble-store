@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "next/link";
+import CircularProgress from '@mui/joy/CircularProgress';
 
 const SearchSection = ({
   isActive,
@@ -72,6 +73,17 @@ const SearchSection = ({
                 : "translate-x-full pointer-events-none opacity-0"
             }`}
           >
+
+            <div className="">
+              {isLoading && (
+                <CircularProgress variant='soft' size='md'/>
+              )}
+              {error && (
+                <p>
+                  {error}
+                </p>
+              )}
+            </div>
 
             {filteredResults.length === 0 ? (
               <div className="popular-searches w-[90%] my-0 mx-auto text-sm font-semibold mb-2">
