@@ -7,7 +7,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from '@mui/icons-material/Close';
 import style from "./style.module.css";
 
-export default function SearchInput({isActiveInput, inputRef, openInput, onSearch, closeSearch
+export default function SearchInput({isActiveInput, inputRef, openInput, onSearch, closeSearch, onSearchTermChange
 }) {
   // Constrolo el texto del input
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,7 +49,10 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
   const handleInputChange = async (event) => {
     const value = event.target.value;
     setSearchTerm(value);
-    onSearch(value) // Actualiza el valor del input al escribir
+    if (onSearchTermChange) {
+      onSearchTermChange(value);
+    }
+    //onSearch(value) // Actualiza el valor del input al escribir
   }
 
   const rouster = useRouter();
