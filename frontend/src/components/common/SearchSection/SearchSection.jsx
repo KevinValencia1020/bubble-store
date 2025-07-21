@@ -49,9 +49,7 @@ const SearchSection = ({
 
   if (!isVisible) return null;
 
-  // Comprobaciones para determinar si hay resultados o sugerencias
-  const isSearchEmpty = filteredResults.length === 0 && filteredCategories.length === 0;
-  const hasActiveSearchTerm = suggetions.length > 0 || isLoadingSuggetions || isLoading || error || filteredResults.length > 0 || filteredCategories.length > 0;
+  const productSuggetions = suggetions.filter((suggetion => suggetion.type === 'Producto'));
 
   return (
     <>
@@ -100,7 +98,7 @@ const SearchSection = ({
                 ) : (
 
                   <ul className="mt-4 bg-white rounded">
-                    {suggetions.map((suggetion, index) => (
+                    {productSuggetions.map((suggetion, index) => (
                       <li 
                         key={index}
                         className="relative flex items-center justify-between p-1 border-b last:border-b-0"
@@ -108,10 +106,10 @@ const SearchSection = ({
                         <div className="flex items-center gap-2">
                           <SearchIcon fontSize="medium" className="text-color-primario"/>
                           <Link
-                            href={`/search?q=${encodeURIComponent(suggetion.name || suggetion.term)}`}
+                            href={`/search?q=${encodeURIComponent(suggetion.suggestion || suggetion.term)}`}
                             onClick={closeSearch}
                           >
-                            {suggetion.name || suggetion.term}
+                            {suggetion.suggestion || suggetion.term}
                           </Link>
 
                         </div>
@@ -125,33 +123,13 @@ const SearchSection = ({
               </div>
             )}
 
-            {filteredResults.length === 0 ? (
-              <div className="popular-searches w-[90%] my-0 mx-auto text-sm font-semibold mb-2">
+            {console.log(filteredCategories)}
 
-                <p className="popular-title font-semibold text-lg">
-                  Lo más buscado
-                </p>
-
-                <div className="popular-tags flex flex-wrap gap-2 mt-3">
-
-                  {popularTags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="popular-tag bg-gray-200 px-3 rounded text-sm"
-                    >
-                      {tag}
-                    </span>
-
-                  ))}
-                </div>
-              </div>
-            ) : (
+            {!isLoading && !error && !isLoadingSuggetions && filteredCategories.length > 0 &&(
 
               <>
 
                 <div className="w-[90%] my-2 mx-auto">
-
-                  {filteredCategories.length > 0 && (
 
                     <div>
 
@@ -175,7 +153,6 @@ const SearchSection = ({
                       </ul>
 
                     </div>
-                  )}
                 </div>
 
                 <div className="w-[90%] mt-4 mx-auto">
