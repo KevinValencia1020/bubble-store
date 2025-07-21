@@ -85,6 +85,46 @@ const SearchSection = ({
               )}
             </div>
 
+            {/* Mostrar sugerencias solo si no esta en estado de error / carga de busqueda */}
+            {!isLoading && !error && (isLoadingSuggetions || suggetions.length > 0) && (
+
+              <div className="w-[90%] my-2 mx-auto">
+                <p className="font-medium bg-color-primario w-max px-4 text-color-secundario rounded-md">
+                  Sugerencias
+                </p>
+                
+                {isLoadingSuggetions ? (
+
+                  <CircularProgress variant='soft' size='md'/>
+
+                ) : (
+
+                  <ul className="mt-4 bg-white rounded">
+                    {suggetions.map((suggetion, index) => (
+                      <li 
+                        key={index}
+                        className="relative flex items-center justify-between p-1 border-b last:border-b-0"
+                      >
+                        <div className="flex items-center gap-2">
+                          <SearchIcon fontSize="medium" className="text-color-primario"/>
+                          <Link
+                            href={`/search?q=${encodeURIComponent(suggetion.name || suggetion.term)}`}
+                            onClick={closeSearch}
+                          >
+                            {suggetion.name || suggetion.term}
+                          </Link>
+
+                        </div>
+
+                        <CallMadeIcon fontSize="medium" className="text-color-primario"/>
+                        
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+
             {filteredResults.length === 0 ? (
               <div className="popular-searches w-[90%] my-0 mx-auto text-sm font-semibold mb-2">
 
