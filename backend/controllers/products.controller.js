@@ -1,4 +1,3 @@
-import { getNodeText } from '@testing-library/react';
 import pool from '../config/db.js';
 
 export const searchProducts = async (req, res, next) => {
@@ -6,7 +5,7 @@ export const searchProducts = async (req, res, next) => {
   try {
     const { 
       category, 
-      keyword, 
+      q, 
       minPrice, 
       maxPrice, 
       brand,
@@ -26,7 +25,7 @@ export const searchProducts = async (req, res, next) => {
         pi.image_url AS thumbnail
       FROM products p
       INNER JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_thumbnail = true
-      INNER JOIN categories c ON c.category_id = c.category_id
+      INNER JOIN categories c ON p.category_id = c.category_id
       WHERE 1 = 1
     `;
 
@@ -48,19 +47,17 @@ export const searchProducts = async (req, res, next) => {
       }
     }
 
-    if (keyword) {
+    if (q) {
+      const searchTerms = `%${q.toLowerCase()}%`;
       // Convierto el JSONB a string para poder usar LIKE
-      query += ` AND (LOWER(p.product_name) LIKE $${paramIndex} OR LOWER(p.feature::text) LIKE $${paramIndex}) `;
-      values.push(`%${keyword.toLowerCase()}%`);
+      query += ` AND (
+      LOWER(p.product_name) LIKE $${paramIndex} OR 
+      LOWER(p.feature::text) LIKE $${paramIndex} OR
+      LOWER(c.name_category) LIKE $${paramIndex} OR
+      LOWER(p.brand) LIKE $${paramIndex}
+    )`;
+      values.push(`%${searchTerms.toLowerCase()}%`);
       paramIndex++;
-      // Separa el termino de busqueda en palabras individuales
-      const searchTerms = keyword.toLowerCase().split(' ').filter(term => term.length > 0);
-
-      searchTerms.forEach(term => {
-        query += ` AND (LOWER(p.product_name) LIKE $${paramIndex} OR LOWER(p.feature::text) LIKE $${paramIndex}}) `;
-        values.push(`%${term}%`);
-        paramIndex++;
-      });
     }
 
     // Filtro por precio minimo
@@ -89,8 +86,36 @@ export const searchProducts = async (req, res, next) => {
     query += ` LIMIT $${paramIndex++} OFFSET $${paramIndex++}`;
     values.push(parseInt(limit), parseInt(offset));
 
-    const { rows } = await pool.query(query, values);
-    res.json(rows);
+    const { rows: productRows } = await pool.query(query, values);
+
+    // Consulta para categorias relacionadas
+    let categoryQuery = `
+      SELECT DISTINCT c.name_category
+      FROM categories c
+      INNER JOIN products p ON p.category_id = c.category_id
+      WHERE 1=1
+    `;
+    const categoryValues = [];
+    let catParamIndex = 1;
+
+    if (q) {
+      const searchCategories = String(q).toLowerCase();
+      categoryQuery += ` AND (
+        LOWER(c.name_category) LIKE $${catParamIndex}
+        OR LOWER(p.product_name) LIKE $${catParamIndex}
+        OR LOWER(p.brand) LIKE $${catParamIndex}
+      )`;
+      categoryValues.push(`%${searchCategories}%`);
+      catParamIndex++;
+    }
+
+    const { rows: categoryRows } = await pool.query(categoryQuery, categoryValues);
+
+    // Devuelve productos y categorias
+    res.json({
+      products: productRows,
+      categories: categoryRows.map(row => row.name_category),
+    });
 
   } catch (error) {
     console.error('Error al buscar productos', error);
