@@ -4,8 +4,8 @@ export const searchProducts = async (req, res, next) => {
 
   try {
     const { 
-      category, 
-      q, 
+      category,
+      q,
       minPrice, 
       maxPrice, 
       brand,
