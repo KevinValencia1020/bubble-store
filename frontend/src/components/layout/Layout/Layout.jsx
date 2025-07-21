@@ -125,7 +125,7 @@ const Layout = ({ children }) => {
   // useEffect maneja el debounce para las sugerencias
   useEffect(() => {
 
-    if (!searchTermForSuggetions || searchTermForSuggetions.length < 3) {
+    if (!searchTermForSuggetions || searchTermForSuggetions.length < 2) {
       setSuggetions([]);
       return;
     }
@@ -163,6 +163,7 @@ const Layout = ({ children }) => {
         closeSearch={closeSearch}
         inputRef={inputRef}
         onSearch={handleSearch}
+        onSearchTermChange={setSearchTermForSuggetions}
       />
 
       <PopupAccount popupClose={closeSearch} isVisible={isAccountOpen} />
@@ -177,6 +178,8 @@ const Layout = ({ children }) => {
         filteredResults={filteredResults}
         filteredCategories={filteredCategories}
         closeSearch={closeSearch}
+        suggetions={suggetions}
+        isLoadingSuggetions={isLoadingSuggetions}
       />
 
       {children}
