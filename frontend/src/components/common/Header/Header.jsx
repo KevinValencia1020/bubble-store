@@ -2,7 +2,7 @@
 import styleGlobal from "../../../styles/global.module.css";
 import SearchInput from "../SearchInput/SearchInput";
 
-export default function HeaderMain({ activeTab, closeSearch, openSearch, onSearch, inputRef }) {
+export default function HeaderMain({ activeTab, closeSearch, openSearch, onSearch, inputRef, onSearchTermChange }) {
 
   return (
     <>
@@ -42,6 +42,7 @@ export default function HeaderMain({ activeTab, closeSearch, openSearch, onSearc
               inputRef={inputRef}
               onSearch={onSearch}
               closeSearch={closeSearch}
+              onSearchTermChange={onSearchTermChange}
             />
             
           </div>
