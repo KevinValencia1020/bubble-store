@@ -134,9 +134,21 @@ export const getSuggestions = async (req, res, next) => {
     }
     
     const query = `
-      (SELECT product_name AS suggestion, 'Producto' AS type FROM products WHERE product_name ILIKE $1 || '%' LIMIT 5) UNION
-      (SELECT name_category AS suggestion, 'Categoría' AS type FROM categories WHERE name_category ILIKE $1 || '%' LIMIT 3) UNION
-      (SELECT brand AS suggestion, 'Marca' AS type FROM products WHERE brand ILIKE $1 || '%' LIMIT 3) 
+      (SELECT product_id, product_name AS suggestion, 'Producto' AS type 
+      FROM products 
+      WHERE product_name ILIKE $1 || '%' LIMIT 5
+      ) UNION
+      (
+        SELECT NULL AS product_id, name_category AS suggestion, 'Categoría' AS type 
+        FROM categories 
+        WHERE name_category ILIKE $1 || '%' LIMIT 3
+      ) UNION
+      (
+        SELECT NULL AS product_id, brand AS suggestion, 'Marca' AS type 
+        FROM products 
+        WHERE brand ILIKE $1 || '%' 
+        LIMIT 3
+      ) 
       LIMIT 10;
     `;
 
