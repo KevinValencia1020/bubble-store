@@ -43,6 +43,13 @@ export async function searchProducts(params) {
  * @returns {Promise<Array>} - Promesa que resuelve a una lista de sugerencias.
  */
 
+// Obtener productos por categoría
+export async function getProductsByCategory(category) {
+  const url = `${API_BASE_URL}/products/search?category=${encodeURIComponent(category)}`;
+  const response = await fetch(url);
+  return await handleApiResponse(response);
+}
+
 // Funcion para obtener sugerencias para un término específico
 export async function getProductSuggetions(term) {
 
