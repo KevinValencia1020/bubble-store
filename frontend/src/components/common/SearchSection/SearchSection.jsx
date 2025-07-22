@@ -45,8 +45,6 @@ const SearchSection = ({
     la clase se cambia en Header y la animación se maneja en CSS.*/
   }, [isActive]);
 
-  let popularTags = ["Celulares", "Televisores", "Computadores", "Tablets"];
-
   if (!isVisible) return null;
 
   const productSuggetions = suggetions.filter((suggetion => suggetion.type === 'Producto'));
@@ -72,7 +70,7 @@ const SearchSection = ({
             }`}
           >
 
-            <div className="">
+            <div className="flex items-center justify-center mb-4">
               {isLoading && (
                 <CircularProgress variant='soft' size='md'/>
               )}
@@ -83,6 +81,40 @@ const SearchSection = ({
               )}
             </div>
 
+            {!isLoading && !error && !isLoadingSuggetions && filteredCategories.length > 0 &&(
+
+              <>
+
+                {console.log(filteredCategories)}
+
+                <div className="w-[90%] my-2 mx-auto">
+
+                    <div>
+
+                      <p className="font-medium bg-color-primario w-max px-4 text-color-secundario rounded-md mb-3">Categorías</p>
+
+                      <ul className="flex flex-wrap gap-1 overflow-hidden">
+
+                        {filteredCategories.map((category, index) => (
+                          
+                          <li key={index} className="bg-gray-300 w-max px-2 rounded-md my-1">
+
+                            <Link
+                              href={`/search/${encodeURIComponent(category)}`}
+                              onClick={closeSearch}
+                            >
+                              {category}
+                            </Link>
+
+                          </li>
+                        ))}
+                      </ul>
+
+                    </div>
+                </div>
+              </>
+            )}
+
             {/* Mostrar sugerencias solo si no esta en estado de error / carga de busqueda */}
             {!isLoading && !error && (isLoadingSuggetions || suggetions.length > 0) && (
 
@@ -92,8 +124,10 @@ const SearchSection = ({
                 </p>
                 
                 {isLoadingSuggetions ? (
+                  <div className="flex justify-center items-center my-auto">
 
-                  <CircularProgress variant='soft' size='md'/>
+                    <CircularProgress variant='soft' size='md'/>
+                  </div>
 
                 ) : (
 
@@ -122,84 +156,7 @@ const SearchSection = ({
                 )}
               </div>
             )}
-
-            {console.log(filteredCategories)}
-
-            {!isLoading && !error && !isLoadingSuggetions && filteredCategories.length > 0 &&(
-
-              <>
-
-                <div className="w-[90%] my-2 mx-auto">
-
-                    <div>
-
-                      <p className="font-medium bg-color-primario w-max px-4 text-color-secundario rounded-md">Categorías</p>
-
-                      <ul>
-
-                        {filteredCategories.map((category) => (
-                          
-                          <li key={category} className="bg-gray-300 w-max px-2 rounded-md my-1">
-
-                            <Link
-                              href={`/search/${encodeURIComponent(category)}`}
-                              onClick={closeSearch}
-                            >
-                              {category}
-                            </Link>
-
-                          </li>
-                        ))}
-                      </ul>
-
-                    </div>
-                </div>
-
-                <div className="w-[90%] mt-4 mx-auto">
-
-                  <p className="font-medium bg-color-primario w-max text-color-secundario px-4 rounded-md">
-                    Productos
-                  </p>
-
-                  <ul className="results__ul mt-4 bg-white rounded">
-
-                    {filteredResults.map((product) => (
-                      <li
-                        key={product.id}
-                        className="results__li relative flex items-center justify-between p-1 border-b last:border-b-0"
-                      >
-
-                        <div className="flex items-center gap-2">
-                          <SearchIcon
-                            fontSize="medium"
-                            className="text-color-primario"
-                          />
-
-                          <Link
-                            href={`/product/${encodeURIComponent(
-                              product.id
-                            )}`}
-                            onClick={closeSearch}
-                          >
-                            {product.name}
-                          </Link>
-
-                        </div>
-
-                        <CallMadeIcon
-                          fontSize="medium"
-                          className="text-color-primario"
-                        />
-
-                      </li>
-
-                    ))}
-
-                  </ul>
-
-                </div>
-              </>
-            )}
+            
           </div>
         </div>
       </div>
