@@ -7,7 +7,6 @@ import PopupCategories from '../../common/PopupCategories/PopupCategories';
 import SearchSection from '@/components/common/SearchSection/SearchSection';
 import Footer from '@/components/common/Footer/Footer';
 import { searchProducts, getProductSuggetions } from '@/utils/api';
-import { productsData } from '@/constants/productsData';
 
 const Layout = ({ children }) => {
   const [activeTab, setActiveTab] = useState('');
@@ -114,6 +113,7 @@ const Layout = ({ children }) => {
       setFilteredCategories([]);
       setSearchError(null);
       setIsLoadingSearch(false);
+      setSearchTermForSuggetions(false);
     }
   }, [isSearchOpen]);
 
@@ -180,6 +180,8 @@ const Layout = ({ children }) => {
         closeSearch={closeSearch}
         suggetions={suggetions}
         isLoadingSuggetions={isLoadingSuggetions}
+        isLoading={isLoadingSearch}
+        error={searchError}
       />
 
       {children}

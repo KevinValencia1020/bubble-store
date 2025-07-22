@@ -52,7 +52,10 @@ export default function SearchInput({isActiveInput, inputRef, openInput, onSearc
     if (onSearchTermChange) {
       onSearchTermChange(value);
     }
-    //onSearch(value) // Actualiza el valor del input al escribir
+
+    if (onSearch) {
+      onSearch(value); // Llama a la funcion onSearch con el valor del input
+    }
   }
 
   const rouster = useRouter();
