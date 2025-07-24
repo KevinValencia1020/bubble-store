@@ -140,7 +140,7 @@ const SearchSection = ({
                         <div className="flex items-center gap-2">
                           <SearchIcon fontSize="medium" className="text-color-primario"/>
                           <Link
-                            href={`/search?q=${encodeURIComponent(suggetion.suggestion || suggetion.term)}`}
+                            href={`/search/${encodeURIComponent(suggetion.suggestion || suggetion.term)}`}
                             onClick={closeSearch}
                           >
                             {suggetion.suggestion || suggetion.term}
