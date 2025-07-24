@@ -8,6 +8,7 @@ import ProductFiltersDrawer from "./ProductFiltersDrawer";
 // Componente que renderiza una cuadrícula de productos
 // Recibe una lista de productos como prop y los muestra en una cuadrícula
 export default function ProductGrid({ products }) {
+
   const [filters, setFilters] = useState({
     brand: "",
     minPrice: "",
@@ -92,15 +93,15 @@ export default function ProductGrid({ products }) {
             <li className="col-span-full text-center text-gray-500">No hay productos que coincidan con los filtros.</li>
           ) : (
             filteredProducts.map((product) => (
-              <li key={product.id}>
-                <Link href={`/product/${encodeURIComponent(product.id)}`}>
+              <li key={product.product_id}>
+                <Link href={`/product/${encodeURIComponent(product.product_id)}`}>
                   <ProductCard
-                    id={product.id}
-                    name={product.name}
+                    id={product.product_id}
+                    name={product.product_name}
                     price={product.price}
-                    image={product.image}
+                    image={product.thumbnail}
                     brand={product.brand}
-                    onAddToCart={product.onAddToCart}
+                    onAddToCart={product.product_onAddToCart}
                   />
                 </Link>
               </li>
