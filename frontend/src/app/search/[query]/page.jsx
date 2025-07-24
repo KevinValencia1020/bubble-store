@@ -21,20 +21,20 @@ export default function SearchResultsPage() {
     const fetchData = async () => {
 
       try {
-        const categoryResults = await getProductsByCategory(query); // Obtiene los productos por categoría
+        const categoryResults = await getProductsByCategory({ category: query }); // Obtiene los productos por categoría
         
-        if (categoryResults.length > 0) {
-          setProducts(categoryResults); // Si hay resultados, los establece en el estado
-
+        if (Array.isArray(categoryResults.products) && categoryResults.products.length > 0) {
+          setProducts(categoryResults.products); // Si hay resultados, los establece en el estado
+        
         } else {
-
-          const searchResults = await searchProducts(query); // Si no hay resultados por categoría, busca por término
-          setProducts(searchResults); // Establece los resultados de búsqueda en el estado
+        
+          const searchResults = await searchProducts({ q: query }); // Si no hay resultados por categoría, busca por término
+          setProducts(Array.isArray(searchResults.products) ? searchResults.products : []); // Establece los resultados de búsqueda en el estado  
         }
         
       } catch (error) {
         console.error("Error fetching search results:", error);
-
+        setProducts([]); // Limpia los productos en caso de error
       } finally {
 
         setLoading(false); // Cambia el estado de carga a falso al finalizar
