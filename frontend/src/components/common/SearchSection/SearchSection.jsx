@@ -100,7 +100,7 @@ const SearchSection = ({
                           <li key={index} className="bg-gray-300 w-max px-2 rounded-md my-1">
 
                             <Link
-                              href={`/search/${encodeURIComponent(category)}`}
+                              href={`/search/${encodeURIComponent(category)}?type=category`}
                               onClick={closeSearch}
                             >
                               {category}
