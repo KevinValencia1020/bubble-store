@@ -45,10 +45,10 @@ export default function ProductGrid({ products }) {
         filtered.sort((a, b) => b.price - a.price);
         break;
       case "name-asc":
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
+        filtered.sort((a, b) => a.name.localeCompare(b.product_name));
         break;
       case "name-desc":
-        filtered.sort((a, b) => b.name.localeCompare(a.name));
+        filtered.sort((a, b) => b.name.localeCompare(a.product_name));
         break;
       case "brand-asc":
         filtered.sort((a, b) => a.brand.localeCompare(b.brand));
