@@ -195,7 +195,7 @@ export default function ProductGrid({ initialCategory = "" }) {
         {/* Paginación */}
         <Stack spacing={2}>
           <Pagination
-            count={Math.ceil(productList.length / PRODUCTS_PER_PAGE)}
+            count={totalPages}
             page={page}
             onChange={(event, value) => setPage(value)}
             color="primary"
