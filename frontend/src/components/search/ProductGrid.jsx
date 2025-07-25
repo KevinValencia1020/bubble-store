@@ -93,6 +93,13 @@ export default function ProductGrid({ initialCategory = "" }) {
         // Guardar categorías para el selector
         setCategories(data.categories || []);
 
+        if (data.total) {
+          setPage(Math.max(1, Math.ceil(data.total / PRODUCTS_PER_PAGE))); // Asegurarse de que la pagina sea al menos 1
+
+        } else {
+          setTotalPages(1); // Si no hay total, establecer una sola página
+        }
+
       } catch (err) {
         setError(err.message || "Error al cargar productos");
       } finally {
@@ -101,16 +108,6 @@ export default function ProductGrid({ initialCategory = "" }) {
     }
     fetchProducts();
   }, [page, filters.category, filters.brand, filters.minPrice, filters.maxPrice, filters.sort]);
-
-  useEffect(() => {
-    // Actualizar el total de páginas basado en la respuesta
-        if (data.total) {
-          setPage(Math.max(1, Math.ceil(data.total / PRODUCTS_PER_PAGE))); // Asegurarse de que la pagina sea al menos 1
-
-        } else {
-          setTotalPages(1); // Si no hay total, establecer una sola página
-        }
-  }, [data.total, PRODUCTS_PER_PAGE]);
 
   // Handler para cambiar la categoría
   const handleCategoryChange = (e) => {
