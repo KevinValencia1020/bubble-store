@@ -57,16 +57,14 @@ export default function ProductGrid({ initialCategory = "" }) {
     }
   }
 
-  useEffect(() => {
-    setPage(1); // Reinicia la página al cambiar los filtros
-    setTotalPages(1); // Reinicia el total de páginas al cambiar los filtros
-  }, [filters.category, filters.brand, filters.minPrice, filters.maxPrice, filters.sort]);
-
   // Fetch productos del backend cuando cambian los filtros
   useEffect(() => {
-    async function fetchProducts() {
+    async function fetchProducts(page = 1) {
       setLoading(true);
       setError(null);
+
+      setPage(1); // Reinicia la página al cambiar los filtros
+      setTotalPages(1); // Reinicia el total de páginas al cambiar los filtros
       try {
         const params = {
           page,
@@ -85,7 +83,7 @@ export default function ProductGrid({ initialCategory = "" }) {
         if (sortBy) params.sortBy = sortBy;
         if (sortOrder) params.sortOrder = sortOrder;
 
-        // Puedes agregar más parámetros aquí si es necesario
+        // Llamada a la API para buscar productos con los filtros aplicados
         const data = await searchProducts(params);
         setProductList(data.products || []);
 
@@ -95,14 +93,6 @@ export default function ProductGrid({ initialCategory = "" }) {
         // Guardar categorías para el selector
         setCategories(data.categories || []);
 
-        // Actualizar el total de páginas basado en la respuesta
-        if (data.total) {
-          setPage(Math.max(1, Math.ceil(data.total / PRODUCTS_PER_PAGE))); // Asegurarse de que la pagina sea al menos 1
-
-        } else {
-          setTotalPages(1); // Si no hay total, establecer una sola página
-        }
-
       } catch (err) {
         setError(err.message || "Error al cargar productos");
       } finally {
@@ -110,7 +100,17 @@ export default function ProductGrid({ initialCategory = "" }) {
       }
     }
     fetchProducts();
-  }, [filters]);
+  }, [page, filters.category, filters.brand, filters.minPrice, filters.maxPrice, filters.sort]);
+
+  useEffect(() => {
+    // Actualizar el total de páginas basado en la respuesta
+        if (data.total) {
+          setPage(Math.max(1, Math.ceil(data.total / PRODUCTS_PER_PAGE))); // Asegurarse de que la pagina sea al menos 1
+
+        } else {
+          setTotalPages(1); // Si no hay total, establecer una sola página
+        }
+  }, [data.total, PRODUCTS_PER_PAGE]);
 
   // Handler para cambiar la categoría
   const handleCategoryChange = (e) => {
@@ -195,7 +195,7 @@ export default function ProductGrid({ initialCategory = "" }) {
         {/* Paginación */}
         <Stack spacing={2}>
           <Pagination
-            count={Math.ceil(productList.length / PRODUCTS_PER_PAGE)}
+            count={totalPages}
             page={page}
             onChange={(event, value) => setPage(value)}
             color="primary"
