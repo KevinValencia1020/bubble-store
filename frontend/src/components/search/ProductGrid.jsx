@@ -6,10 +6,15 @@ import { IconButton } from "@mui/material";
 import ProductFiltersDrawer from "./ProductFiltersDrawer";
 import { searchProducts } from "@/utils/api";
 import { Skeleton } from "@mui/material";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 // Componente que renderiza una cuadrícula de productos
 // Recibe una lista de productos como prop y los muestra en una cuadrícula
 export default function ProductGrid({ initialCategory = "" }) {
+
+  const PRODUCTS_PER_PAGE = 12;
+
   const [filters, setFilters] = useState({
     category: initialCategory,
     brand: "",
@@ -27,6 +32,10 @@ export default function ProductGrid({ initialCategory = "" }) {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Estado para la paginación
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   // Mapear el filtro de sort a los parámetros del backend
   function getSortParams(sort) {
@@ -48,13 +57,21 @@ export default function ProductGrid({ initialCategory = "" }) {
     }
   }
 
+  useEffect(() => {
+    setPage(1); // Reinicia la página al cambiar los filtros
+    setTotalPages(1); // Reinicia el total de páginas al cambiar los filtros
+  }, [filters.category, filters.brand, filters.minPrice, filters.maxPrice, filters.sort]);
+
   // Fetch productos del backend cuando cambian los filtros
   useEffect(() => {
     async function fetchProducts() {
       setLoading(true);
       setError(null);
       try {
-        const params = {};
+        const params = {
+          page,
+          limit: PRODUCTS_PER_PAGE,
+        };
         if (filters.category) params.category = filters.category;
 
         if (filters.brand) params.brand = filters.brand;
@@ -77,6 +94,14 @@ export default function ProductGrid({ initialCategory = "" }) {
 
         // Guardar categorías para el selector
         setCategories(data.categories || []);
+
+        // Actualizar el total de páginas basado en la respuesta
+        if (data.total) {
+          setPage(Math.max(1, Math.ceil(data.total / PRODUCTS_PER_PAGE))); // Asegurarse de que la pagina sea al menos 1
+
+        } else {
+          setTotalPages(1); // Si no hay total, establecer una sola página
+        }
 
       } catch (err) {
         setError(err.message || "Error al cargar productos");
@@ -167,6 +192,17 @@ export default function ProductGrid({ initialCategory = "" }) {
             )}
           </ul>
         )}
+        {/* Paginación */}
+        <Stack spacing={2}>
+          <Pagination
+            count={Math.ceil(productList.length / PRODUCTS_PER_PAGE)}
+            page={page}
+            onChange={(event, value) => setPage(value)}
+            color="primary"
+            showFirstButton
+            showLastButton
+          />
+        </Stack>
       </div>
     </>
   );
