@@ -1,48 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { searchProducts, getProductsByCategory } from "@/utils/api";
+import { searchProducts } from "@/utils/api";
 import ProductGrid from "../../../components/search/ProductGrid";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { Skeleton } from "@mui/material";
 
 export default function SearchResultsPage() {
 
   const params = useParams(); // Obtiene los parámetros de la URL
+  const searchParams = useSearchParams();
   const query = params.query; // Extrae la consulta de búsqueda de los parámetros
   const [products, setProducts] = useState([]); // Estado para almacenar los productos encontrados
   const [loading, setLoading] = useState(true); // Estado para controlar la carga de datos
 
   useEffect(() => {
-    
     setLoading(true); // Cambia el estado de carga a verdadero al iniciar la búsqueda
     setProducts([]); // Limpia los productos antes de la búsqueda
 
     const fetchData = async () => {
-
       try {
-        const categoryResults = await getProductsByCategory(query); // Obtiene los productos por categoría
-        
-        if (categoryResults.length > 0) {
-          setProducts(categoryResults); // Si hay resultados, los establece en el estado
-
+        const type = searchParams.get("type");
+        let data;
+        if (type === "category") {
+          data = await searchProducts({ category: query });
         } else {
-
-          const searchResults = await searchProducts(query); // Si no hay resultados por categoría, busca por término
-          setProducts(searchResults); // Establece los resultados de búsqueda en el estado
+          data = await searchProducts({ q: query });
         }
-        
+        setProducts(data.products || []);
       } catch (error) {
         console.error("Error fetching search results:", error);
-
       } finally {
-
         setLoading(false); // Cambia el estado de carga a falso al finalizar
       }
     };
 
     fetchData(); // Llama a la función para obtener los datos
-  }, [query]); // Se ejecuta cada vez que cambia la consulta
+  }, [query, searchParams]); // Se ejecuta cada vez que cambia la consulta o el tipo
 
   if (loading) {
 
@@ -68,7 +62,7 @@ export default function SearchResultsPage() {
   return (
     <>
       
-      <ProductGrid key={query} products={products} /> {/* Renderiza la cuadrícula de productos */}
+      <ProductGrid key={query} products={products} initialCategory={searchParams.get('type') === 'category' ? query : ''}/> {/* Renderiza la cuadrícula de productos */}
     </>
   );
 }

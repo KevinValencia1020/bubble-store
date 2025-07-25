@@ -100,7 +100,7 @@ const SearchSection = ({
                           <li key={index} className="bg-gray-300 w-max px-2 rounded-md my-1">
 
                             <Link
-                              href={`/search/${encodeURIComponent(category)}`}
+                              href={`/search/${encodeURIComponent(category)}?type=category`}
                               onClick={closeSearch}
                             >
                               {category}
@@ -140,7 +140,7 @@ const SearchSection = ({
                         <div className="flex items-center gap-2">
                           <SearchIcon fontSize="medium" className="text-color-primario"/>
                           <Link
-                            href={`/search?q=${encodeURIComponent(suggetion.suggestion || suggetion.term)}`}
+                            href={`/search/${encodeURIComponent(suggetion.suggestion || suggetion.term)}`}
                             onClick={closeSearch}
                           >
                             {suggetion.suggestion || suggetion.term}
