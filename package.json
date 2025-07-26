@@ -1,0 +1,26 @@
+{
+  "name": "bubble-store",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-frontend": "pnpm dev --prefix frontend",
+    "start-backend": "pnpm dev --prefix backend", 
+    "start": "concurrently \"pnpm start-frontend\" \"pnpm start-backend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinValencia1020/bubble-store.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KevinValencia1020/bubble-store/issues"
+  },
+  "homepage": "https://github.com/KevinValencia1020/bubble-store#readme",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
