@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-frontend": "pnpm star --prefix frontend",
-    "start-backend": "pnpm star --prefix backend", 
+    "start-frontend": "pnpm dev --prefix frontend",
+    "start-backend": "pnpm dev --prefix backend", 
     "start": "concurrently \"pnpm start-frontend\" \"pnpm start-backend\""
   },
   "repository": {
