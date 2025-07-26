@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-frontend": "pnpm star --prefix frontend",
+    "start-backend": "pnpm star --prefix backend", 
+    "start": "concurrently \"pnpm start-frontend\" \"pnpm start-backend\""
   },
   "repository": {
     "type": "git",
@@ -16,5 +19,8 @@
     "url": "https://github.com/KevinValencia1020/bubble-store/issues"
   },
   "homepage": "https://github.com/KevinValencia1020/bubble-store#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
 }
