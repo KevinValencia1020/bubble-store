@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import styleHome from "../Home/home.module.css";
+import styleHome from "../home/home.module.css";
 
 import CarruselHome from "../../../components/home/CarruselHome/CarruselHome";
 import Featured from "@/components/home/Featured/Featured";
