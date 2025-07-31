@@ -94,7 +94,7 @@ export default function ProductGrid({ initialCategory = "" }) {
         setCategories(data.categories || []);
 
         if (data.total) {
-          setPage(Math.max(1, Math.ceil(data.total / PRODUCTS_PER_PAGE))); // Asegurarse de que la pagina sea al menos 1
+          setTotalPages(Math.max(1, Math.ceil(data.total / PRODUCTS_PER_PAGE))); // Asegurarse de que la pagina sea al menos 1
 
         } else {
           setTotalPages(1); // Si no hay total, establecer una sola página
