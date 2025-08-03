@@ -74,9 +74,9 @@ const Featured = ({ title, products}) => {
 
                   <p className="featured-name whitespace-nowrap overflow-hidden text-ellipsis font-semibold">{product.name}</p>
 
-                  <p className="featured-price">
-                    {" "}
-                    $ {product.price.toLocaleString()}
+                  <p className="featured-price text-green-700">
+                    {"$ "}
+                    {new Intl.NumberFormat('es-CO').format(product.price)}
                   </p>
                 </div>
 
