@@ -52,12 +52,12 @@ export const searchProducts = async (req, res, next) => {
       // Convierto el JSONB a string para poder usar LIKE
       query += ` AND (
       LOWER(p.product_name) LIKE $${paramIndex} OR 
-      LOWER(p.feature::text) LIKE $${paramIndex} OR
-      LOWER(c.name_category) LIKE $${paramIndex} OR
-      LOWER(p.brand) LIKE $${paramIndex}
+      LOWER(p.feature::text) LIKE $${paramIndex + 1} OR
+      LOWER(c.name_category) LIKE $${paramIndex + 2} OR
+      LOWER(p.brand) LIKE $${paramIndex + 3}
     )`;
-      values.push(`%${searchTerms.toLowerCase()}%`);
-      paramIndex++;
+      values.push(searchTerms, searchTerms, searchTerms, searchTerms);
+      paramIndex += 4;
     }
 
     // Filtro por precio minimo
@@ -88,28 +88,18 @@ export const searchProducts = async (req, res, next) => {
 
     const { rows: productRows } = await pool.query(query, values);
 
-    // Consulta para categorias relacionadas
-    let categoryQuery = `
-      SELECT DISTINCT c.name_category
-      FROM categories c
-      INNER JOIN products p ON p.category_id = c.category_id
-      WHERE 1=1
-    `;
-    const categoryValues = [];
-    let catParamIndex = 1;
 
-    if (q) {
-      const searchCategories = String(q).toLowerCase();
-      categoryQuery += ` AND (
-        LOWER(c.name_category) LIKE $${catParamIndex}
-        OR LOWER(p.product_name) LIKE $${catParamIndex}
-        OR LOWER(p.brand) LIKE $${catParamIndex}
-      )`;
-      categoryValues.push(`%${searchCategories}%`);
-      catParamIndex++;
-    }
+    // Esto asegura que las categorías mostradas realmente contengan productos que coincidan con TODOS los filtros.
+    const categoryQuery = `SELECT DISTINCT c.name_category ${query.substring(query.indexOf('FROM products'))}`;
 
-    const { rows: categoryRows } = await pool.query(categoryQuery, categoryValues);
+    
+    // Usamos slice(0, -2) para obtener una copia de todos los valores EXCEPTO los dos últimos.
+    const categoryValues = values.slice(0, -2);
+
+    const { rows: categoryRows } = await pool.query(
+      categoryQuery.substring(0, categoryQuery.indexOf('ORDER BY')), // Quita ORDER BY, LIMIT y OFFSET
+      categoryValues
+    );
 
     // Devuelve productos y categorias
     res.json({
