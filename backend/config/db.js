@@ -1,13 +1,15 @@
 import 'dotenv/config';
 import { Pool } from 'pg';
 
-// Este archivo configura la conexion a la base de datos utilizando variables de entorno
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error('La variable de entorno DATABASE_URL no está definida. Asegúrate de que esté configurada en tu docker-compose.yml o en tu archivo .env.');
+}
+
+// Este archivo configura la conexion a la base de datos utilizando la variable de entorno DATABASE_URL
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString: connectionString,
 });
 
 (async() => {
@@ -16,7 +18,7 @@ const pool = new Pool({
     console.log('Conexión a la base de datos exitosa');
     client.release();
   } catch (error) {
-    console.log('Error al conectar a la base de datos:', error);
+    console.error('Error al conectar a la base de datos:', error);
   }
 })();
 
