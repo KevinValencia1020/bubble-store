@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // Funcion para manejar la respuesta de la API
 async function handleApiResponse(response) {
@@ -59,16 +59,12 @@ export async function getProductSuggetions(term) {
 
   const url = `${API_BASE_URL}/api/products/search/suggestions?term=${encodeURIComponent(term)}`;
 
-
   try {
     const response = await fetch(url);
     return await handleApiResponse(response);
-
   } catch (error) {
-
     console.error('Error en getProductSuggetions:', error);
-    return []; // devuelve el array vacio si hay error en la sugerencias
-    
+    // Es mejor relanzar el error para que el llamador pueda manejarlo.
+    throw error;
   }
-
 }
