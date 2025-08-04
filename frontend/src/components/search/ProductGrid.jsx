@@ -110,25 +110,15 @@ export default function ProductGrid({ initialCategory = "" }) {
   }, [page, filters.category, filters.brand, filters.minPrice, filters.maxPrice, filters.sort]);
 
   // Handler para cambiar la categoría
-  const handleCategoryChange = (e) => {
-    setFilters((prev) => ({ ...prev, category: e.target.value }));
-  };
+  // const handleCategoryChange = (e) => {
+  //   setFilters((prev) => ({ ...prev, category: e.target.value }));
+  // };
 
   return (
     <>
       <div className="product-grid w-[90%] mx-auto my-5 overflow-hidden">
-        {/* Selector de categoria */}
         <div className="flex items-center mb-4 gap-4">
-          <select
-            className="border rounded px-3 py-2"
-            value={filters.category}
-            onChange={handleCategoryChange}
-          >
-            <option value="">Todas las categorías</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
+
           <IconButton
             onClick={() => setShowFilters((v) => !v)}
             className="md:hidden border border-color-primario"

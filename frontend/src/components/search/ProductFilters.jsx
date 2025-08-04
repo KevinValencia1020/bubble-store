@@ -51,17 +51,16 @@ export default function ProductFilters({
     }
   };
 
-  const resetFilters = () => {
+  const resetFilters = () => { 
     const reset = {
-      category: '',
       brand: '',
       minPrice: '',
       maxPrice: '',
       sort: 'default',
     };
-    setTempFilters(reset);
-    setFilters(reset);
-    onFilterChange && onFilterChange(reset);
+    setTempFilters((prev) => ({ ...prev, ...reset }));
+    setFilters((prev) => ({ ...prev, ...reset }));
+    onFilterChange && onFilterChange({ ...filters, ...reset });
 
     if (onClose) {
       onClose();

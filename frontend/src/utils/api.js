@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 // Funcion para manejar la respuesta de la API
 async function handleApiResponse(response) {
@@ -24,7 +24,7 @@ export async function searchProducts(params) {
   // Construye la cadena de query con los parámetros proporcionados
   const queryParams = new URLSearchParams(params || {}).toString();
 
-  const url = `${API_BASE_URL}/products/search?${queryParams}`;
+  const url = `${API_BASE_URL}/api/products/search?${queryParams}`;
   
   try {
     const response = await fetch(url);
@@ -45,7 +45,7 @@ export async function searchProducts(params) {
 
 // Obtener productos por categoría
 export async function getProductsByCategory(category) {
-  const url = `${API_BASE_URL}/products/search?category=${encodeURIComponent(category)}`;
+  const url = `${API_BASE_URL}/api/products/search?category=${encodeURIComponent(category)}`;
   const response = await fetch(url);
   return await handleApiResponse(response);
 }
@@ -57,7 +57,7 @@ export async function getProductSuggetions(term) {
     return []; // Si no hay término, no hacemos la petición
   }
 
-  const url = `${API_BASE_URL}/products/search/suggestions?term=${encodeURIComponent(term)}`;
+  const url = `${API_BASE_URL}/api/products/search/suggestions?term=${encodeURIComponent(term)}`;
 
 
   try {
