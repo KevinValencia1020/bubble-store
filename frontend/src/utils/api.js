@@ -73,7 +73,9 @@ export async function getProductSuggetions(term) {
   }
 }
 
-export async function getProductById(id) {
+export async function getProductById(idOrSlug) {
+  // Extrae el id numérico si viene en formato 'id-slug'
+  const id = idOrSlug?.toString().split("-")[0];
   const url = `${API_BASE_URL}/api/products/${id}`;
   const response = await fetch(url);
   return await handleApiResponse(response);
