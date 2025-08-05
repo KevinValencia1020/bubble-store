@@ -154,3 +154,24 @@ export const getSuggestions = async (req, res, next) => {
     next(error);
   }
 }
+
+export const getProductById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const query = `
+      SELECT p.product_id, p.product_name, p.price, p.brand, p.stock_quantity, pi.image_url AS thumbnail
+      FROM products p
+      LEFT JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_thumbnail = true
+      WHERE p.product_id = $1
+      LIMIT 1
+    `;
+
+    const { rows } = await pool.query(query, [id]);
+    if (rows.length === 0) return res.status(404).json({ message: 'Producto no encontrado' });
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Error al obtener producto por ID', error);
+    next(error);
+  }
+}
