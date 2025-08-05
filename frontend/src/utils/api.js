@@ -41,14 +41,18 @@ export async function searchProducts(params) {
  * Obtiene sugerencias de busqueda para un termino especifico.
  * @param {string} term - Termino de busqueda para las sugerencias.
  * @returns {Promise<Array>} - Promesa que resuelve a una lista de sugerencias.
+
  */
 
 // Obtener productos por categoría
+
 export async function getProductsByCategory(category) {
+
   const url = `${API_BASE_URL}/api/products/search?category=${encodeURIComponent(category)}`;
   const response = await fetch(url);
   return await handleApiResponse(response);
 }
+
 
 // Funcion para obtener sugerencias para un término específico
 export async function getProductSuggetions(term) {
@@ -67,4 +71,10 @@ export async function getProductSuggetions(term) {
     // Es mejor relanzar el error para que el llamador pueda manejarlo.
     throw error;
   }
+}
+
+export async function getProductById(id) {
+  const url = `${API_BASE_URL}/api/products/${id}`;
+  const response = await fetch(url);
+  return await handleApiResponse(response);
 }
