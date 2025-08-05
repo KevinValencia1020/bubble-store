@@ -158,6 +158,7 @@ export const getSuggestions = async (req, res, next) => {
 export const getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const numericId = Number(id);
 
     // Consulta para traer los datos del producto y sus características
     const productQuery = `
@@ -182,7 +183,7 @@ export const getProductById = async (req, res, next) => {
       WHERE product_id = $1
       ORDER BY is_thumbnail DESC, image_url
     `;
-    const { rows: imageRows } = await pool.query(imagesQuery, [id]);
+    const { rows: imageRows } = await pool.query(imagesQuery, [numericId]);
     const images = imageRows.map(row => row.image_url);
 
     // Construye el objeto de respuesta
