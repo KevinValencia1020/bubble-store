@@ -173,7 +173,7 @@ export const getProductById = async (req, res, next) => {
       WHERE p.product_id = $1
       LIMIT 1
     `;
-    const { rows: productRows } = await pool.query(productQuery, [id]);
+    const { rows: productRows } = await pool.query(productQuery, [numericId]);
     if (productRows.length === 0) return res.status(404).json({ message: 'Producto no encontrado' });
 
     // Consulta para traer todas las imágenes del producto
