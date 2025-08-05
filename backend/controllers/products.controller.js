@@ -159,17 +159,44 @@ export const getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const query = `
-      SELECT p.product_id, p.product_name, p.price, p.brand, p.stock_quantity, pi.image_url AS thumbnail
+    // Consulta para traer los datos del producto y sus características
+    const productQuery = `
+      SELECT 
+        p.product_id, 
+        p.product_name, 
+        p.price, 
+        p.brand, 
+        p.stock_quantity, 
+        p.feature
       FROM products p
-      LEFT JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_thumbnail = true
       WHERE p.product_id = $1
       LIMIT 1
     `;
+    const { rows: productRows } = await pool.query(productQuery, [id]);
+    if (productRows.length === 0) return res.status(404).json({ message: 'Producto no encontrado' });
 
-    const { rows } = await pool.query(query, [id]);
-    if (rows.length === 0) return res.status(404).json({ message: 'Producto no encontrado' });
-    res.json(rows[0]);
+    // Consulta para traer todas las imágenes del producto
+    const imagesQuery = `
+      SELECT image_url 
+      FROM product_images 
+      WHERE product_id = $1
+      ORDER BY is_thumbnail DESC, image_url
+    `;
+    const { rows: imageRows } = await pool.query(imagesQuery, [id]);
+    const images = imageRows.map(row => row.image_url);
+
+    // Construye el objeto de respuesta
+    const product = {
+      id: productRows[0].product_id,
+      name: productRows[0].product_name,
+      price: productRows[0].price,
+      brand: productRows[0].brand,
+      stock: productRows[0].stock_quantity,
+      feature: productRows[0].feature,
+      image: images
+    };
+
+    res.json(product);
   } catch (error) {
     console.error('Error al obtener producto por ID', error);
     next(error);
