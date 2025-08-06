@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import CallMadeIcon from "@mui/icons-material/CallMade";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "next/link";
+import slugify from "../../search/slugify";
 import CircularProgress from '@mui/joy/CircularProgress';
 
 const SearchSection = ({
@@ -132,26 +133,30 @@ const SearchSection = ({
                 ) : (
 
                   <ul className="mt-4 bg-white rounded">
-                    {productSuggetions.map((suggetion, index) => (
-                      <li 
-                        key={index}
-                        className="relative flex items-center justify-between p-1 border-b last:border-b-0"
-                      >
-                        <div className="flex items-center gap-2">
-                          <SearchIcon fontSize="medium" className="text-color-primario"/>
-                          <Link
-                            href={`/search/${encodeURIComponent(suggetion.suggestion || suggetion.term)}`}
-                            onClick={closeSearch}
-                          >
-                            {suggetion.suggestion || suggetion.term}
-                          </Link>
-
-                        </div>
-
-                        <CallMadeIcon fontSize="medium" className="text-color-primario"/>
-                        
-                      </li>
-                    ))}
+                    {productSuggetions.map((suggetion, index) => {
+                      const slug = slugify(suggetion.suggestion || "");
+                      return (
+                        <li 
+                          key={index}
+                          className="relative flex items-center justify-between p-1 border-b last:border-b-0"
+                        >
+                          <div className="flex items-center gap-2">
+                            <SearchIcon fontSize="medium" className="text-color-primario"/>
+                            {suggetion.product_id ? (
+                              <Link
+                                href={`/product/${suggetion.product_id}-${slug}`}
+                                onClick={closeSearch}
+                              >
+                                {suggetion.suggestion || suggetion.term}
+                              </Link>
+                            ) : (
+                              <span>{suggetion.suggestion || suggetion.term}</span>
+                            )}
+                          </div>
+                          <CallMadeIcon fontSize="medium" className="text-color-primario"/>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </div>
