@@ -80,3 +80,27 @@ export async function getProductById(idOrSlug) {
   const response = await fetch(url);
   return await handleApiResponse(response);
 }
+
+export async function registerUser({ email, name, lastname,  password, address, confirmPassword }) {
+  
+  const url = `${API_BASE_URL}/api/users/register`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, name, lastname, password, address, confirmPassword }),
+  });
+  return await handleApiResponse(response);
+  
+}
+
+export async function loginUser({ email, password }) {
+  const url = `${API_BASE_URL}/api/users/login`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
+  return await handleApiResponse(response);
+}
