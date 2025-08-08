@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styleGlobal from "../../../styles/global.module.css";
 import style from "./popupAccount.module.css";
+import { loginUser } from "@/utils/api";
 
 const PopupAccount = ({ popupClose, isVisible }) => {
   const popupRef = useRef(null); //Referenciamos la ventana emergente
@@ -10,9 +11,13 @@ const PopupAccount = ({ popupClose, isVisible }) => {
     document.body.style.overflow = isVisible ? "hidden" : "auto";
   }, [isVisible]);
 
-  const [showPopup, setShowPopup] = useState(false); //destructuracion para la animacion de la ventana emergente [variable, funcion del estado]
+  const [showPopup, setShowPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState("");
 
   useEffect(() => {
     if (isVisible) {
@@ -25,6 +30,51 @@ const PopupAccount = ({ popupClose, isVisible }) => {
   const validateEmail = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
+  };
+
+  // Solo login y redirección a registro si el usuario no existe
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setServerError("");
+    console.log("email:", email, "password:", password); // Log para depuración
+    if (!email.trim()) {
+      setEmailError("Correo no válido");
+      return;
+    }
+    if (!validateEmail(email)) {
+      setEmailError("Correo no válido");
+      return;
+    }
+    setEmailError("");
+    if (!password.trim()) {
+      setPasswordError("La contraseña es obligatoria");
+      return;
+    }
+    setPasswordError("");
+    setLoading(true);
+
+    try {
+      const data = await loginUser({ email, password });
+      // Si el login es exitoso, guardamos el token y los datos del usuario en localStorage
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        popupClose();
+      } else if (data.redirectToRegister) {
+        window.location.href = `/register?email=${encodeURIComponent(email)}`;
+      } else {
+        setServerError(data.message || "Credenciales incorrectas");
+      }
+    } catch (err) {
+      // Si el error contiene redirectToRegister, redirige
+      if (err?.message?.includes('Usuario no registrado') || err?.redirectToRegister) {
+        window.location.href = `/register?email=${encodeURIComponent(email)}`;
+        return;
+      }
+      setServerError("No se pudo conectar al servidor");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,7 +97,7 @@ const PopupAccount = ({ popupClose, isVisible }) => {
               <input
                 type="email"
                 className={`popup-input w-full p-2 outline-none border border-gray-300 rounded transition-all duration-300 focus:border-color-primario ${style.popupInput}`}
-                id="correo"
+                id="login-email"
                 placeholder=""
                 value={email}
                 required
@@ -59,24 +109,50 @@ const PopupAccount = ({ popupClose, isVisible }) => {
                   if (!email.trim()) {
                     setEmailError("Correo no válido");
                   } else if (!validateEmail(email)) {
-                    setEmailError("Correro no válido");
+                    setEmailError("Correo no válido");
                   } else {
                     setEmailError("");
                   }
                 }}
               />
-              <label htmlFor="correo" className={`popup-label absolute top-2 left-2 text-gray-400 pointer-events-none transition-all duration-300 ease-in-out ${style.popupLabel}`}>
+              <label htmlFor="login-email" className={`popup-label absolute top-2 left-2 text-gray-400 pointer-events-none transition-all duration-300 ease-in-out ${style.popupLabel}`}> 
                 Correo electrónico
               </label>
-
               {emailError && (
                 <span className="error-message absolute top-10 left-2 block text-red-500 text-xs mt-1 transition duration-300 ease-in-out">{emailError}</span>
               )}
             </div>
-            <button className="popup-button w-full p-4 flex items-center justify-center gap-2 my-0 mx-auto bg-color-primario rounded text-color-secundario font-semibold mt-9">
+            <div className="input-container relative my-6">
+              <input
+                type="password"
+                className={`popup-input w-full p-2 outline-none border border-gray-300 rounded transition-all duration-300 focus:border-color-primario ${style.popupInput}`}
+                id="login-password"
+                placeholder=""
+                value={password}
+                required
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError("");
+                }}
+              />
+              <label htmlFor="login-password" className={`popup-label absolute top-2 left-2 text-gray-400 pointer-events-none transition-all duration-300 ease-in-out ${style.popupLabel}`}>
+                Contraseña
+              </label>
+              {passwordError && (
+                <span className="error-message absolute top-10 left-2 block text-red-500 text-xs mt-1 transition duration-300 ease-in-out">{passwordError}</span>
+              )}
+            </div>
+            <button
+              className="popup-button w-full p-4 flex items-center justify-center gap-2 my-0 mx-auto bg-color-primario rounded text-color-secundario font-semibold mt-9"
+              onClick={handleLogin}
+              disabled={loading}
+            >
               <box-icon name="lock" color="var(--color-secundary)"></box-icon>
-              Continuar
+              {loading ? "Iniciando sesión..." : "Iniciar sesión"}
             </button>
+            {serverError && (
+              <span className="error-message block text-red-500 text-xs mt-2 transition duration-300 ease-in-out">{serverError}</span>
+            )}
           </div>
 
           <button
