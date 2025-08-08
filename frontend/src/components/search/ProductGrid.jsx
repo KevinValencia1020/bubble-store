@@ -1,4 +1,6 @@
 import ProductCard from "./ProductCard";
+import slugify from "./slugify";
+
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import TuneIcon from '@mui/icons-material/Tune';
@@ -164,7 +166,7 @@ export default function ProductGrid({ initialCategory = "" }) {
             ) : (
               productList.map((product) => (
                 <li key={product.product_id}>
-                  <Link href={`/product/${encodeURIComponent(product.product_id)}`}>
+                  <Link href={`/product/${product.product_id}-${slugify(product.product_name)}`}>
                     <ProductCard
                       id={product.product_id}
                       name={product.product_name}

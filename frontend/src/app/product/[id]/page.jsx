@@ -6,8 +6,10 @@ import { Skeleton } from "@mui/material";
 import ProductDetails from "@/components/product/ProductDetails";
 
 export default function ProductDetailPage({ params }) {
-  // Desempaqueta params usando React.use() para compatibilidad futura
-  const { id } = use(params);
+  // Permite URLs tipo /product/[id]-[slug]
+  const { id: rawId } = use(params);
+  // Extrae el id numérico del slug
+  const id = rawId?.split("-")[0];
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 

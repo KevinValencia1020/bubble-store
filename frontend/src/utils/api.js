@@ -73,8 +73,34 @@ export async function getProductSuggetions(term) {
   }
 }
 
-export async function getProductById(id) {
+export async function getProductById(idOrSlug) {
+  // Extrae el id numérico si viene en formato 'id-slug'
+  const id = idOrSlug?.toString().split("-")[0];
   const url = `${API_BASE_URL}/api/products/${id}`;
   const response = await fetch(url);
+  return await handleApiResponse(response);
+}
+
+export async function registerUser({ email, name, lastname,  password, address, confirmPassword }) {
+  
+  const url = `${API_BASE_URL}/api/users/register`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, name, lastname, password, address, confirmPassword }),
+  });
+  return await handleApiResponse(response);
+  
+}
+
+export async function loginUser({ email, password }) {
+  const url = `${API_BASE_URL}/api/users/login`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
   return await handleApiResponse(response);
 }

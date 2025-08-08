@@ -92,14 +92,31 @@ export default function ProductDetails({ product }) {
 
           <div className="flex flex-row items-center gap-2">
             <WorkspacePremiumIcon fontSize="small"/>
-            <p>12 de garantía de fábrica</p>
+            <p>12 meses de garantía de fábrica</p>
           </div>
 
 
           <div>
-            <p>Características del producto</p>
-
-            
+            <p className="font-semibold mb-2">Características del producto</p>
+            {product.feature ? (
+              Array.isArray(product.feature) ? (
+                <ul className="list-disc ml-5">
+                  {product.feature.map((f, idx) => (
+                    <li key={idx}>{f}</li>
+                  ))}
+                </ul>
+              ) : typeof product.feature === 'object' ? (
+                <ul className="list-disc ml-5">
+                  {Object.entries(product.feature).map(([key, value], idx) => (
+                    <li key={idx}><strong>{key}:</strong> {value}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-700">{product.feature}</p>
+              )
+            ) : (
+              <p className="text-gray-400 italic">No hay características registradas.</p>
+            )}
           </div>
 
 
