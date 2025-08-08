@@ -1,6 +1,5 @@
 "use client";
 import React, { useRef, useEffect } from "react";
-import AccountEmergente from "../../auth/PopupAccount/PopupAccount";
 import Overlay from "../Overlay/Overlay";
 
 const Navbar = ({ activeTab, onTabclick }) => {
@@ -78,10 +77,6 @@ const Navbar = ({ activeTab, onTabclick }) => {
             onClick={() => {
               onTabclick("");
             }}
-          />
-          <AccountEmergente
-            popupClose={() => onTabclick("")}
-            isVisible={activeTab === "Mi cuenta"}
           />
         </>
     </>
