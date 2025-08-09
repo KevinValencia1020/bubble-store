@@ -1,5 +1,6 @@
 "use client";
 import styleGlobal from "../../../styles/global.module.css";
+import Link from "next/link";
 import SearchInput from "../SearchInput/SearchInput";
 
 export default function HeaderMain({ activeTab, closeSearch, openSearch, onSearch, inputRef, onSearchTermChange }) {
@@ -25,8 +26,8 @@ export default function HeaderMain({ activeTab, closeSearch, openSearch, onSearc
             </button>
             {/* Logo se oculta cuando la busqueda esta activa */}
 
-            <a
-              href="#"
+            <Link
+              href="/"
               className={`hero-logo text-color-secundario no-underline font-medium tracking-widest transition-opacity duration-300 ease-in-out ${
                 activeTab === "Buscar"
                   ? "opacity-0 max-w-0"
@@ -34,7 +35,7 @@ export default function HeaderMain({ activeTab, closeSearch, openSearch, onSearc
               }`}
             >
               BubbleStore
-            </a>
+            </Link>
 
             <SearchInput
               isActiveInput={activeTab}
