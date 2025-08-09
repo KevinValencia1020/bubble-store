@@ -9,6 +9,30 @@ import Footer from '@/components/common/Footer/Footer';
 import { searchProducts, getProductSuggetions } from '@/utils/api';
 
 const Layout = ({ children }) => {
+  // Escuchar el evento de login para limpiar el estado del popup
+  useEffect(() => {
+    function handleUserLogin() {
+      setIsAccountOpen(false);
+    }
+    window.addEventListener("userLogin", handleUserLogin);
+    return () => {
+      window.removeEventListener("userLogin", handleUserLogin);
+    };
+  }, []);
+  // Estado para saber si el usuario está logueado (solo en cliente)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(!!localStorage.getItem("user"));
+    // Actualiza el estado si el usuario inicia sesión
+    function handleUserLogin() {
+      setIsLoggedIn(true);
+      setIsAccountOpen(false);
+    }
+    window.addEventListener("userLogin", handleUserLogin);
+    return () => {
+      window.removeEventListener("userLogin", handleUserLogin);
+    };
+  }, []);
   const [activeTab, setActiveTab] = useState('');
 
   const [isAccountOpen, setIsAccountOpen] = useState(false);
@@ -31,14 +55,18 @@ const Layout = ({ children }) => {
   const handleTabClick = useCallback(
     (label) => {
       const isSameTab = activeTab === label;
-
+      // Si el usuario hace click en "Mi cuenta" y está logueado, redirige a /account
+      if (label === "Mi cuenta" && isLoggedIn) {
+        window.location.href = "/account";
+        return;
+      }
       // Mapeo los estados y cerramos/abrimos segun corresponda
       setActiveTab(isSameTab ? '' : label);
-      setIsAccountOpen(label === 'Mi cuenta' && !isSameTab);
+      setIsAccountOpen(label === 'Mi cuenta' && !isSameTab && !isLoggedIn);
       setIsSearchOpen(label === 'Buscar' && !isSameTab);
       setCategoriesOpen(label === 'Categorías' && !isSameTab);
     },
-    [activeTab]
+    [activeTab, isLoggedIn]
   );
 
   const openSearch = useCallback(() => {
@@ -160,7 +188,8 @@ const Layout = ({ children }) => {
         onSearchTermChange={setSearchTermForSuggetions}
       />
 
-      <PopupAccount popupClose={closeSearch} isVisible={isAccountOpen} />
+  {/* Solo mostrar el popup si el usuario NO esta logueado */}
+  {!isLoggedIn && <PopupAccount popupClose={closeSearch} isVisible={isAccountOpen} />}
 
       <PopupCategories
         isCategoriesActive={isCategoriesOpen}
