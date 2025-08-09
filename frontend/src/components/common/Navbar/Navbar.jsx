@@ -3,9 +3,31 @@ import React, { useRef, useEffect } from "react";
 import Overlay from "../Overlay/Overlay";
 
 const Navbar = ({ activeTab, onTabclick }) => {
-  //const [activeTab, setActiveTab] = useState(""); // destructuracion para las propiedades del mapeo de hero-list
   const lineRef = useRef(null); //referenciar la linea
   const navRef = useRef(null); //referenciar el contendor de nav
+
+  const [userName, setUserName] = React.useState("Mi cuenta");
+  useEffect(() => {
+    function updateUserName() {
+      if (typeof window !== "undefined") {
+        try {
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (user && user.name) {
+            setUserName(user.name);
+          } else {
+            setUserName("Mi cuenta");
+          }
+        } catch (e) {
+          setUserName("Mi cuenta");
+        }
+      }
+    }
+    updateUserName();
+    window.addEventListener("userLogin", updateUserName);
+    return () => {
+      window.removeEventListener("userLogin", updateUserName);
+    };
+  }, []);
 
   useEffect(() => {
     if (activeTab && lineRef.current) {
@@ -36,32 +58,29 @@ const Navbar = ({ activeTab, onTabclick }) => {
 
           {/* mapeo de los items de la barra de navegacion */}
           {[
-            { label: "Mi cuenta", icon: "user" },
-            { label: "Buscar", icon: "search" },
-            { label: "Categorías", icon: "menu" },
-            { label: "Mi carrito", icon: "cart" },
+            { label: userName, icon: "user", key: "Mi cuenta" },
+            { label: "Buscar", icon: "search", key: "Buscar" },
+            { label: "Categorías", icon: "menu", key: "Categorías" },
+            { label: "Mi carrito", icon: "cart", key: "Mi carrito" },
           ].map((item) => (
             <li
-              key={item.label}
+              key={item.key}
               className={`hero-list relative flex items-center justify-center flex-col w-1/4 transition-colors duration-300 ${
-                activeTab === item.label ? `active text-color-primario` : ""
+                activeTab === item.key ? `active text-color-primario` : ""
               }`}
-
               onClick={(e) => {
                 e.stopPropagation(); //evita que el evento se cierre inmediatamente
-                onTabclick(item.label);
+                onTabclick(item.key);
               }}
             >
               <span className="hero-link flex flex-col justify-center items-center gap-1">
-
                 <box-icon
                   name={item.icon}
                   className={"hero-icon"}
                   color={`${
-                    activeTab === item.label ? "currentColor" : "black"
+                    activeTab === item.key ? "currentColor" : "black"
                   }`}
                 ></box-icon>
-
                 <span className="hero-span text-center text-xs">{item.label}</span>
               </span>
             </li>
