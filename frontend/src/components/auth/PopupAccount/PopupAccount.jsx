@@ -24,6 +24,9 @@ const PopupAccount = ({ popupClose, isVisible }) => {
       setTimeout(() => setShowPopup(true), 100); //retraso para activar la animacion
     } else {
       setTimeout(() => setShowPopup(false), 100);
+      setEmailError(""); // Limpiar error de correo al cerrar popup
+      setPasswordError(""); // Limpiar error de contraseña al cerrar popup
+      setServerError(""); // Limpiar error de servidor al cerrar popup
     }
   }, [isVisible]);
 
@@ -36,7 +39,7 @@ const PopupAccount = ({ popupClose, isVisible }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setServerError("");
-    console.log("email:", email, "password:", password); // Log para depuración
+
     if (!email.trim()) {
       setEmailError("Correo no válido");
       return;
@@ -59,6 +62,8 @@ const PopupAccount = ({ popupClose, isVisible }) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
+        // Disparar evento personalizado para notificar login
+        window.dispatchEvent(new Event("userLogin"));
         popupClose();
       } else if (data.redirectToRegister) {
         window.location.href = `/register?email=${encodeURIComponent(email)}`;
@@ -89,9 +94,6 @@ const PopupAccount = ({ popupClose, isVisible }) => {
           <h2 className="popup-title my-0 mx-auto text-xl font-bold text-gray-800">Iniciar sesión</h2>
           
           <div className={`account-popup__content ${styleGlobal.containerContent} text-start mt-5`}>
-            <label className="popup-text" htmlFor="correo">
-              Ingresa tu correo
-            </label>
 
             <div className="input-container relative my-6">
               <input
@@ -122,7 +124,7 @@ const PopupAccount = ({ popupClose, isVisible }) => {
                 <span className="error-message absolute top-10 left-2 block text-red-500 text-xs mt-1 transition duration-300 ease-in-out">{emailError}</span>
               )}
             </div>
-            <div className="input-container relative my-6">
+            <div className="input-container relative mt-12">
               <input
                 type="password"
                 className={`popup-input w-full p-2 outline-none border border-gray-300 rounded transition-all duration-300 focus:border-color-primario ${style.popupInput}`}
