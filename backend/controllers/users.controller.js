@@ -16,7 +16,7 @@ export const loginUser = async (req, res) => {
 
   try {
     // Verificar si el usuario existe [email]
-    const result = await pool.query('SELECT user_id, email, password_hash, username FROM users WHERE email = $1', [email]);
+  const result = await pool.query('SELECT user_id, email, password_hash, name, lastname FROM users WHERE email = $1', [email]);
 
     if (result.rows.length === 0) {
       // Usuario no existe, indicar al frontend que debe ir a registro
@@ -31,9 +31,9 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign({ user_id: user.user_id, email: user.email }, 'tu_clave_secreta', { expiresIn: '1h' });
 
     res.json({ 
-      message: 'Login exitoso',
-      user: { user_id: user.user_id, email: user.email, username: user.username },
-      token
+    message: 'Login exitoso',
+    user: { user_id: user.user_id, email: user.email, name: user.name, lastname: user.lastname },
+    token
     });
 
   } catch (err) {
@@ -44,7 +44,7 @@ export const loginUser = async (req, res) => {
 // Registrar usuario nuevo
 export const registerUser = async (req, res) => {
 
-  const { email, name, lastname, password, address, confirmPassword } = req.body;
+  const { email, name, lastname, password, confirmPassword } = req.body;
 
   if (!email || !name || !lastname || !password) {
     return res.status(400).json({ message: 'Todos los campos obligatorios' });
@@ -65,8 +65,8 @@ export const registerUser = async (req, res) => {
     const password_hash = await bcrypt.hash(password, 10);
     // Insertar usuario con rol por defecto 'cliente'
     await pool.query(
-      'INSERT INTO users (name, lastname, address, email, password_hash, role) VALUES ($1, $2, $3, $4, $5, $6)',
-      [name, lastname, address || '', email, password_hash, 'cliente']
+      'INSERT INTO users (name, lastname, email, password_hash, role) VALUES ($1, $2, $3, $4, $5)',
+      [name, lastname, email, password_hash, 'cliente']
     );
 
     res.json({ message: 'Usuario registrado correctamente' });
