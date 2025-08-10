@@ -62,7 +62,7 @@ const RegisterPage = () => {
           <div className="relative w-full">
             <input
               type="text"
-              className="border p-2 rounded w-full"
+              className="border p-2 rounded w-full outline-color-primario"
               placeholder="Nombre"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -73,7 +73,7 @@ const RegisterPage = () => {
           <div className="relative w-full">
             <input
               type="text"
-              className="border p-2 rounded w-full"
+              className="border p-2 rounded w-full outline-color-primario"
               placeholder="Apellido"
               value={lastname}
               onChange={(e) => setLastname(e.target.value)}
@@ -83,19 +83,9 @@ const RegisterPage = () => {
 
           <div className="relative w-full">
             <input
-              type="text"
-              className="border p-2 rounded w-full"
-              placeholder="Dirección"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-
-          <div className="relative w-full">
-            <input
               type="email"
               id="registerEmail"
-              className="border p-2 rounded w-full"
+              className="border p-2 rounded w-full outline-color-primario"
               placeholder="Correo electrónico"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -107,7 +97,7 @@ const RegisterPage = () => {
             <input
               type="password"
               id="registerPassword"
-              className="border p-2 rounded w-full"
+              className="border p-2 rounded w-full outline-color-primario"
               placeholder="Contraseña"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -118,7 +108,7 @@ const RegisterPage = () => {
             <input
               type="Password"
               id="confirmPassword"
-              className="border p-2 rounded w-full"
+              className="border p-2 rounded w-full outline-color-primario"
               placeholder="Confirmar contraseña"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
