@@ -66,7 +66,9 @@ const PopupAccount = ({ popupClose, isVisible }) => {
         localStorage.setItem("user", JSON.stringify(data.user));
         // Disparar evento personalizado para notificar login
         window.dispatchEvent(new Event("userLogin"));
-        popupClose();
+        // Cerrar popup y redirigir al home
+        try { popupClose(); } catch(_) {}
+        window.location.replace('/');
       } else if (data.redirectToRegister) {
         window.location.href = `/register?email=${encodeURIComponent(email)}`;
       } else {
