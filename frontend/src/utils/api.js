@@ -142,3 +142,48 @@ export async function changePassword(token, { currentPassword, newPassword, conf
   });
   return await handleApiResponse(response);
 }
+
+// Direcciones
+export async function getAddresses(token) {
+  const url = `${API_BASE_URL}/api/users/addresses`;
+  const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+  return await handleApiResponse(response);
+}
+
+// Crear una nueva direccion
+export async function createAddress(token, payload) {
+  const url = `${API_BASE_URL}/api/users/addresses`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(payload)
+  });
+  return await handleApiResponse(response);
+}
+
+// Actualizar una direccion existente
+export async function updateAddress(token, id, payload) {
+  const url = `${API_BASE_URL}/api/users/addresses/${id}`;
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(payload)
+  });
+  return await handleApiResponse(response);
+}
+
+// Eliminar una direccion existente
+export async function deleteAddress(token, id) {
+  const url = `${API_BASE_URL}/api/users/addresses/${id}`;
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  return await handleApiResponse(response);
+}
+
+// Establecer una direccion como predeterminada
+export async function setDefaultAddress(token, id) {
+  // Reutilizamos update pasando is_default true
+  return updateAddress(token, id, { is_default: true });
+}
