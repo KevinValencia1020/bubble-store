@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
 import { getProfile, updateProfile, changePassword } from '@/utils/api';
+import CircularProgress from '@mui/joy/CircularProgress';
 
 export default function ProfilePage() {
 
@@ -161,7 +162,9 @@ export default function ProfilePage() {
     }
   }
 
-  if (loading) return <div className="p-6">Cargando perfil...</div>;
+  if (loading) return <div className="p-6 flex justify-center items-center">
+    <CircularProgress size='lg'/>
+  </div>;
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
