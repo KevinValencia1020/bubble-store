@@ -1,12 +1,14 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import { getCartCount } from '@/utils/cart';
+import Link from 'next/link';
 import Overlay from "../Overlay/Overlay";
 
 const Navbar = ({ activeTab, onTabclick }) => {
   const lineRef = useRef(null); //referenciar la linea
   const navRef = useRef(null); //referenciar el contendor de nav
 
-  const [userName, setUserName] = React.useState("Mi cuenta");
+  const [userName, setUserName] = useState("Mi cuenta");
   useEffect(() => {
     function updateUserName() {
       if (typeof window !== "undefined") {
@@ -48,6 +50,15 @@ const Navbar = ({ activeTab, onTabclick }) => {
     }
   }, [activeTab]);
 
+  const [cartCount, setCartCount] = useState(0);
+  // Actualiza el contador del carrito
+  useEffect(() => {
+    function updateCart() { setCartCount(getCartCount()); }
+    updateCart();
+    window.addEventListener('cartUpdated', updateCart);
+    return () => window.removeEventListener('cartUpdated', updateCart);
+  }, []);
+
   return (
     <>
       <nav ref={navRef} className="hero-nav fixed bottom-0 left-0 w-full bg-color-secundario h-1/6 shadow-menu-shadow z-50 flex overflow-hidden">
@@ -57,11 +68,11 @@ const Navbar = ({ activeTab, onTabclick }) => {
           <div ref={lineRef} className="hero-line__identificator absolute top-0 left-0 h-1 bg-color-primario transition-all duration-300 ease-in-out w-0 opacity-0"></div>
 
           {/* mapeo de los items de la barra de navegacion */}
-          {[
+          {[ 
             { label: userName, icon: "user", key: "Mi cuenta" },
             { label: "Buscar", icon: "search", key: "Buscar" },
             { label: "Categorías", icon: "menu", key: "Categorías" },
-            { label: "Mi carrito", icon: "cart", key: "Mi carrito" },
+            { label: "Mi carrito", icon: "cart", key: "Mi carrito", cart: true },
           ].map((item) => (
             <li
               key={item.key}
@@ -70,7 +81,11 @@ const Navbar = ({ activeTab, onTabclick }) => {
               }`}
               onClick={(e) => {
                 e.stopPropagation(); //evita que el evento se cierre inmediatamente
-                onTabclick(item.key);
+                if (item.cart) {
+                  window.location.href = '/cart';
+                } else {
+                  onTabclick(item.key);
+                }
               }}
             >
               <span className="hero-link flex flex-col justify-center items-center gap-1">
@@ -82,6 +97,11 @@ const Navbar = ({ activeTab, onTabclick }) => {
                   }`}
                 ></box-icon>
                 <span className="hero-span text-center text-xs">{item.label}</span>
+                {item.cart && cartCount > 0 && (
+                  <span className="absolute top-1 right-5 bg-red-600 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded-full shadow">
+                    {cartCount > 99 ? '99+' : cartCount}
+                  </span>
+                )}
               </span>
             </li>
           ))}
