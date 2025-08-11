@@ -2,6 +2,7 @@ import ProductCard from "./ProductCard";
 import slugify from "./slugify";
 
 import Link from "next/link";
+import { addToCart } from '@/utils/cart';
 import { useState, useEffect } from "react";
 import TuneIcon from '@mui/icons-material/Tune';
 import { IconButton } from "@mui/material";
@@ -166,16 +167,20 @@ export default function ProductGrid({ initialCategory = "" }) {
             ) : (
               productList.map((product) => (
                 <li key={product.product_id}>
-                  <Link href={`/product/${product.product_id}-${slugify(product.product_name)}`}>
-                    <ProductCard
-                      id={product.product_id}
-                      name={product.product_name}
-                      price={product.price}
-                      image={product.thumbnail}
-                      brand={product.brand}
-                      onAddToCart={product.onAddToCart}
-                    />
-                  </Link>
+                  <ProductCard
+                    id={product.product_id}
+                    name={product.product_name}
+                    price={product.price}
+                    image={product.thumbnail}
+                    brand={product.brand}
+                    onAddToCart={() => addToCart({
+                      product_id: product.product_id,
+                      name: product.product_name,
+                      price: product.price,
+                      image: product.thumbnail
+                    })}
+                    link={`/product/${product.product_id}-${slugify(product.product_name)}`}
+                  />
                 </li>
               ))
             )}
