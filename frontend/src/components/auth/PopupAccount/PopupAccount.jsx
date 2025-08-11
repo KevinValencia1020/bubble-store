@@ -25,7 +25,9 @@ const PopupAccount = ({ popupClose, isVisible }) => {
     } else {
       setTimeout(() => setShowPopup(false), 100);
       setEmailError(""); // Limpiar error de correo al cerrar popup
+      setEmail("")
       setPasswordError(""); // Limpiar error de contraseña al cerrar popup
+      setPassword("");
       setServerError(""); // Limpiar error de servidor al cerrar popup
     }
   }, [isVisible]);
@@ -56,7 +58,7 @@ const PopupAccount = ({ popupClose, isVisible }) => {
     setPasswordError("");
     setLoading(true);
 
-    try {
+  try {
       const data = await loginUser({ email, password });
       // Si el login es exitoso, guardamos el token y los datos del usuario en localStorage
       if (data.token) {
@@ -71,12 +73,21 @@ const PopupAccount = ({ popupClose, isVisible }) => {
         setServerError(data.message || "Credenciales incorrectas");
       }
     } catch (err) {
-      // Si el error contiene redirectToRegister, redirige
-      if (err?.message?.includes('Usuario no registrado') || err?.redirectToRegister) {
+      // Diferenciar tipos de error
+      if (err.status === 404 && (err.payload?.redirectToRegister || /Usuario no registrado/i.test(err.message))) {
         window.location.href = `/register?email=${encodeURIComponent(email)}`;
         return;
       }
-      setServerError("No se pudo conectar al servidor");
+      if (err.status === 401) {
+        setServerError("Credenciales incorrectas");
+        setPassword("");
+        return;
+      }
+      if (err.status === 400) {
+        setServerError(err.message || "Solicitud inválida");
+        return;
+      }
+      setServerError(err.message || "No se pudo conectar al servidor");
     } finally {
       setLoading(false);
     }
