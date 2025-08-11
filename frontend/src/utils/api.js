@@ -2,15 +2,24 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUB
 
 // Funcion para manejar la respuesta de la API
 async function handleApiResponse(response) {
-
+  const isJson = response.headers.get('content-type')?.includes('application/json');
   if (!response.ok) {
+    let errorData;
+    
+    if (isJson) {
+      errorData = await response.json().catch(() => ({ message: 'Error desconocido' }));
+    } else {
+      const text = await response.text().catch(() => '');
 
-    const errorData = await response.json().catch(() => ({ message: 'Error desconocido' }));
-    throw new Error(errorData.message || `Error: ${response.status} ${response.statusText}`);
+      errorData = { message: text?.startsWith('Cannot') ? 'Recurso no encontrado (ruta inexistente en backend)' : (text || 'Error desconocido') };
+    }
+    const err = new Error(errorData.message || `Error: ${response.status} ${response.statusText}`);
+    err.status = response.status;
+    err.payload = errorData;
+    throw err;
   }
-
-  return response.json();
-  
+  if (isJson) return response.json();
+  return response.text();
 }
 
 /**
@@ -101,6 +110,35 @@ export async function loginUser({ email, password }) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
+  });
+  return await handleApiResponse(response);
+}
+
+// Perfil
+export async function getProfile(token) {
+  const url = `${API_BASE_URL}/api/users/profile`;
+  const response = await fetch(url, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  return await handleApiResponse(response);
+}
+
+export async function updateProfile(token, { name, lastname, email }) {
+  const url = `${API_BASE_URL}/api/users/profile`;
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ name, lastname, email })
+  });
+  return await handleApiResponse(response);
+}
+
+export async function changePassword(token, { currentPassword, newPassword, confirmPassword }) {
+  const url = `${API_BASE_URL}/api/users/change-password`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
   });
   return await handleApiResponse(response);
 }
