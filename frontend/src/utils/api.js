@@ -2,13 +2,13 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUB
 
 // Funcion para manejar la respuesta de la API
 async function handleApiResponse(response) {
-
   if (!response.ok) {
-
     const errorData = await response.json().catch(() => ({ message: 'Error desconocido' }));
-    throw new Error(errorData.message || `Error: ${response.status} ${response.statusText}`);
+    const err = new Error(errorData.message || `Error: ${response.status} ${response.statusText}`);
+    err.status = response.status;
+    err.payload = errorData;
+    throw err;
   }
-
   return response.json();
   
 }
