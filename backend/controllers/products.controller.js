@@ -19,7 +19,11 @@ export const searchProducts = async (req, res, next) => {
       SELECT 
         p.product_id,
         p.product_name, 
-        p.price, 
+        /* Normalización de precios inflados x100 (heurística) */
+        CASE 
+          WHEN p.price >= 10000000 AND (p.price::bigint % 100) = 0 AND (p.price / 100) >= 10000 THEN p.price / 100
+          ELSE p.price
+        END AS price,
         p.brand, 
         p.stock_quantity,
         pi.image_url AS thumbnail
@@ -87,7 +91,23 @@ export const searchProducts = async (req, res, next) => {
     values.push(parseInt(limit), parseInt(offset));
 
     const { rows: productRows } = await pool.query(query, values);
+    
+    const normalizePrice = (raw) => {
+      let price = Number(raw.price ?? raw);
+      if (!Number.isFinite(price)) return raw.price ?? raw;
+      // Divide repetidamente entre 100 si parece inflado (factor 100 multiple) manteniendo un minimo razonable
+      let iterations = 0;
+      while (price >= 10000000 && price % 100 === 0 && iterations < 3) {
 
+        const candidate = price / 100;
+        if (candidate < 10000) break; // evita caer a valores absurdamente bajos
+        price = candidate;
+        iterations++;
+      }
+      return price;
+    };
+    
+    const normalizedProductRows = productRows.map(r => ({ ...r, price: normalizePrice(r) }));
 
     // Esto asegura que las categorías mostradas realmente contengan productos que coincidan con TODOS los filtros.
     const categoryQuery = `SELECT DISTINCT c.name_category ${query.substring(query.indexOf('FROM products'))}`;
@@ -103,7 +123,7 @@ export const searchProducts = async (req, res, next) => {
 
     // Devuelve productos y categorias
     res.json({
-      products: productRows,
+      products: normalizedProductRows,
       categories: categoryRows.map(row => row.name_category),
     });
 
@@ -165,7 +185,10 @@ export const getProductById = async (req, res, next) => {
       SELECT 
         p.product_id, 
         p.product_name, 
-        p.price, 
+        CASE 
+          WHEN p.price >= 10000000 AND (p.price::bigint % 100) = 0 AND (p.price / 100) >= 10000 THEN p.price / 100
+          ELSE p.price
+        END AS price, 
         p.brand, 
         p.stock_quantity, 
         p.feature
@@ -187,10 +210,18 @@ export const getProductById = async (req, res, next) => {
     const images = imageRows.map(row => row.image_url);
 
     // Construye el objeto de respuesta
+    // Reutilizamos normalización
+    const normalizePrice = (val) => {
+      let price = Number(val);
+      if (!Number.isFinite(price)) return val;
+      let i=0; 
+      while (price >= 10000000 && price % 100 === 0 && i<3) { const c = price/100; if (c < 10000) break; price = c; i++; }
+      return price;
+    };
     const product = {
       id: productRows[0].product_id,
       name: productRows[0].product_name,
-      price: productRows[0].price,
+      price: normalizePrice(productRows[0].price),
       brand: productRows[0].brand,
       stock: productRows[0].stock_quantity,
       feature: productRows[0].feature,
