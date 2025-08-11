@@ -16,4 +16,10 @@ router.put('/profile', auth, usersController.updateProfile);
 // Cambiar contraseña
 router.post('/change-password', auth, usersController.changePassword);
 
+// Direcciones
+router.get('/addresses', auth, usersController.listAddresses);
+router.post('/addresses', auth, usersController.createAddress);
+router.put('/addresses/:id', auth, usersController.updateAddress);
+router.delete('/addresses/:id', auth, usersController.deleteAddress);
+
 export default router;
