@@ -164,3 +164,91 @@ export const changePassword = async (req, res) => {
     res.status(500).json({ message: 'Error del servidor' });
   }
 };
+
+// Direcciones
+export const listAddresses = async (req, res) => {
+  const { user_id } = req.user;
+  try {
+    const result = await pool.query('SELECT * FROM user_addresses WHERE user_id = $1 AND is_active = true ORDER BY is_default DESC, updated_at DESC', [user_id]);
+    res.json({ addresses: result.rows });
+  } catch (err) {
+    res.status(500).json({ message: 'Error al listar direcciones' });
+  }
+};
+
+export const createAddress = async (req, res) => {
+  const { user_id } = req.user;
+  const { recipient_name, phone, document_id, country_code = 'CO', state, city, neighborhood, postal_code, address_line1, address_line2, reference, latitude, longitude, is_default } = req.body;
+
+  if (!recipient_name || !state || !city || !address_line1) {
+    return res.status(400).json({ message: 'Campos obligatorios faltantes' });
+  }
+
+  try {
+
+    const result = await pool.query(`INSERT INTO user_addresses (user_id, recipient_name, phone, document_id, country_code, state, city, neighborhood, postal_code, address_line1, address_line2, reference, latitude, longitude, is_default)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,COALESCE($15,false)) RETURNING *`,
+      [user_id, recipient_name, phone, document_id, country_code, state, city, neighborhood, postal_code, address_line1, address_line2, reference, latitude, longitude, is_default]);
+
+    res.status(201).json({ message: 'Dirección creada', address: result.rows[0] });
+
+  } catch (err) {
+    if (err.code === '23505') {
+      return res.status(409).json({ message: 'Dirección duplicada' });
+    }
+    res.status(500).json({ message: 'Error al crear dirección' });
+  }
+};
+
+export const updateAddress = async (req, res) => {
+
+  const { user_id } = req.user;
+  const { id } = req.params;
+  const { recipient_name, phone, document_id, country_code, state, city, neighborhood, postal_code, address_line1, address_line2, reference, latitude, longitude, is_default, is_active } = req.body;
+
+  try {
+
+    const result = await pool.query(`UPDATE user_addresses SET
+      recipient_name = COALESCE($1,recipient_name),
+      phone = COALESCE($2,phone),
+      document_id = COALESCE($3,document_id),
+      country_code = COALESCE($4,country_code),
+      state = COALESCE($5,state),
+      city = COALESCE($6,city),
+      neighborhood = COALESCE($7,neighborhood),
+      postal_code = COALESCE($8,postal_code),
+      address_line1 = COALESCE($9,address_line1),
+      address_line2 = COALESCE($10,address_line2),
+      reference = COALESCE($11,reference),
+      latitude = COALESCE($12,latitude),
+      longitude = COALESCE($13,longitude),
+      is_default = COALESCE($14,is_default),
+      is_active = COALESCE($15,is_active),
+      updated_at = NOW()
+      WHERE address_id = $16 AND user_id = $17 RETURNING *`,
+      [recipient_name, phone, document_id, country_code, state, city, neighborhood, postal_code, address_line1, address_line2, reference, latitude, longitude, is_default, is_active, id, user_id]);
+
+    if (result.rows.length === 0) return res.status(404).json({ message: 'Dirección no encontrada' });
+
+    res.json({ message: 'Dirección actualizada', address: result.rows[0] });
+
+  } catch (err) {
+    res.status(500).json({ message: 'Error al actualizar dirección' });
+  }
+};
+
+export const deleteAddress = async (req, res) => {
+
+  const { user_id } = req.user;
+  const { id } = req.params;
+
+  try {
+
+    const result = await pool.query('UPDATE user_addresses SET is_active = false, updated_at = NOW() WHERE address_id = $1 AND user_id = $2 RETURNING address_id', [id, user_id]);
+    if (result.rows.length === 0) return res.status(404).json({ message: 'Dirección no encontrada' });
+    res.json({ message: 'Dirección eliminada' });
+    
+  } catch (err) {
+    res.status(500).json({ message: 'Error al eliminar dirección' });
+  }
+};
