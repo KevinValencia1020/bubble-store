@@ -75,3 +75,92 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: 'Error del servidor' });
   }
 };
+
+// Obtener perfil del usuario autenticado
+export const getProfile = async (req, res) => {
+
+  try {
+    const { user_id } = req.user; // seteado por middleware auth
+
+    const result = await pool.query('SELECT user_id, name, lastname, email, role, created_at FROM users WHERE user_id = $1', [user_id]);
+    
+    if (result.rows.length === 0) return res.status(404).json({
+      message: 'Usuario no encontrado'
+    });
+
+    res.json({ user: result.rows[0] });
+
+  } catch (err) {
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+};
+
+// Actualizar datos de perfil (name, lastname, email opcional)
+export const updateProfile = async (req, res) => {
+
+  const { name, lastname, email } = req.body;
+  const { user_id } = req.user;
+
+  if (!name || !lastname) {
+    return res.status(400).json({ message: 'Nombre y apellido requeridos' });
+  }
+  try {
+    // Si cambia email verificar que no exista
+    if (email) {
+
+      const exists = await pool.query('SELECT user_id FROM users WHERE email = $1 AND user_id <> $2', [email, user_id]);
+
+      if (exists.rows.length > 0) {
+
+        return res.status(409).json({ message: 'El correo ya está en uso por otro usuario' });
+      }
+    }
+
+    const result = await pool.query(
+      `UPDATE users SET name = $1, lastname = $2, email = COALESCE($3, email), updated_at = NOW() WHERE user_id = $4 RETURNING user_id, name, lastname, email, role, updated_at`,
+      [name, lastname, email || null, user_id]
+    );
+
+    res.json({ message: 'Perfil actualizado', user: result.rows[0] });
+
+  } catch (err) {
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+};
+
+// Cambiar contraseña
+export const changePassword = async (req, res) => {
+
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+  const { user_id } = req.user;
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+
+    return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+  }
+
+  if (newPassword !== confirmPassword) {
+
+    return res.status(400).json({ message: 'Las contraseñas nuevas no coinciden' });
+  }
+
+  try {
+    // Verificar contraseña actual
+    const result = await pool.query('SELECT password_hash FROM users WHERE user_id = $1', [user_id]);
+
+    if (result.rows.length === 0) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+    const user = result.rows[0];
+    const valid = await bcrypt.compare(currentPassword, user.password_hash);
+
+    if (!valid) return res.status(401).json({ message: 'Contraseña actual incorrecta' });
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+
+    await pool.query('UPDATE users SET password_hash = $1, updated_at = NOW() WHERE user_id = $2', [newHash, user_id]);
+    res.json({ message: 'Contraseña actualizada correctamente' });
+
+  } catch (err) {
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+};
