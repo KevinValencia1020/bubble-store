@@ -9,10 +9,14 @@ import {
 } from '@/utils/cart';
 import Link from 'next/link';
 import { formatCurrency } from '@/utils/money';
+import { getProfile } from '@/utils/api';
+import { useRouter } from 'next/navigation';
 
 export default function CartPage() {
   const [items, setItems] = useState([]);
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  const [checking, setChecking] = useState(false);
 
   function refresh() {
     setItems(getCart());
@@ -111,7 +115,37 @@ export default function CartPage() {
 
             </div>
             
-            <button className="mt-2 bg-color-primario text-white py-2 rounded disabled:opacity-50" disabled={items.length === 0}>Proceder al pago</button>
+            <button
+              className="mt-2 bg-color-primario text-white py-2 rounded disabled:opacity-50"
+              disabled={items.length === 0 || checking}
+              onClick={async () => {
+
+                if (items.length === 0) return;
+                setChecking(true);
+                try {
+                  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+                  if (!token) {
+                    router.push('/login?redirect=/checkout');
+                    return;
+                  }
+                  // Validar token llamando a /profile
+                  try {
+                    await getProfile(token);
+                  } catch (e) {
+                    // Token invalido/expirado
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    router.push('/login?redirect=/checkout');
+                    return;
+                  }
+                  router.push('/checkout');
+                } finally {
+                  setChecking(false);
+                }
+              }}
+            >
+              {checking ? 'Verificando...' : 'Proceder al pago'}
+            </button>
           </div>
         </div>
       )}
