@@ -61,46 +61,42 @@ export default function ProductGrid({ initialCategory = "" }) {
   }
 
   // Fetch productos del backend cuando cambian los filtros
+  // Efecto para cambio de filtros: reinicia pagina a 1
   useEffect(() => {
-    async function fetchProducts(page = 1) {
+    setPage(1);
+  }, [filters.category, filters.brand, filters.minPrice, filters.maxPrice, filters.sort]);
+
+  // Efecto para cargar productos cuando cambia la página o los filtros
+  useEffect(() => {
+    async function fetchProducts() {
       setLoading(true);
       setError(null);
-
-      setPage(1); // Reinicia la página al cambiar los filtros
-      setTotalPages(1); // Reinicia el total de páginas al cambiar los filtros
       try {
         const params = {
           page,
           limit: PRODUCTS_PER_PAGE,
         };
+
         if (filters.category) params.category = filters.category;
-
         if (filters.brand) params.brand = filters.brand;
-
         if (filters.minPrice) params.minPrice = filters.minPrice;
-
         if (filters.maxPrice) params.maxPrice = filters.maxPrice;
-
         const { sortBy, sortOrder } = getSortParams(filters.sort);
-
         if (sortBy) params.sortBy = sortBy;
         if (sortOrder) params.sortOrder = sortOrder;
-
         // Llamada a la API para buscar productos con los filtros aplicados
         const data = await searchProducts(params);
+
         setProductList(data.products || []);
-
-        // Extraer marcas únicas de los productos recibidos
         setBrands(Array.from(new Set((data.products || []).filter(p => !!p.brand).map(p => p.brand))));
-
-        // Guardar categorías para el selector
         setCategories(data.categories || []);
 
         if (data.total) {
-          setTotalPages(Math.max(1, Math.ceil(data.total / PRODUCTS_PER_PAGE))); // Asegurarse de que la pagina sea al menos 1
+          const pages = Math.max(1, Math.ceil(data.total / PRODUCTS_PER_PAGE));
+          setTotalPages(pages);
 
         } else {
-          setTotalPages(1); // Si no hay total, establecer una sola página
+          setTotalPages(1);
         }
 
       } catch (err) {
@@ -110,12 +106,7 @@ export default function ProductGrid({ initialCategory = "" }) {
       }
     }
     fetchProducts();
-  }, [page, filters.category, filters.brand, filters.minPrice, filters.maxPrice, filters.sort]);
-
-  // Handler para cambiar la categoría
-  // const handleCategoryChange = (e) => {
-  //   setFilters((prev) => ({ ...prev, category: e.target.value }));
-  // };
+  }, [page, filters]);
 
   return (
     <>
@@ -187,16 +178,19 @@ export default function ProductGrid({ initialCategory = "" }) {
           </ul>
         )}
         {/* Paginación */}
-        <Stack spacing={2}>
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={(event, value) => setPage(value)}
-            color="primary"
-            showFirstButton
-            showLastButton
-          />
-        </Stack>
+        <div className="flex items-center justify-center">
+
+          <Stack spacing={2}>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(event, value) => setPage(value)}
+              color="primary"
+              showFirstButton
+              showLastButton
+            />
+          </Stack>
+        </div>
       </div>
     </>
   );
