@@ -15,82 +15,86 @@ export const searchProducts = async (req, res, next) => {
       limit = 12,
      } = req.query;
 
-    let query = `
-      SELECT 
-        p.product_id,
-        p.product_name, 
-        /* Normalización de precios inflados x100 (heurística) */
-        CASE 
-          WHEN p.price >= 10000000 AND (p.price::bigint % 100) = 0 AND (p.price / 100) >= 10000 THEN p.price / 100
-          ELSE p.price
-        END AS price,
-        p.brand, 
-        p.stock_quantity,
-        pi.image_url AS thumbnail
-      FROM products p
-      INNER JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_thumbnail = true
-      INNER JOIN categories c ON p.category_id = c.category_id
-      WHERE 1 = 1
-    `;
-
-    const values = [];
+    // Construcción unificada de filtros para evitar discrepancias entre lista y conteo
+    const whereClauses = [];
+    const params = [];
     let paramIndex = 1;
 
-    if (category && category !== 'all') { // Filtra por categoría si se proporciona
-      query += ` AND LOWER(c.name_category) = $${paramIndex++} `;
-      values.push(category.toLowerCase());
+    if (category && category !== 'all') {
+      whereClauses.push(`LOWER(c.name_category) = $${paramIndex++}`);
+      params.push(category.toLowerCase());
     }
 
-    // Filtro por marca puede ser una o varias marcas separadas por comas
     if (brand) {
       const brands = brand.split(',').map(b => b.trim().toLowerCase());
 
       if (brands.length > 0) {
-        query += ` AND LOWER(p.brand) = ANY($${paramIndex++}) `;
-        values.push(brands);
+        whereClauses.push(`LOWER(p.brand) = ANY($${paramIndex++})`);
+        params.push(brands);
       }
     }
 
     if (q) {
       const searchTerms = `%${q.toLowerCase()}%`;
-      // Convierto el JSONB a string para poder usar LIKE
-      query += ` AND (
-      LOWER(p.product_name) LIKE $${paramIndex} OR 
-      LOWER(p.feature::text) LIKE $${paramIndex + 1} OR
-      LOWER(c.name_category) LIKE $${paramIndex + 2} OR
-      LOWER(p.brand) LIKE $${paramIndex + 3}
-    )`;
-      values.push(searchTerms, searchTerms, searchTerms, searchTerms);
+      whereClauses.push(`(
+        LOWER(p.product_name) LIKE $${paramIndex} OR 
+        LOWER(p.feature::text) LIKE $${paramIndex + 1} OR
+        LOWER(c.name_category) LIKE $${paramIndex + 2} OR
+        LOWER(p.brand) LIKE $${paramIndex + 3}
+      )`);
+      params.push(searchTerms, searchTerms, searchTerms, searchTerms);
       paramIndex += 4;
     }
 
-    // Filtro por precio minimo
     if (minPrice) {
-      query += ` AND p.price >= $${paramIndex++}`;
-      values.push(parseFloat(minPrice));
+      whereClauses.push(`p.price >= $${paramIndex++}`);
+      params.push(parseFloat(minPrice));
     }
 
-    // Filtro por precio máximo
     if (maxPrice) {
-      query += ` AND p.price <= $${paramIndex++}`;
-      values.push(parseFloat(maxPrice));
+      whereClauses.push(`p.price <= $${paramIndex++}`);
+      params.push(parseFloat(maxPrice));
     }
+
+    const whereSQL = whereClauses.length ? `WHERE ${whereClauses.join(' AND ')}` : '';
 
     // Ordenamiento
-    const validSortBy = ['price', 'product_name', 'brand']; // Campos validos para ordenar
-    const validSortOrder = ['ASC', 'DESC']; // Orden validos
-
+    const validSortBy = ['price', 'product_name', 'brand'];
+    const validSortOrder = ['ASC', 'DESC'];
     const orderBy = validSortBy.includes(sortBy) ? `p.${sortBy}` : 'p.product_name';
-    const order = validSortOrder.includes(sortOrder?.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
+    const order = validSortOrder.includes((sortOrder||'').toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
 
-    query += ` ORDER BY ${orderBy} ${order}`;
+    // Query de conteo (mismas joins y filtros, sin paginacion)
+    const countQuery = `SELECT COUNT(*) AS total
+      FROM products p
+      INNER JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_thumbnail = true
+      INNER JOIN categories c ON p.category_id = c.category_id
+      ${whereSQL}`;
+    const { rows: countRows } = await pool.query(countQuery, params);
+    const total = parseInt(countRows[0]?.total || '0', 10);
 
-    // Paginación
+    // Query de datos con paginacion
     const offset = (page - 1) * limit;
-    query += ` LIMIT $${paramIndex++} OFFSET $${paramIndex++}`;
-    values.push(parseInt(limit), parseInt(offset));
+    const dataQuery = `
+      SELECT 
+        p.product_id,
+        p.product_name,
+        CASE 
+          WHEN p.price >= 10000000 AND (p.price::bigint % 100) = 0 AND (p.price / 100) >= 10000 THEN p.price / 100
+          ELSE p.price
+        END AS price,
+        p.brand,
+        p.stock_quantity,
+        pi.image_url AS thumbnail
+      FROM products p
+      INNER JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_thumbnail = true
+      INNER JOIN categories c ON p.category_id = c.category_id
+      ${whereSQL}
+      ORDER BY ${orderBy} ${order}
+      LIMIT $${paramIndex++} OFFSET $${paramIndex++}`;
 
-    const { rows: productRows } = await pool.query(query, values);
+    const dataParams = [...params, parseInt(limit), parseInt(offset)];
+    const { rows: productRows } = await pool.query(dataQuery, dataParams);
     
     const normalizePrice = (raw) => {
       let price = Number(raw.price ?? raw);
@@ -109,22 +113,23 @@ export const searchProducts = async (req, res, next) => {
     
     const normalizedProductRows = productRows.map(r => ({ ...r, price: normalizePrice(r) }));
 
-    // Esto asegura que las categorías mostradas realmente contengan productos que coincidan con TODOS los filtros.
-    const categoryQuery = `SELECT DISTINCT c.name_category ${query.substring(query.indexOf('FROM products'))}`;
-
-    
-    // Usamos slice(0, -2) para obtener una copia de todos los valores EXCEPTO los dos últimos.
-    const categoryValues = values.slice(0, -2);
-
-    const { rows: categoryRows } = await pool.query(
-      categoryQuery.substring(0, categoryQuery.indexOf('ORDER BY')), // Quita ORDER BY, LIMIT y OFFSET
-      categoryValues
-    );
+    // Categorias basadas en el mismo conjunto filtrado (sin paginacion)
+    const categoryQuery = `SELECT DISTINCT c.name_category
+      FROM products p
+      INNER JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_thumbnail = true
+      INNER JOIN categories c ON p.category_id = c.category_id
+      ${whereSQL}`;
+    const { rows: categoryRows } = await pool.query(categoryQuery, params);
 
     // Devuelve productos y categorias
+    if (normalizedProductRows.length > 0 && total === 0) {
+      console.warn('ADVERTENCIA: total=0 pero se devolvieron filas. Revisar filtros / joins.', { filtros: { category, brand, q, minPrice, maxPrice }, totalDevuelto: total, filas: normalizedProductRows.length });
+    }
+
     res.json({
       products: normalizedProductRows,
       categories: categoryRows.map(row => row.name_category),
+      total,
     });
 
   } catch (error) {
@@ -139,7 +144,7 @@ export const getSuggestions = async (req, res, next) => {
 
     const { term } = req.query;
 
-    if (!term || term.trim() === '') { // Si no hay término de búsqueda, devuelve un array vacío
+    if (!term || term.trim() === '') { // Si no hay termino de busqueda, devuelve un array vacio
       return res.json([]);
     }
     
@@ -180,7 +185,7 @@ export const getProductById = async (req, res, next) => {
     const { id } = req.params;
     const numericId = Number(id);
 
-    // Consulta para traer los datos del producto y sus características
+    // Consulta para traer los datos del producto y sus caracteristicas
     const productQuery = `
       SELECT 
         p.product_id, 
